@@ -1,3 +1,3 @@
 class Constants {
-  static const String apiUri = 'http://your-laravel-backend-url/api/';
+  static const String apiUri = 'http://127.0.0.1:8000/api/';
 }
