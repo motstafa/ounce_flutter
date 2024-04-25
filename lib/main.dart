@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import 'screens/signup_screen.dart';
 import 'screens/signin_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:ounce/providers/auth_provider.dart';
+import 'package:ounce/screens/signin_screen.dart';
+import 'package:ounce/screens/signup_screen.dart';
+import 'package:ounce/screens/home/main_page.dart';
+import 'package:ounce/screens/home/chat_page.dart';
+import 'package:ounce/providers/auth_provider.dart';
+import 'package:ounce/providers/cart_provider.dart';
+import 'package:ounce/providers/product_provider.dart';
+import 'package:ounce/providers/wishlist_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,12 +19,19 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome Page',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return
+      MultiProvider(providers:[
+        ChangeNotifierProvider(create: (context) =>AuthProvider())
+      ],
+      child:MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: {
+          '/': (context) => WelcomePage(),
+          '/sign-in': (context) => SignInScreen(),
+          '/sign-up': (context) => SignUpScreen(),
+          '/home': (context) => MainPage(),
+        },
       ),
-      home: WelcomePage(),
     );
   }
 }

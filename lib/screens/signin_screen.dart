@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '/screens/signup_screen.dart';
 import '/widgets/custom_scaffold.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import '../theme/theme.dart';
+import 'package:ounce/providers/auth_provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -17,9 +19,37 @@ class _SignInScreenState extends State<SignInScreen> {
   bool rememberPassword = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController= TextEditingController();
-              
+  bool isLoading =false;
+
   @override
   Widget build(BuildContext context) {
+
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    handleSignIn() async {
+      setState(() {
+        isLoading = true;
+      });
+      if (await authProvider.login(
+        email: emailController.text,
+        password: passwordController.text,
+      )) {
+        Navigator.pushNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Gagal Login!',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     return CustomScaffold(
       child: Column(
         children: [
@@ -64,6 +94,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           }
                           return null;
                         },
+                        controller: emailController,
                         decoration: InputDecoration(
                           label: const Text('Email'),
                           hintText: 'Enter Email',
@@ -90,6 +121,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       TextFormField(
                         obscureText: true,
                         obscuringCharacter: '*',
+                        controller:passwordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter Password';
@@ -166,6 +198,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   content: Text('Processing Data'),
                                 ),
                               );
+                              handleSignIn();
                             } else if (!rememberPassword) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -174,7 +207,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               );
                             }
                           },
-                          child: const Text('Sign up'),
+                          child: const Text('Sign In'),
                         ),
                       ),
                       const SizedBox(

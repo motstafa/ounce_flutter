@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:ounce/models/user_model.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:ounce/constants/constants.dart';
 class AuthService {
-  String baseUrl = 'https://shamo-backend.buildwithangga.id/api';
+  String baseUrl = Constants.apiUri;
 
   Future<UserModel> register({
    required String name,
@@ -62,8 +62,10 @@ class AuthService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
-      UserModel user = UserModel.fromJson(data['user']);
-      user.token = 'Bearer ' + data['access_token'];
+      // UserModel user = UserModel.fromJson(data['user']);
+      // user.token = 'Bearer ' + data['access_token'];
+      UserModel user = UserModel();
+      user.token=data['token'];
 
       return user;
     } else {

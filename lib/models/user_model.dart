@@ -1,9 +1,12 @@
+import 'dart:io';
+
 class UserModel {
   String? name;
   String? email;
   String? username;
   String? profilePhotoUrl;
   String? token;
+  BigInt? role;
 
   UserModel({
     this.name,
@@ -11,6 +14,7 @@ class UserModel {
     this.username,
     this.profilePhotoUrl,
     this.token,
+    this.role
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +24,7 @@ class UserModel {
       username: json['username'],
       profilePhotoUrl: json['profile_photo_url'],
       token: json['token'],
+      role: json['role']
     );
   }
 
@@ -30,6 +35,7 @@ class UserModel {
       'username': username,
       'profile_photo_url': profilePhotoUrl,
       'token': token,
+      'role':role
     };
   }
 }
