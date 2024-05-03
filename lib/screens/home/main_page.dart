@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ounce/screens/home/chat_page.dart';
+import 'package:ounce/screens/home/buy_page.dart';
 import 'package:ounce/screens/home/home_page.dart';
 import 'package:ounce/screens/home/profile_page.dart';
 import 'package:ounce/screens/home/wishlist_page.dart';
@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> {
       case 0:
         return HomePage();
       case 1:
-        return ChatPage();
+        return BuyPage();
       case 2:
         return WishlistPage();
       case 3:

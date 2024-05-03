@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ounce/providers/operation_provider.dart';
 import 'screens/signup_screen.dart';
 import 'screens/signin_screen.dart';
 import 'package:provider/provider.dart';
@@ -6,13 +7,18 @@ import 'package:ounce/providers/auth_provider.dart';
 import 'package:ounce/screens/signin_screen.dart';
 import 'package:ounce/screens/signup_screen.dart';
 import 'package:ounce/screens/home/main_page.dart';
-import 'package:ounce/screens/home/chat_page.dart';
+import 'package:ounce/screens/home/buy_page.dart';
 import 'package:ounce/providers/auth_provider.dart';
 import 'package:ounce/providers/cart_provider.dart';
 import 'package:ounce/providers/product_provider.dart';
 import 'package:ounce/providers/wishlist_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+late SharedPreferences prefs ;
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 
@@ -21,7 +27,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       MultiProvider(providers:[
-        ChangeNotifierProvider(create: (context) =>AuthProvider())
+        ChangeNotifierProvider(create: (context) =>AuthProvider()),
+        ChangeNotifierProvider(create: (context)=>OperationProvider())
       ],
       child:MaterialApp(
         debugShowCheckedModeBanner: false,
