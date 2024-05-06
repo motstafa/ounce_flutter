@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,8 +8,8 @@ import 'package:ounce/models/operation_model.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/theme/theme.dart'; // Make sure this import is correct
 import 'dart:math';
-
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class BuyPage extends StatelessWidget {
   @override
@@ -19,6 +17,7 @@ class BuyPage extends StatelessWidget {
     // Get the provider and call loadOperations if not already loaded
     final operationProvider =
         Provider.of<OperationProvider>(context, listen: false);
+    final balance = prefs.getInt('buy_balance');
     if (operationProvider.operations.isEmpty) {
       operationProvider.loadOperations();
     }
@@ -27,11 +26,20 @@ class BuyPage extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
+        title:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+        Text(
           'Buy Page',
           style: TextStyle(color: buttonAccentColor),
           textAlign: TextAlign.center,
         ),
+          Text(
+            'Your Balance: $balance',
+            style: TextStyle(color: buttonAccentColor),
+            textAlign: TextAlign.center,
+          )
+        ]),
         iconTheme: IconThemeData(color: buttonAccentColor),
       ),
       body: Consumer<OperationProvider>(
@@ -62,10 +70,12 @@ class BuyPage extends StatelessWidget {
   }
 }
 
-class OperationItem  extends StatelessWidget {
+class OperationItem extends StatelessWidget {
   Operation operation;
+
   // Define the controller as a member of the state class
   final TextEditingController _controller = TextEditingController();
+
   //Constructor
   OperationItem(this.operation);
 
@@ -250,18 +260,18 @@ class OperationItem  extends StatelessWidget {
   void showBuyItemDialog(BuildContext context, Operation operation) {
     SharedPreferences.getInstance().then((prefs) {
       final balance = prefs.getInt('buy_balance') ?? 0; // Ensure a default value in case it's null
-      var unitPrice=operation.unitPrice;
-      int ?calculatedValue=0;
+      var unitPrice = operation.unitPrice;
+      int? calculatedValue = 0;
       showDialog(
         context: context,
         builder: (BuildContext context) {
           int selectedItems = 0; // Default selected number of items
-          return Dialog(
-           child:StatefulBuilder(
-            builder:(BuildContext context, StateSetter setState) {
+          return Dialog(child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min, // To make the dialog compact
+              mainAxisSize: MainAxisSize.min,
+              // To make the dialog compact
               children: [
                 Align(
                   alignment: Alignment.topRight,
@@ -320,59 +330,74 @@ class OperationItem  extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('number of ounces: '),
+                    const Text('number of ounces: '),
                     DropdownButton<int>(
                       value: selectedItems,
-                      items: List.generate(
-                        operation.numberOfUnits,
-                            (index) => DropdownMenuItem(
-                          value: index ,
-                          child: Text('$index'),
+                      items: [
+                        const DropdownMenuItem<int>(
+                          value: 0,
+                          child: Text('0'), // This represents your default value
                         ),
-                      ),
+                        ...List.generate(
+                          operation.numberOfUnits,
+                              (index) => DropdownMenuItem<int>(
+                            value: index + 1,
+                            child: Text('${index + 1}'),
+                          ),
+                        ),
+                      ],
                       onChanged: (value) {
                         setState(() {
-                          selectedItems = value ?? selectedItems;
-                          calculatedValue = Constants().CalculatePrice(selectedItems, operation.unitPrice);
+                          selectedItems = value ?? 0; // Set to 0 if null
+                          calculatedValue = Constants().CalculatePrice(
+                              selectedItems, operation.unitPrice);
                         });
                       },
                     ),
-                    const SizedBox(width: 50), // Space between dropdown and text
+                    const SizedBox(width: 50),
+                    // Space between dropdown and text
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
-                        '$calculatedValue', // This text will update when setState is called
-                        style:const TextStyle(
+                        '$calculatedValue',
+                        // This text will update when setState is called
+                        style: const TextStyle(
                           color: Colors.grey,
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20,),
+               const SizedBox(
+                  height: 20,
+                ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Perform purchase action
-                      final operationProvider =
-                      Provider.of<OperationProvider>(context, listen: false);
-                      operationProvider.buy(operation.id,selectedItems);
+                      final operationProvider = Provider.of<OperationProvider>(
+                          context,
+                          listen: false);
+                      bool result = await operationProvider.Buy(operation.id, selectedItems);
+                      if (result) {
+                        await operationProvider.refreshPage();
+                        Navigator.of(context, rootNavigator: true).pop();// This will close the topmost dialog
+                      }
                     },
                     child: const Text('Buy'),
                   ),
                 )
               ],
             );
-        }));
+          }));
         },
       );
     });
   }
-
-
 }

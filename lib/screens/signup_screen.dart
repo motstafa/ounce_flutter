@@ -261,8 +261,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: _imageFile == null
-                                    ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                    ? const Padding(
+                                  padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     'Upload Profile Picture',
                                     style: TextStyle(

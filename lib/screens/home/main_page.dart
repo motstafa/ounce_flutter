@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ounce/screens/home/buy_page.dart';
 import 'package:ounce/screens/home/home_page.dart';
 import 'package:ounce/screens/home/profile_page.dart';
-import 'package:ounce/screens/home/wishlist_page.dart';
+import 'package:ounce/screens/home/sell_page.dart';
 import 'package:ounce/theme/theme.dart';
 
 class MainPage extends StatefulWidget {
@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
       case 1:
         return BuyPage();
       case 2:
-        return WishlistPage();
+        return SellPage();
       case 3:
         return ProfilePage();
       default:

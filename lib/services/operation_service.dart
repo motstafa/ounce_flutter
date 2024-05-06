@@ -1,19 +1,22 @@
 import 'dart:convert';
 import 'package:ounce/models/operation_model.dart';
-import 'package:ounce/models/user_model.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:ounce/constants/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart';
+import 'dart:io';
 import '../main.dart';
+import 'package:mime/mime.dart';
+import 'dart:typed_data';
+import 'package:image_picker/image_picker.dart';
+import 'dart:html' as html;
 
 class OperationService {
   String baseUrl = Constants.apiUri;
 
   Future<List<Operation>> getOperations() async {
     final token =
-    prefs.getString('auth_token'); // Retrieve token from shared preferences
+        prefs.getString('auth_token'); // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',
@@ -21,12 +24,74 @@ class OperationService {
     };
 
     final response =
-    await http.get(Uri.parse('$baseUrl/operation'), headers: headers);
+        await http.get(Uri.parse('$baseUrl/operation'), headers: headers);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as List;
       return data.map((json) => Operation.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load operations');
+    }
+  }
+
+  Future Buy(int operationId, int itemsCount) async {
+    var url = '$baseUrl/buy';
+    final token =
+        prefs.getString('auth_token'); // Retrieve token from shared preferences
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var body = jsonEncode({
+      'operation_id': operationId,
+      'amount': itemsCount,
+    });
+
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+    print('$operationId $itemsCount $url $body');
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('operation buying failed');
+    }
+  }
+
+  Future<bool> sell(
+      double unitPrice, String unitType, XFile img, int unitsNumber) async {
+    final token =
+        prefs.getString('auth_token'); // Retrieve token from shared preferences
+    var url = '$baseUrl/operation';
+    print('5ara');
+    // Create a multipart request
+    var request = http.MultipartRequest('POST', Uri.parse(url))
+      ..fields['unit_price'] = unitPrice.toString()
+      ..fields['unit_type'] = unitType
+      ..fields['number_of_units'] = unitsNumber.toString()
+      ..headers['Authorization'] = 'Bearer $token';
+    // Add the image file to the request
+    print('5ara 2');
+    var imageBytes = await img.readAsBytes();
+    print('5ara 3');
+    // Add the file to the request
+    request.files.add(http.MultipartFile.fromBytes(
+      'pic_of_units', // The field name expected by your Laravel API
+      imageBytes,
+      filename: img.name, // To get only the file name
+    ));
+    print('5ara 4');
+    // Send the request
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      // Read the response body to get more details about the error
+      var responseBody = await response.stream.bytesToString();
+      throw Exception('Operation selling failed: $responseBody');
     }
   }
 }

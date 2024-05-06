@@ -9,10 +9,6 @@ class Constants {
   int CalculatePrice(int itemNumber,int itemPrice){
 
     var commission= prefs.getInt('commissions');
-    print('itemNumber $itemNumber');
-    print('itemPrice $itemPrice');
-    print('commission $commission');
-
     return itemPrice!*itemNumber + commission!*itemNumber;
 
   }
