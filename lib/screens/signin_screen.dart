@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ounce/main.dart';
+import 'package:ounce/providers/balance_provider.dart';
 import 'package:provider/provider.dart';
 import '/screens/signup_screen.dart';
 import '/widgets/custom_scaffold.dart';
@@ -6,6 +8,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import '../theme/theme.dart';
 import 'package:ounce/providers/auth_provider.dart';
+import 'package:ounce/constants/constants.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -18,13 +21,13 @@ class _SignInScreenState extends State<SignInScreen> {
   final _formSignInKey = GlobalKey<FormState>();
   bool rememberPassword = true;
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController= TextEditingController();
-  bool isLoading =false;
+  TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context);
 
     handleSignIn() async {
       setState(() {
@@ -34,10 +37,18 @@ class _SignInScreenState extends State<SignInScreen> {
         email: emailController.text,
         password: passwordController.text,
       )) {
-        Navigator.pushNamed(context, '/home');
+        var aa=prefs.getInt('role');
+        var bb = Constants.userRoles['trader'];
+        if (prefs.getInt('role') == Constants.userRoles['trader']) {
+          if (await balanceProvider.callToGetBalance()) {
+            Navigator.pushNamed(context, '/trader');
+          }
+        } else {
+          Navigator.pushNamed(context, '/delivery');
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text(
               'Gagal Login!',
               textAlign: TextAlign.center,
@@ -121,7 +132,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       TextFormField(
                         obscureText: true,
                         obscuringCharacter: '*',
-                        controller:passwordController,
+                        controller: passwordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter Password';

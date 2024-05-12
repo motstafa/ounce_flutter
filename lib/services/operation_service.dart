@@ -9,7 +9,6 @@ import '../main.dart';
 import 'package:mime/mime.dart';
 import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
-import 'dart:html' as html;
 
 class OperationService {
   String baseUrl = Constants.apiUri;
@@ -65,7 +64,6 @@ class OperationService {
     final token =
         prefs.getString('auth_token'); // Retrieve token from shared preferences
     var url = '$baseUrl/operation';
-    print('5ara');
     // Create a multipart request
     var request = http.MultipartRequest('POST', Uri.parse(url))
       ..fields['unit_price'] = unitPrice.toString()
@@ -73,16 +71,13 @@ class OperationService {
       ..fields['number_of_units'] = unitsNumber.toString()
       ..headers['Authorization'] = 'Bearer $token';
     // Add the image file to the request
-    print('5ara 2');
     var imageBytes = await img.readAsBytes();
-    print('5ara 3');
     // Add the file to the request
     request.files.add(http.MultipartFile.fromBytes(
       'pic_of_units', // The field name expected by your Laravel API
       imageBytes,
       filename: img.name, // To get only the file name
     ));
-    print('5ara 4');
     // Send the request
     var response = await request.send();
 

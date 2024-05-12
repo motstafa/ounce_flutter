@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ounce/services/operation_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ounce/models/operation_model.dart';
-import 'dart:html' as html;
 
 class OperationProvider with ChangeNotifier {
   final OperationService operationservice = OperationService();

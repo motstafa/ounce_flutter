@@ -9,6 +9,9 @@ import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/theme/theme.dart'; // Make sure this import is correct
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ounce/providers/balance_provider.dart';
+import 'package:ounce/providers/notification_provider.dart';
+
 
 
 class BuyPage extends StatelessWidget {
@@ -17,31 +20,15 @@ class BuyPage extends StatelessWidget {
     // Get the provider and call loadOperations if not already loaded
     final operationProvider =
         Provider.of<OperationProvider>(context, listen: false);
-    final balance = prefs.getInt('buy_balance');
+    final BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context);
+
     if (operationProvider.operations.isEmpty) {
       operationProvider.loadOperations();
     }
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title:Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-        Text(
-          'Buy Page',
-          style: TextStyle(color: buttonAccentColor),
-          textAlign: TextAlign.center,
-        ),
-          Text(
-            'Your Balance: $balance',
-            style: TextStyle(color: buttonAccentColor),
-            textAlign: TextAlign.center,
-          )
-        ]),
-        iconTheme: IconThemeData(color: buttonAccentColor),
-      ),
+      appBar: CustomAppBar(pageName:'Buy Page',balanceType:'buy'),
       body: Consumer<OperationProvider>(
         builder: (context, provider, child) {
           // Use a FutureBuilder to wait for the loadOperations future to complete
@@ -259,7 +246,8 @@ class OperationItem extends StatelessWidget {
   // prompt box when pressing buy button
   void showBuyItemDialog(BuildContext context, Operation operation) {
     SharedPreferences.getInstance().then((prefs) {
-      final balance = prefs.getInt('buy_balance') ?? 0; // Ensure a default value in case it's null
+      BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context);
+
       var unitPrice = operation.unitPrice;
       int? calculatedValue = 0;
       showDialog(
@@ -291,7 +279,7 @@ class OperationItem extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Your Balance: ${balance.toString()}'),
+                          displayBalance(balanceType: 'buy'),
                           SizedBox(height: 20),
                           // Adjust the space as needed
                         ],
@@ -387,6 +375,7 @@ class OperationItem extends StatelessWidget {
                       bool result = await operationProvider.Buy(operation.id, selectedItems);
                       if (result) {
                         await operationProvider.refreshPage();
+                        balanceProvider.callToGetBalance();
                         Navigator.of(context, rootNavigator: true).pop();// This will close the topmost dialog
                       }
                     },

@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:ounce/providers/balance_provider.dart';
 import 'package:ounce/providers/operation_provider.dart';
+import 'package:ounce/providers/operation_tracks_provider.dart';
 import 'package:ounce/theme/theme.dart';
+import 'screens/home/delivery_page.dart';
 import 'screens/signup_screen.dart';
 import 'screens/signin_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/auth_provider.dart';
-import 'package:ounce/screens/signin_screen.dart';
-import 'package:ounce/screens/signup_screen.dart';
-import 'package:ounce/screens/home/main_page.dart';
-import 'package:ounce/screens/home/buy_page.dart';
-import 'package:ounce/providers/auth_provider.dart';
-import 'package:ounce/providers/cart_provider.dart';
-import 'package:ounce/providers/product_provider.dart';
-import 'package:ounce/providers/wishlist_provider.dart';
+import 'package:ounce/screens/home/trader_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ounce/providers/notification_provider.dart';
+import 'package:sizer/sizer.dart';
 
 late SharedPreferences prefs ;
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
-  runApp(MyApp());
+  runApp(
+    Sizer(
+      builder: (context, orientation, deviceType) {
+        return MyApp();
+      },
+    ),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -30,7 +35,10 @@ class MyApp extends StatelessWidget {
 
       MultiProvider(providers:[
         ChangeNotifierProvider(create: (context) =>AuthProvider()),
-        ChangeNotifierProvider(create: (context)=>OperationProvider())
+        ChangeNotifierProvider(create: (context) =>BalanceProvider()),
+        ChangeNotifierProvider(create: (context) => NotificationProvider()),
+        ChangeNotifierProvider(create: (context)=>OperationProvider()),
+        ChangeNotifierProvider(create: (context)=>OperationTracksProvider())
       ],
       child:MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -38,7 +46,8 @@ class MyApp extends StatelessWidget {
           '/': (context) => WelcomePage(),
           '/sign-in': (context) => SignInScreen(),
           '/sign-up': (context) => SignUpScreen(),
-          '/home': (context) => MainPage(),
+          '/trader': (context) => TraderPage(),
+          '/delivery':(context)=>DeliveryPage(),
         },
         theme: ThemeData(
           colorScheme: ColorScheme(

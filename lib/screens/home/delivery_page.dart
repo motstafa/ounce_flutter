@@ -5,12 +5,12 @@ import 'package:ounce/screens/home/profile_page.dart';
 import 'package:ounce/screens/home/sell_page.dart';
 import 'package:ounce/theme/theme.dart';
 
-class MainPage extends StatefulWidget {
+class DeliveryPage extends StatefulWidget {
   @override
-  _MainPageState createState() => _MainPageState();
+  _DeliveryPageState createState() => _DeliveryPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _DeliveryPageState extends State<DeliveryPage> {
   int currentIndex = 0;
 
   @override
@@ -18,7 +18,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: currentIndex == 0 ? backgroundColor1 : backgroundColor3,
       bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(24), // Adjust the radius as needed
           topRight: Radius.circular(24), // Adjust the radius as needed
           bottomRight: Radius.circular(24),
@@ -44,22 +44,8 @@ class _MainPageState extends State<MainPage> {
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
-                AssetImage('assets/icons/buy.png'),
-                color: currentIndex == 1 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
-              ),
-              label: 'Buy',
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/icons/sell.png'),
-                color: currentIndex == 2 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
-              ),
-              label: 'Sell',
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(
                 AssetImage('assets/icons/profile.png'),
-                color: currentIndex == 3 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                color: currentIndex == 1 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
               ),
               label: 'Profile',
             ),
@@ -75,10 +61,6 @@ class _MainPageState extends State<MainPage> {
       case 0:
         return HomePage();
       case 1:
-        return BuyPage();
-      case 2:
-        return SellPage();
-      case 3:
         return ProfilePage();
       default:
         return HomePage();
