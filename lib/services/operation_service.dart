@@ -59,8 +59,7 @@ class OperationService {
     }
   }
 
-  Future<bool> sell(
-      double unitPrice, String unitType, XFile img, int unitsNumber) async {
+  Future<bool> sell(double unitPrice, String unitType, XFile img, int unitsNumber) async {
     final token =
         prefs.getString('auth_token'); // Retrieve token from shared preferences
     var url = '$baseUrl/operation';

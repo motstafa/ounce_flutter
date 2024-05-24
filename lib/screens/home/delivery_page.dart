@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ounce/screens/home/buy_page.dart';
 import 'package:ounce/screens/home/home_page.dart';
 import 'package:ounce/screens/home/profile_page.dart';
-import 'package:ounce/screens/home/sell_page.dart';
 import 'package:ounce/theme/theme.dart';
 
 class DeliveryPage extends StatefulWidget {
@@ -38,14 +36,18 @@ class _DeliveryPageState extends State<DeliveryPage> {
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/icons/home.png'),
-                color: currentIndex == 0 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                color: currentIndex == 0
+                    ? buttonFocusedColor
+                    : buttonAccentColor.withOpacity(0.5),
               ),
               label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/icons/profile.png'),
-                color: currentIndex == 1 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                color: currentIndex == 1
+                    ? buttonFocusedColor
+                    : buttonAccentColor.withOpacity(0.5),
               ),
               label: 'Profile',
             ),

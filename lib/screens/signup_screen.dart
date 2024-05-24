@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '/screens/signin_screen.dart';
 import '/theme/theme.dart';
 import '/widgets/custom_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -25,13 +23,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // Function to handle image selection
   Future<void> _selectImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         _imageFile = pickedImage;
       });
     }
   }
+
 // Define a list of zones
   List<String> zones = ['Zone A', 'Zone B', 'Zone C']; // Add your zones here
 
@@ -59,14 +59,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     primary: Colors.blue, // Change primary color
                   ),
                   textTheme: const TextTheme(
-                    bodyText2: TextStyle(
+                    bodyLarge: TextStyle(
                       color: Colors.black87, // Set the default text color
                     ),
                   ),
                   outlinedButtonTheme: OutlinedButtonThemeData(
                     style: OutlinedButton.styleFrom(
                       foregroundColor:
-                      Colors.blue, // Change outline button color
+                          Colors.blue, // Change outline button color
                     ),
                   ),
                 ),
@@ -80,14 +80,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: const Text('CANCEL'),
                           style: ButtonStyle(
                             backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blue),
+                                MaterialStateProperty.all<Color>(Colors.blue),
                             shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                             ),
                             foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                                MaterialStateProperty.all<Color>(Colors.white),
                           ),
                         ),
                         SizedBox(width: 80),
@@ -97,14 +97,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: const Text('NEXT'),
                           style: ButtonStyle(
                             backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blue),
+                                MaterialStateProperty.all<Color>(Colors.blue),
                             shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                             ),
                             foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                                MaterialStateProperty.all<Color>(Colors.white),
                           ),
                         ),
                       ],
@@ -172,14 +172,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     color:
-                                    Colors.black12, // Default border color
+                                        Colors.black12, // Default border color
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     color:
-                                    Colors.black12, // Default border color
+                                        Colors.black12, // Default border color
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -203,14 +203,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     color:
-                                    Colors.black12, // Default border color
+                                        Colors.black12, // Default border color
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     color:
-                                    Colors.black12, // Default border color
+                                        Colors.black12, // Default border color
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -236,14 +236,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     color:
-                                    Colors.black12, // Default border color
+                                        Colors.black12, // Default border color
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     color:
-                                    Colors.black12, // Default border color
+                                        Colors.black12, // Default border color
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -252,30 +252,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const SizedBox(height: 25.0),
                             // Profile Picture
                             GestureDetector(
-                              onTap: _selectImage, // Call _selectImage function when tapped
+                              onTap:
+                                  _selectImage, // Call _selectImage function when tapped
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.black12, // Default border color
+                                    color:
+                                        Colors.black12, // Default border color
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: _imageFile == null
                                     ? const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Upload Profile Picture',
-                                    style: TextStyle(
-                                      color: Colors.black26,
-                                    ),
-                                  ),
-                                )
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Upload Profile Picture',
+                                          style: TextStyle(
+                                            color: Colors.black26,
+                                          ),
+                                        ),
+                                      )
                                     : Image.file(
-                                  File(_imageFile!.path),
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ),
+                                        File(_imageFile!.path),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
                               ),
                             ),
                             const SizedBox(height: 25.0),
@@ -324,7 +326,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           const SizedBox(height: 25.0),
                           // store picture
                           GestureDetector(
-                            onTap: _selectImage, // Call _selectImage function when tapped
+                            onTap:
+                                _selectImage, // Call _selectImage function when tapped
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -334,20 +337,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               child: _imageFile == null
                                   ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Upload Store Picture',
-                                  style: TextStyle(
-                                    color: Colors.black26,
-                                  ),
-                                ),
-                              )
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Upload Store Picture',
+                                        style: TextStyle(
+                                          color: Colors.black26,
+                                        ),
+                                      ),
+                                    )
                                   : Image.file(
-                                File(_imageFile!.path),
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
-                              ),
+                                      File(_imageFile!.path),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
                             ),
                           ),
                           const SizedBox(height: 25.0),
@@ -366,7 +369,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ignoreBlank: false,
                             autoValidateMode: AutovalidateMode.disabled,
                             selectorTextStyle: TextStyle(color: Colors.black),
-                            initialValue: PhoneNumber(isoCode: 'US'), // Set initial country code
+                            initialValue: PhoneNumber(
+                                isoCode: 'US'), // Set initial country code
                             textFieldController: TextEditingController(),
                             inputDecoration: InputDecoration(
                               labelText: 'Phone Number',
@@ -390,46 +394,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           const SizedBox(height: 25.0),
 
-
-
-                    // Widget for the dropdown menu
-                    DropdownButtonFormField<String>(
-                      value: zones[0],
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          zones[0] = newValue!;
-                        });
-                      },
-                      items: zones.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(
-                        labelText: 'Zone',
-                        hintText: 'Select Zone',
-                        hintStyle: TextStyle(
-                          color: Colors.black26,
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black12, // Default border color
+                          // Widget for the dropdown menu
+                          DropdownButtonFormField<String>(
+                            value: zones[0],
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                zones[0] = newValue!;
+                              });
+                            },
+                            items: zones
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            decoration: InputDecoration(
+                              labelText: 'Zone',
+                              hintText: 'Select Zone',
+                              hintStyle: TextStyle(
+                                color: Colors.black26,
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.black12, // Default border color
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.black12, // Default border color
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black12, // Default border color
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 25.0),
+                          const SizedBox(height: 25.0),
 
-
-                    // Prefecture
+                          // Prefecture
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -581,8 +583,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                           // Floor
                           TextFormField(
-                            keyboardType: TextInputType.number, // Set keyboard type to number
-                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            keyboardType: TextInputType
+                                .number, // Set keyboard type to number
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter Floor';

@@ -2,17 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ounce/constants/constants.dart';
-import 'package:ounce/main.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/models/operation_model.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/theme/theme.dart'; // Make sure this import is correct
-import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:ounce/providers/notification_provider.dart';
-
-
 
 class BuyPage extends StatelessWidget {
   @override
@@ -20,7 +16,8 @@ class BuyPage extends StatelessWidget {
     // Get the provider and call loadOperations if not already loaded
     final operationProvider =
         Provider.of<OperationProvider>(context, listen: false);
-    final BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context);
+    final BalanceProvider balanceProvider =
+        Provider.of<BalanceProvider>(context);
 
     if (operationProvider.operations.isEmpty) {
       operationProvider.loadOperations();
@@ -28,7 +25,7 @@ class BuyPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: CustomAppBar(pageName:'Buy Page',balanceType:'buy'),
+      appBar: CustomAppBar(pageName: 'Buy Page', balanceType: 'buy'),
       body: Consumer<OperationProvider>(
         builder: (context, provider, child) {
           // Use a FutureBuilder to wait for the loadOperations future to complete
@@ -324,11 +321,12 @@ class OperationItem extends StatelessWidget {
                       items: [
                         const DropdownMenuItem<int>(
                           value: 0,
-                          child: Text('0'), // This represents your default value
+                          child:
+                              Text('0'), // This represents your default value
                         ),
                         ...List.generate(
                           operation.numberOfUnits,
-                              (index) => DropdownMenuItem<int>(
+                          (index) => DropdownMenuItem<int>(
                             value: index + 1,
                             child: Text('${index + 1}'),
                           ),
@@ -361,7 +359,7 @@ class OperationItem extends StatelessWidget {
                     ),
                   ],
                 ),
-               const SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
@@ -372,11 +370,13 @@ class OperationItem extends StatelessWidget {
                       final operationProvider = Provider.of<OperationProvider>(
                           context,
                           listen: false);
-                      bool result = await operationProvider.Buy(operation.id, selectedItems);
+                      bool result = await operationProvider.Buy(
+                          operation.id, selectedItems);
                       if (result) {
                         await operationProvider.refreshPage();
                         balanceProvider.callToGetBalance();
-                        Navigator.of(context, rootNavigator: true).pop();// This will close the topmost dialog
+                        Navigator.of(context, rootNavigator: true)
+                            .pop(); // This will close the topmost dialog
                       }
                     },
                     child: const Text('Buy'),

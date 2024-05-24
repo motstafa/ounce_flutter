@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "7894435504",
+    "project_id": "ounce-6d0f7",
+    "storage_bucket": "ounce-6d0f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7894435504:android:5a868f83efea7120f75d75",
+        "android_client_info": {
+          "package_name": "com.example.ounce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHsCNQF9FXYmVlTYzzXKTZy9lt35xtVVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ounce/screens/delivery/pending_tab.dart';
 import 'package:provider/provider.dart';
-import 'package:ounce/models/user_model.dart';
 import 'package:ounce/providers/auth_provider.dart';
-import 'package:ounce/providers/operation_tracks_provider.dart';
-import 'package:ounce/theme/theme.dart';
-import 'package:ounce/widgets/product_card.dart';
-import 'package:ounce/widgets/products_tile.dart';
+import '../delivery/completed_tab.dart';
+import '../delivery/inProgress_tab.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -19,7 +16,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          bottom:const TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'Pending'),
               Tab(text: 'In-progress'),
@@ -27,10 +24,8 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        body:  TabBarView(
-          children: [
-            PendingTab(),
-          ],
+        body: TabBarView(
+          children: [PendingTab(), InProgressTab(), CompletedTab()],
         ),
       ),
     );

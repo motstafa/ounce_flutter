@@ -1,15 +1,9 @@
-import 'dart:ffi';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:ounce/models/pending_operation_model.dart';
 import 'package:provider/provider.dart';
-import 'package:ounce/models/user_model.dart';
-import 'package:ounce/providers/auth_provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
-import 'package:ounce/theme/theme.dart';
-import 'package:ounce/widgets/product_card.dart';
-import 'package:ounce/widgets/products_tile.dart';
-
-
 
 class PendingTab extends StatefulWidget {
   @override
@@ -54,27 +48,7 @@ class _PendingTabState extends State<PendingTab> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Delivery Details'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Address: ${item.address.fullName}'),
-                              // Use the actual address data
-                              // Add more details here
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Transfer to In-progress'),
-                            onPressed: () {
-                              // Logic to transfer the item to 'In-progress'
-                              Navigator.of(context).pop(); // Close the dialog
-                            },
-                          ),
-                        ],
-                      );
+                      return PendingDialog(item: item);
                     },
                   );
                 },
@@ -84,5 +58,162 @@ class _PendingTabState extends State<PendingTab> {
         },
       ),
     );
+  }
+}
+
+class PendingDialog extends StatefulWidget {
+  final PendingOperation item;
+
+  const PendingDialog({super.key, required this.item});
+
+  @override
+  _PendingDialogState createState() => _PendingDialogState();
+}
+
+class _PendingDialogState extends State<PendingDialog> {
+  TextEditingController timeTobuyerController = TextEditingController();
+  TextEditingController timeToSellerController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        title: const Text('Delivery Details'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // Align items to the start of the cross axis
+                children: <Widget>[
+                  Flexible(
+                    child: Text('Name: ${widget.item.address.fullName}'),
+                  ),
+                  Flexible(
+                    child: Text('Phone: ${widget.item.address.phone}'),
+                  ),
+                ],
+              ),
+              // Add a SizedBox for consistent spacing between rows
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // Align items to the start of the cross axis
+                children: <Widget>[
+                  Flexible(
+                    child:
+                        Text('Prefecture: ${widget.item.address.prefecture}'),
+                  ),
+                  Flexible(
+                    child:
+                        Text('City or Town: ${widget.item.address.cityTown}'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text('Ward: ${widget.item.address.ward}'),
+                    ),
+                    Flexible(
+                      child:
+                          Text('Street: ${widget.item.address.streetAdress}'),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text('Building: ${widget.item.address.building}'),
+                    ),
+                    Flexible(
+                      child: Text('Floor: ${widget.item.address.floor}'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Form(
+            key: _formKey, // Make sure this is defined in your state class
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: timeToSellerController,
+                        decoration: const InputDecoration(
+                          hintText: 'estimated time to seller',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter estimated time to seller';
+                          }
+                          return null; // The field is valid
+                        },
+                        // Add other properties and methods as needed
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    // Spacing between the input fields
+                    Expanded(
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: timeTobuyerController,
+                        decoration: const InputDecoration(
+                          hintText: 'estimated time to buyer',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter estimated time to buyer';
+                          }
+                          return null; // The field is valid
+                        },
+                        // Add other properties and methods as needed
+                      ),
+                    ),
+                  ],
+                ),
+                TextButton(
+                  child: const Text('Move to In-progress'),
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      // Check if form is valid
+                      var pendingProvider =
+                          Provider.of<OperationTracksProvider>(context,
+                              listen: false);
+
+                      await pendingProvider.acceptOrder(
+                          widget.item.operationId,
+                          timeToSellerController.text,
+                          timeTobuyerController.text);
+                      // Use a mounted check before calling Navigator.of(context).pop()
+                      if (mounted) {
+                        Navigator.of(context).pop(); // Close the dialog
+                      }
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ]);
   }
 }

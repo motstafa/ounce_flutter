@@ -4,10 +4,12 @@ import 'package:ounce/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ounce/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../main.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
   String baseUrl = Constants.apiUri;
+
+  final storage = const FlutterSecureStorage();
 
   Future<UserModel> register({
    required String name,
@@ -74,11 +76,18 @@ class AuthService {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('auth_token', data['token']);
       prefs.setInt('role',data['role']);
+      storeToken(data['token'],data['role']);
       return user;
     } else {
       throw Exception('Gagal Login');
     }
   }
 
+
+  // Store token
+  Future<void> storeToken(String token,int role) async {
+    await storage.write(key: 'sanctum_token', value: token);
+    await storage.write(key: 'role', value: role.toString());
+  }
 
 }

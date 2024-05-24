@@ -1,11 +1,6 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ounce/theme/theme.dart';
-import 'package:ounce/main.dart';
-
-// Conditional import
-import 'dart:io';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +48,8 @@ class _SellPageState extends State<SellPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Return a loader while waiting for the balance value
           return Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -78,7 +74,7 @@ class _SellPageState extends State<SellPage> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              body:const  Center(
+              body: const Center(
                 child: Text(
                   'You do not have enough balance to sell items.',
                   style: TextStyle(color: Colors.white, fontSize: 18),
@@ -89,7 +85,7 @@ class _SellPageState extends State<SellPage> {
           } else {
             return Scaffold(
               backgroundColor: Colors.black,
-              appBar: CustomAppBar(pageName:'Sell Page',balanceType:"sell"),
+              appBar: CustomAppBar(pageName: 'Sell Page', balanceType: "sell"),
               body: Form(
                 key: _formKey,
                 child: ListView(
@@ -120,7 +116,7 @@ class _SellPageState extends State<SellPage> {
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
-                          unitTypeController = newValue;
+                        unitTypeController = newValue;
                       },
                     ),
                     SizedBox(height: 16.0),
@@ -210,8 +206,7 @@ class _SellPageState extends State<SellPage> {
                                 _imageFile = null;
                                 balanceProvider.callToGetBalance();
                               });
-                            }
-                            else{
+                            } else {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
