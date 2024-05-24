@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
+import 'package:ounce/screens/home/initial_loading_screen.dart';
 import 'package:ounce/theme/theme.dart';
 import 'firebase_options.dart';
 import 'screens/home/delivery_page.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           routes: {
-            '/': (context) => SignInScreen(),
+            '/': (context) => InitialLoadingScreen(),
             '/sign-in': (context) => SignInScreen(),
             '/sign-up': (context) => SignUpScreen(),
             '/trader': (context) => TraderPage(),

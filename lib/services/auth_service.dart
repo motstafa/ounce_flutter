@@ -12,10 +12,10 @@ class AuthService {
   final storage = const FlutterSecureStorage();
 
   Future<UserModel> register({
-   required String name,
-   required String username,
-   required String email,
-   required String password,
+    required String name,
+    required String username,
+    required String email,
+    required String password,
   }) async {
     var url = '$baseUrl/register';
     var headers = {'Content-Type': 'application/json'};
@@ -45,7 +45,6 @@ class AuthService {
     }
   }
 
-
   Future<UserModel> login({
     required String email,
     required String password,
@@ -70,24 +69,41 @@ class AuthService {
       // UserModel user = UserModel.fromJson(data['user']);
       // user.token = 'Bearer ' + data['access_token'];
       UserModel user = UserModel();
-      user.token=data['token'];
+      user.token = data['token'];
 
       // save in the shared preferences
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('auth_token', data['token']);
-      prefs.setInt('role',data['role']);
-      storeToken(data['token'],data['role']);
+      prefs.setInt('role', data['role']);
+      storeToken(data['token'], data['role']);
       return user;
     } else {
       throw Exception('Gagal Login');
     }
   }
 
+  Future<bool> validateToken(String token) async {
+
+    var url = '$baseUrl/checkTokenValidity';
+    var headers = {'Content-Type': 'application/json'};
+
+    var body = jsonEncode({'token': token});
+
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Token not valid');
+    }
+  }
 
   // Store token
-  Future<void> storeToken(String token,int role) async {
+  Future<void> storeToken(String token, int role) async {
     await storage.write(key: 'sanctum_token', value: token);
     await storage.write(key: 'role', value: role.toString());
   }
-
 }
