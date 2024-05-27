@@ -23,7 +23,6 @@ class OperationTracks {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       var length = data.length;
-      print('operation service $length');
       return data
           .map<PendingOperation>(
               (json) => PendingOperation.fromJson(json as Map<String, dynamic>))
@@ -47,7 +46,6 @@ class OperationTracks {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       var length = data.length;
-      print('operation service $length');
       return data
           .map<PendingOperation>(
               (json) => PendingOperation.fromJson(json as Map<String, dynamic>))
@@ -71,7 +69,6 @@ class OperationTracks {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       var length = data.length;
-      print('operation service $length');
       return data
           .map<PendingOperation>(
               (json) => PendingOperation.fromJson(json as Map<String, dynamic>))

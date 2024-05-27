@@ -44,7 +44,7 @@ class _SellPageState extends State<SellPage> {
     return FutureBuilder(
       // Assume getSellBalance is a method that returns a Future<int>
       future: balanceProvider.fetchBalance('sell'),
-      builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Return a loader while waiting for the balance value
           return Padding(

@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:ounce/models/product_model.dart';
 import 'package:ounce/services/operation_tracks_service.dart';
-import 'package:ounce/services/product_service.dart';
 import '../models/pending_operation_model.dart';
 
 class OperationTracksProvider with ChangeNotifier {
@@ -59,4 +57,3 @@ class OperationTracksProvider with ChangeNotifier {
   }
 
 }
-

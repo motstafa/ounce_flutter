@@ -1,15 +1,22 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ounce/models/notification_model.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../constants/constants.dart';
+import '../main.dart';
+import '../providers/notification_provider.dart';
+
 
 class PushNotificationService {
   String baseUrl = Constants.apiUri;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  BuildContext? get globalContext => navigatorKey.currentContext;
 
   Future<void> init() async {
     // Request permission for notifications
@@ -20,7 +27,12 @@ class PushNotificationService {
         AndroidInitializationSettings('@mipmap/ic_launcher');
     final InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
-    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings, onDidReceiveNotificationResponse: (NotificationResponse response) {
+      if (response.notificationResponseType ==
+          NotificationResponseType.selectedNotification) {
+        onSelectNotification(response.payload);
+      }
+    },);
 
     // Get the device token
     String? token = await _firebaseMessaging.getToken();
@@ -55,8 +67,26 @@ class PushNotificationService {
         ),
       );
     }
+
+    // Assuming you have a way to convert RemoteMessage to NotificationItem
+    NotificationItem newNotification = NotificationItem(id:notification.hashCode,title: notification?.title ?? '',text: notification?.body ??'',read: 0);
+
+    // Find the provider and call addNotification
+    NotificationProvider provider = Provider.of<NotificationProvider>(
+      globalContext!, // You need to have a reference to the context
+      listen: false,
+    );
+    provider.addNotification(newNotification);
   }
 
+
+
+  Future onSelectNotification(String? payload) async {
+    // Navigate to the notifications screen
+    if (globalContext != null) {
+      Navigator.of(globalContext!).pushNamed('/notifications');
+    }
+  }
 
   Future<bool> sendTokenToBackend(notificationToken) async {
     final prefs = await SharedPreferences.getInstance();

@@ -1,10 +1,8 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ounce/main.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:provider/provider.dart';
-import '../firebase_options.dart';
 import '../services/push_notification_service.dart';
 import '/screens/signup_screen.dart';
 import '/widgets/custom_scaffold.dart';
@@ -25,18 +23,6 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
-  final pushNotificationService = PushNotificationService();
-
-
-
-  // Define a top-level named handler which background/terminated messages will call.
-  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-
-    pushNotificationService.notificationHandler(message);
-  }
-
 
 
   @override
@@ -53,9 +39,6 @@ class _SignInScreenState extends State<SignInScreen> {
         password: passwordController.text,
       )) {
 
-        // handle notification permission
-        await pushNotificationService.init();
-        FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
         if (prefs.getInt('role') == Constants.userRoles['trader']) {
           if (await balanceProvider.callToGetBalance()) {

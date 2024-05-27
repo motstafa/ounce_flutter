@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:ounce/providers/operation_provider.dart';
@@ -7,6 +8,7 @@ import 'package:ounce/screens/home/initial_loading_screen.dart';
 import 'package:ounce/theme/theme.dart';
 import 'firebase_options.dart';
 import 'screens/home/delivery_page.dart';
+import 'screens/notification_center_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/signin_screen.dart';
 import 'package:provider/provider.dart';
@@ -14,18 +16,33 @@ import 'package:ounce/providers/auth_provider.dart';
 import 'package:ounce/screens/home/trader_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ounce/providers/notification_provider.dart';
+import 'services/push_notification_service.dart';
 
 late SharedPreferences prefs;
-
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+final pushNotificationService = PushNotificationService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp());
+  // handle notification permission
+  await pushNotificationService.init();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  runApp(MyApp(navigatorKey: navigatorKey));
 }
 
 class MyApp extends StatelessWidget {
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  MyApp({required this.navigatorKey});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -34,9 +51,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => BalanceProvider()),
           ChangeNotifierProvider(create: (context) => NotificationProvider()),
           ChangeNotifierProvider(create: (context) => OperationProvider()),
-          ChangeNotifierProvider(create: (context) => OperationTracksProvider())
+          ChangeNotifierProvider(create: (context) => OperationTracksProvider()),
+          ChangeNotifierProvider(create: (context)=>NotificationProvider())
         ],
-        child: MaterialApp(
+        child: MaterialApp(navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           routes: {
             '/': (context) => InitialLoadingScreen(),
@@ -44,6 +62,7 @@ class MyApp extends StatelessWidget {
             '/sign-up': (context) => SignUpScreen(),
             '/trader': (context) => TraderPage(),
             '/delivery': (context) => DeliveryPage(),
+            '/notifications':(context)=>NotificationCenterScreen(),
           },
           theme: ThemeData(
             colorScheme: ColorScheme(
@@ -90,5 +109,18 @@ class MyApp extends StatelessWidget {
           ),
         ));
   }
+
 }
+
+
+// Define a top-level named handler which background/terminated messages will call.
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+
+  pushNotificationService.notificationHandler(message);
+}
+
+
+
 

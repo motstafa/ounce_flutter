@@ -26,8 +26,6 @@ class _InitialLoadingScreenState extends State<InitialLoadingScreen> {
     String? token = await Constants().getTokenFromSecureStorage();
     int? role = await Constants().getRoleFromSecureStorage();
     AuthService authService = AuthService();
-    print(token);
-    print('rolodex $role');
     if (token != null) {
       bool isValid = await authService.validateToken(token);
       if (isValid) {

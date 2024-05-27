@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ounce/screens/home/home_page.dart';
 import 'package:ounce/screens/home/profile_page.dart';
 import 'package:ounce/theme/theme.dart';
+import 'package:provider/provider.dart';
+import '../../providers/notification_provider.dart';
 
 class DeliveryPage extends StatefulWidget {
   @override
@@ -12,8 +14,20 @@ class _DeliveryPageState extends State<DeliveryPage> {
   int currentIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // Load the data when the widget is first added to the widget tree
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<NotificationProvider>(context, listen: false)
+          .getNotifications();
+    });
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(pageName: 'Operations Progress', balanceType: null),
       backgroundColor: currentIndex == 0 ? backgroundColor1 : backgroundColor3,
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(

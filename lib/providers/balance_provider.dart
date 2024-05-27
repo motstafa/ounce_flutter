@@ -4,13 +4,13 @@ import 'package:ounce/services/balance_service.dart';
 import 'package:ounce/theme/theme.dart';
 
 class BalanceProvider with ChangeNotifier {
-  late double _sellingBalance;
-  late double _buyingBalance;
+  late int _sellingBalance;
+  late int _buyingBalance;
 
 
 
   // Method to fetch the selling balance asynchronously
-  Future<double> fetchBalance(String balanceType) async {
+  Future<int> fetchBalance(String balanceType) async {
     try {
       // Simulate a network request with a delay
       await Future.delayed(Duration(seconds: 1));
@@ -25,16 +25,16 @@ class BalanceProvider with ChangeNotifier {
   }
 
 
-  double get sellingBalance => _sellingBalance;
+  int get sellingBalance => _sellingBalance;
 
-  double get buyingBalance => _buyingBalance;
+  int get buyingBalance => _buyingBalance;
 
-  void updateSellingBalance(double amount) {
+  void updateSellingBalance(int amount) {
     _sellingBalance += amount;
     notifyListeners();
   }
 
-  void updateBuyingBalance(double amount) {
+  void updateBuyingBalance(int amount) {
     _buyingBalance += amount;
     notifyListeners();
   }
@@ -43,8 +43,8 @@ class BalanceProvider with ChangeNotifier {
     try {
       Map<String, int> balance = await AuthService().getTraderBalance();
 
-      _sellingBalance = balance['sell_balance'] as double;
-      _buyingBalance = balance['buy_balance'] as double;
+      _sellingBalance = balance['sell_balance'] as int;
+      _buyingBalance = balance['buy_balance'] as int;
       // notifyListeners();
       return true;
     } catch (e) {
@@ -76,7 +76,7 @@ class displayBalance extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final balanceProvider = Provider.of<BalanceProvider>(context);
-    return FutureBuilder<double>(
+    return FutureBuilder<int>(
       future: balanceProvider.fetchBalance(balanceType), // Assuming this returns a Future<double>
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

@@ -97,7 +97,7 @@ class AuthService {
     if (response.statusCode == 200) {
       return true;
     } else {
-      throw Exception('Token not valid');
+      return false;
     }
   }
 
