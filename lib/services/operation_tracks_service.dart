@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:ounce/models/operation_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ounce/constants/constants.dart';
 import '../main.dart';

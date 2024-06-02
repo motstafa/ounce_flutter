@@ -48,6 +48,8 @@ class PushNotificationService {
   void notificationHandler(RemoteMessage message) {
     // If the message also contains a notification (such as title and body),
     // we can display a notification to the user using the flutter_local_notifications plugin.
+    // print('Message received: ${message.toMap()}'); // Log the entire message
+
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
     if (notification != null && android != null) {
@@ -57,26 +59,39 @@ class PushNotificationService {
         notification.body,
         NotificationDetails(
           android: AndroidNotificationDetails(
-            'channel ID', // You can name this whatever you want
-            'channel Name', // You can name this whatever you want
+            'channel ID',
+            'channel Name',
             channelDescription: 'channel description',
-            // You can name this whatever you want
             icon: android.smallIcon,
-            // other properties...
           ),
         ),
       );
     }
 
+    String? route = message.data['route'];
+    // Log the entire data map
+    print('Message Data: ${message.data}');
+
+    if (message.data.containsKey('route')) {
+      String? route = message.data['route'];
+      if (route != null) {
+        // Handle the route as needed
+        print('Route: $route');
+      } else {
+        print('Route key exists but value is null');
+      }
+    } else {
+      print('Route key not found in data');
+    }
     // Assuming you have a way to convert RemoteMessage to NotificationItem
-    NotificationItem newNotification = NotificationItem(id:notification.hashCode,title: notification?.title ?? '',text: notification?.body ??'',read: 0);
+    NotificationItem newNotification = NotificationItem(id:notification.hashCode,title: notification?.title ?? '',text: notification?.body ??'',titleAr:message.data['title_ar'] ,textAr: message.data['body_ar'],read: 0,route: route ??'');
 
     // Find the provider and call addNotification
     NotificationProvider provider = Provider.of<NotificationProvider>(
       globalContext!, // You need to have a reference to the context
       listen: false,
     );
-    provider.addNotification(newNotification);
+   provider.addNotification(newNotification);
   }
 
 

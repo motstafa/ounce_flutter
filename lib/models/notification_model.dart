@@ -7,13 +7,19 @@ class NotificationItem {
   final int id;
   final String title;
   final String text;
+  final String titleAr;
+  final String textAr;
   final int read;
+  final String route;
 
   NotificationItem({
     required this.id,
     required this.title,
     required this.text,
+    required this.titleAr,
+    required this.textAr,
     required this.read,
+    required this.route,
   });
 
   factory NotificationItem.fromJson(Map<String, dynamic> json) {
@@ -21,6 +27,9 @@ class NotificationItem {
         id: json['id'],
         title: json['title'],
         text: json['text'],
-        read: json['read']);
+        titleAr: json['title_ar'],
+        textAr: json['text_ar'],
+        read: json['read'],
+        route: json['route']);
   }
 }

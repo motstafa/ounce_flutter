@@ -57,7 +57,7 @@ class BalanceProvider with ChangeNotifier {
 class BalanceDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final balanceProvider = Provider.of<BalanceProvider>(context);
+    final balanceProvider = Provider.of<BalanceProvider>(context,listen: false);
     return Column(
       children: [
         Text('Selling Balance: ${balanceProvider.sellingBalance}'),
@@ -75,7 +75,7 @@ class displayBalance extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final balanceProvider = Provider.of<BalanceProvider>(context);
+    final balanceProvider = Provider.of<BalanceProvider>(context,listen: false);
     return FutureBuilder<int>(
       future: balanceProvider.fetchBalance(balanceType), // Assuming this returns a Future<double>
       builder: (context, snapshot) {

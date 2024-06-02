@@ -10,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:ounce/providers/notification_provider.dart';
 
+import '../../generated/l10n.dart';
+
 class BuyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class BuyPage extends StatelessWidget {
     final operationProvider =
         Provider.of<OperationProvider>(context, listen: false);
     final BalanceProvider balanceProvider =
-        Provider.of<BalanceProvider>(context);
+        Provider.of<BalanceProvider>(context,listen: false);
 
     if (operationProvider.operations.isEmpty) {
       operationProvider.loadOperations();
@@ -25,7 +27,7 @@ class BuyPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: CustomAppBar(pageName: 'Buy Page', balanceType: 'buy'),
+      appBar: CustomAppBar(pageName: S.of(context).buyPageTitle, balanceType: 'buy'),
       body: Consumer<OperationProvider>(
         builder: (context, provider, child) {
           // Use a FutureBuilder to wait for the loadOperations future to complete
@@ -35,7 +37,7 @@ class BuyPage extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
+                return Center(child: Text('${S.of(context).error}: ${snapshot.error}'));
               } else {
                 // Once the future is complete, build the ListView
                 return ListView.builder(
@@ -66,7 +68,7 @@ class OperationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String operationNumber =
-        'Operation Number: ${Operation.generateBigFakeNumber(operation.id)}';
+        '${S.of(context).operationNumberLabel}: ${Operation.generateBigFakeNumber(operation.id)}';
     return Container(
       margin: EdgeInsets.all(8.0),
       padding: EdgeInsets.all(16.0),
@@ -81,109 +83,113 @@ class OperationItem extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(width: 8.0),
-                      Text(
-                        operationNumber,
-                        style: TextStyle(
-                          color: GoldColor, // Gold text color for emphasis
-                          fontWeight: FontWeight.bold,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 8.0),
+                        Expanded(
+                          child: Text(
+                            operationNumber,
+                            style: TextStyle(
+                              color: GoldColor, // Gold text color for emphasis
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Icon(Icons.inventory_2, color: buttonAccentColor),
-                      // Example icon
-                      SizedBox(width: 8.0),
-                      Text(
-                        'Number Of Ounces: ${operation.numberOfUnits}',
-                        style: TextStyle(
-                          color:
-                              buttonAccentColor, // Light text color for contrast
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Icon(Icons.merge_type, color: buttonAccentColor),
-                      // Example icon
-                      SizedBox(width: 8.0),
-                      Text(
-                        'Type Of Ounces: ${operation.unitType}',
-                        style: TextStyle(
-                          color:
-                              buttonAccentColor, // Light text color for contrast
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Icon(Icons.attach_money, color: buttonAccentColor),
-                      // Example icon
-                      SizedBox(width: 8.0),
-                      Text(
-                        'Total Price: \$${operation.total}',
-                        style: TextStyle(
-                          color:
-                              buttonAccentColor, // Light text color for contrast
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Icon(Icons.date_range, color: buttonAccentColor),
-                      // Example icon
-                      SizedBox(width: 8.0),
-                      Text(
-                        'Date of Operation: ${operation.dateOfOperation}',
-                        style: TextStyle(
-                          color:
-                              buttonAccentColor, // Light text color for contrast
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Positioned(
-                top: 100,
-                right: 100,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  width: 85.0,
-                  // Set your desired width for the image
-                  height: 85.0,
-                  // Set your desired height for the image
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
+                      ],
                     ),
-                  ),
-                  child: Image.network(
-                    operation.picOfUnits ?? '',
-                    fit: BoxFit.cover,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
-                      // Return default asset image when network image fails to load
-                      return Image.asset('images/ounce.png', fit: BoxFit.cover);
-                    },
+                    SizedBox(height: 8.0),
+                    Row(
+                      children: [
+                        Icon(Icons.inventory_2, color: buttonAccentColor),
+                        SizedBox(width: 8.0),
+                        Expanded(
+                          child: Text(
+                            '${S.of(context).numberOfOuncesLabel}: ${operation.numberOfUnits}',
+                            style: TextStyle(
+                              color: buttonAccentColor, // Light text color for contrast
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      children: [
+                        Icon(Icons.merge_type, color: buttonAccentColor),
+                        SizedBox(width: 8.0),
+                        Expanded(
+                          child: Text(
+                            '${S.of(context).typeOfOuncesLabel}: ${operation.unitType}',
+                            style: TextStyle(
+                              color: buttonAccentColor, // Light text color for contrast
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      children: [
+                        Icon(Icons.attach_money, color: buttonAccentColor),
+                        SizedBox(width: 8.0),
+                        Expanded(
+                          child: Text(
+                            '${S.of(context).totalPriceLabel}: \$${operation.total}',
+                            style: TextStyle(
+                              color: buttonAccentColor, // Light text color for contrast
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      children: [
+                        Icon(Icons.date_range, color: buttonAccentColor),
+                        SizedBox(width: 8.0),
+                        Expanded(
+                          child: Text(
+                            '${S.of(context).dateOfOperationLabel}: ${operation.dateOfOperation}',
+                            style: TextStyle(
+                              color: buttonAccentColor, // Light text color for contrast
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 10,top:40),
+                width: 85.0,
+                height: 85.0,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10.0),
                   ),
                 ),
-              )
+                child: Image.network(
+                  operation.picOfUnits ?? '',
+                  fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    // Return default asset image when network image fails to load
+                    return Image.asset('assets/images/ounce.png', fit: BoxFit.cover);
+                  },
+                ),
+              ),
             ],
           ),
           Center(
@@ -219,9 +225,9 @@ class OperationItem extends StatelessWidget {
                         minWidth: double.infinity, minHeight: 50.0),
                     // Set minimum size for the button
                     alignment: Alignment.center,
-                    child: const Text(
-                      'Buy Button',
-                      style: TextStyle(
+                    child: Text(
+                      S.of(context).buyButtonText,
+                      style:const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors
                             .white, // Choose a color that contrasts well with the gradient
@@ -243,7 +249,7 @@ class OperationItem extends StatelessWidget {
   // prompt box when pressing buy button
   void showBuyItemDialog(BuildContext context, Operation operation) {
     SharedPreferences.getInstance().then((prefs) {
-      BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context);
+      BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context,listen: false);
 
       var unitPrice = operation.unitPrice;
       int? calculatedValue = 0;
@@ -296,14 +302,12 @@ class OperationItem extends StatelessWidget {
                             ),
                           ),
                           child: Image.network(
-                            'operation.picOfUnits' ?? '',
-                            // Replace with your variable or provide a default image path
+                            operation.picOfUnits ?? '',
                             fit: BoxFit.cover,
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
+                            errorBuilder: (BuildContext context, Object exception,
+                                StackTrace? stackTrace) {
                               // Return default asset image when network image fails to load
-                              return Image.asset('images/ounce.png',
-                                  fit: BoxFit.cover);
+                              return Image.asset('assets/images/ounce.png', fit: BoxFit.cover);
                             },
                           ),
                         ),
@@ -315,7 +319,7 @@ class OperationItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('number of ounces: '),
+                    Text('${S.of(context).numberOfOuncesDialogLabel}: '),
                     DropdownButton<int>(
                       value: selectedItems,
                       items: [
@@ -379,7 +383,7 @@ class OperationItem extends StatelessWidget {
                             .pop(); // This will close the topmost dialog
                       }
                     },
-                    child: const Text('Buy'),
+                    child: Text(S.of(context).buyDialogButtonText),
                   ),
                 )
               ],

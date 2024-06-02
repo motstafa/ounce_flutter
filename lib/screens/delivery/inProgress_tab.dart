@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
 
+import '../../generated/l10n.dart';
 import '../../models/pending_operation_model.dart';
 
 
@@ -45,7 +46,7 @@ class _InProgressTabState extends State<InProgressTab> {
               return ListTile(
                 title: Text(item.operationId.toString()),
                 // Assuming 'operationStatus' is the title
-                subtitle: Text(item.operationStatus),
+                subtitle: Text(S.operationStatus(item.operationStatus)),
                 // Assuming 'streetAdress' is the subtitle
                 onTap: () {
                   showDialog(
@@ -84,7 +85,7 @@ class _InProgressDialogState extends State<InProgressDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Delivery Details'),
+      title: Text(S.of(context).deliveryDetailsTitle),
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
@@ -94,10 +95,10 @@ class _InProgressDialogState extends State<InProgressDialog> {
               // Align items to the start of the cross axis
               children: <Widget>[
                 Flexible(
-                  child: Text('Name: ${widget.item.address.fullName}'),
+                  child: Text('${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
                 ),
                 Flexible(
-                  child: Text('Phone: ${widget.item.address.phone}'),
+                  child: Text('${S.of(context).phone}: ${widget.item.address.phone}'),
                 ),
               ],
             ),
@@ -110,11 +111,11 @@ class _InProgressDialogState extends State<InProgressDialog> {
               children: <Widget>[
                 Flexible(
                   child:
-                  Text('Prefecture: ${widget.item.address.prefecture}'),
+                  Text('${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
                 ),
                 Flexible(
                   child:
-                  Text('City or Town: ${widget.item.address.cityTown}'),
+                  Text('${S.of(context).city}: ${widget.item.address.cityTown}'),
                 ),
               ],
             ),
@@ -125,11 +126,11 @@ class _InProgressDialogState extends State<InProgressDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Flexible(
-                    child: Text('Ward: ${widget.item.address.ward}'),
+                    child: Text('${S.of(context).wardLabel}: ${widget.item.address.ward}'),
                   ),
                   Flexible(
                     child:
-                    Text('Street: ${widget.item.address.streetAdress}'),
+                    Text('${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
                   ),
                 ],
               ),
@@ -141,10 +142,10 @@ class _InProgressDialogState extends State<InProgressDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Flexible(
-                    child: Text('Building: ${widget.item.address.building}'),
+                    child: Text('${S.of(context).buildingLabel}: ${widget.item.address.building}'),
                   ),
                   Flexible(
-                    child: Text('Floor: ${widget.item.address.floor}'),
+                    child: Text('${S.of(context).floorLabel}: ${widget.item.address.floor}'),
                   ),
                 ],
               ),
@@ -156,7 +157,7 @@ class _InProgressDialogState extends State<InProgressDialog> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text('Agree to move to completed'),
+            Text(S.of(context).agreeToMoveToCompletedText),
             Checkbox(
               value: _isChecked,
               onChanged: (bool? value) {
@@ -168,7 +169,7 @@ class _InProgressDialogState extends State<InProgressDialog> {
           ],
         ),
         TextButton(
-          child: Text('Move to Completed'),
+          child: Text(S.of(context).moveToCompletedButton),
           onPressed: _isChecked ? () async {
             var inProgressProvider =
             Provider.of<OperationTracksProvider>(context,

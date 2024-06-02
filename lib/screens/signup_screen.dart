@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../generated/l10n.dart';
 import '/theme/theme.dart';
 import '/widgets/custom_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,6 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // Define _imageFile variable here
   XFile? _imageFile;
+
   // Function to handle image selection
   Future<void> _selectImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -77,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: <Widget>[
                         TextButton(
                           onPressed: details.onStepCancel,
-                          child: const Text('CANCEL'),
+                          child: Text(S.of(context).cancel),
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.blue),
@@ -94,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         // Adjust the width as needed for the space between buttons
                         TextButton(
                           onPressed: details.onStepContinue,
-                          child: const Text('NEXT'),
+                          child: Text(S.of(context).next),
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.blue),
@@ -120,15 +122,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (_formSignupKey.currentState!.validate() &&
                             agreePersonalData) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Processing Data'),
+                            SnackBar(
+                              content: Text(S.of(context).processing),
                             ),
                           );
                         } else if (!agreePersonalData) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'Please agree to the processing of personal data'),
+                            SnackBar(
+                              content: Text(S.of(context).pleaseAgree),
                             ),
                           );
                         }
@@ -144,9 +145,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   steps: [
                     Step(
-                      title: const Text(
-                        'Personal Info',
-                        style: TextStyle(
+                      title: Text(
+                        S.of(context).personalInfo,
+                        style: const TextStyle(
                             color: Colors.white), // Set text color to white
                       ),
                       isActive: _currentStep == 0,
@@ -159,13 +160,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             TextFormField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter Full name';
+                                  return S.of(context).pleaseFullName;
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
-                                label: const Text('Full Name'),
-                                hintText: 'Enter Full Name',
+                                label: Text(S.of(context).fullName),
+                                hintText: S.of(context).enterFullName,
                                 hintStyle: const TextStyle(
                                   color: Colors.black26,
                                 ),
@@ -190,13 +191,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             TextFormField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter Email';
+                                  return S.of(context).pleaseEnterEmail;
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
-                                label: const Text('Email'),
-                                hintText: 'Enter Email',
+                                label: Text(S.of(context).email),
+                                hintText: S.of(context).enterEmail,
                                 hintStyle: const TextStyle(
                                   color: Colors.black26,
                                 ),
@@ -223,13 +224,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               obscuringCharacter: '*',
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter Password';
+                                  return S.of(context).pleasePass;
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
-                                label: const Text('Password'),
-                                hintText: 'Enter Password',
+                                label: Text(S.of(context).password),
+                                hintText: S.of(context).enterPassword,
                                 hintStyle: const TextStyle(
                                   color: Colors.black26,
                                 ),
@@ -252,8 +253,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const SizedBox(height: 25.0),
                             // Profile Picture
                             GestureDetector(
-                              onTap:
-                                  _selectImage, // Call _selectImage function when tapped
+                              onTap: _selectImage,
+                              // Call _selectImage function when tapped
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -263,11 +264,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: _imageFile == null
-                                    ? const Padding(
+                                    ? Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
-                                          'Upload Profile Picture',
-                                          style: TextStyle(
+                                          S.of(context).uploadProfile,
+                                          style: const TextStyle(
                                             color: Colors.black26,
                                           ),
                                         ),
@@ -286,9 +287,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     Step(
-                      title: const Text(
-                        'Address Info',
-                        style: TextStyle(
+                      title: Text(
+                        S.of(context).address,
+                        style: const TextStyle(
                             color: Colors.white), // Set text color to white
                       ),
                       isActive: _currentStep == 1,
@@ -299,24 +300,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter Store Name';
+                                return S.of(context).pleaseStoreName;
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              labelText: 'Store Name',
-                              hintText: 'Enter Store Name',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).storeName,
+                              hintText: S.of(context).enterStoreName,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -326,8 +327,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           const SizedBox(height: 25.0),
                           // store picture
                           GestureDetector(
-                            onTap:
-                                _selectImage, // Call _selectImage function when tapped
+                            onTap: _selectImage,
+                            // Call _selectImage function when tapped
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -337,10 +338,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               child: _imageFile == null
                                   ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Upload Store Picture',
-                                        style: TextStyle(
+                                        S.of(context).storePic,
+                                        style: const TextStyle(
                                           color: Colors.black26,
                                         ),
                                       ),
@@ -363,29 +364,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onInputValidated: (bool value) {
                               // Handle phone number validation
                             },
-                            selectorConfig: SelectorConfig(
+                            selectorConfig: const SelectorConfig(
                               selectorType: PhoneInputSelectorType.DIALOG,
                             ),
                             ignoreBlank: false,
                             autoValidateMode: AutovalidateMode.disabled,
                             selectorTextStyle: TextStyle(color: Colors.black),
-                            initialValue: PhoneNumber(
-                                isoCode: 'US'), // Set initial country code
+                            initialValue: PhoneNumber(isoCode: 'LB'),
+                            // Set initial country code
                             textFieldController: TextEditingController(),
                             inputDecoration: InputDecoration(
-                              labelText: 'Phone Number',
-                              hintText: 'Enter Phone Number',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).phone,
+                              hintText: S.of(context).enterPhone,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -410,19 +411,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               );
                             }).toList(),
                             decoration: InputDecoration(
-                              labelText: 'Zone',
-                              hintText: 'Select Zone',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).zone,
+                              hintText: S.of(context).selectZone,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -435,24 +436,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter Prefecture';
+                                return S.of(context).pleasePrefecture;
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              labelText: 'Prefecture',
-                              hintText: 'Enter Prefecture',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).prefecture,
+                              hintText: S.of(context).enterPrefecture,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -465,24 +466,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter City Or Town';
+                                return S.of(context).pleaseCity;
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              labelText: 'City Or Town',
-                              hintText: 'Enter City Or Town',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).city,
+                              hintText: S.of(context).enterCity,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -495,24 +496,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter Ward';
+                                return S.of(context).pleaseWard;
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              labelText: 'Ward',
-                              hintText: 'Enter Ward',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).wardLabel,
+                              hintText: S.of(context).enterWard,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -525,24 +526,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter Street Address';
+                                return S.of(context).pleaseStreetAddress;
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              labelText: 'Street Address',
-                              hintText: 'Enter Street Address',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).streetAddressLabel,
+                              hintText: S.of(context).enterStreetAddress,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -555,24 +556,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter Building';
+                                return S.of(context).pleaseBuilding;
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              labelText: 'Building',
-                              hintText: 'Enter Building',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).buildingLabel,
+                              hintText: S.of(context).enterBuilding,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -590,24 +591,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter Floor';
+                                return S.of(context).pleaseFloor;
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              labelText: 'Floor',
-                              hintText: 'Enter Floor',
-                              hintStyle: TextStyle(
+                              labelText: S.of(context).floorLabel,
+                              hintText: S.of(context).enterFloor,
+                              hintStyle: const TextStyle(
                                 color: Colors.black26,
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black12, // Default border color
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -627,14 +628,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 },
                                 activeColor: lightColorScheme.primary,
                               ),
-                              const Text(
-                                'I agree to the processing of ',
-                                style: TextStyle(
+                              Text(
+                                S.of(context).agreeProcessingText,
+                                style: const TextStyle(
                                   color: Colors.black45,
                                 ),
                               ),
                               Text(
-                                'Personal data',
+                                S.of(context).personalDataText,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: lightColorScheme.primary,

@@ -5,6 +5,8 @@ import 'package:ounce/screens/home/profile_page.dart';
 import 'package:ounce/screens/home/sell_page.dart';
 import 'package:ounce/theme/theme.dart';
 
+import '../../generated/l10n.dart';
+
 class TraderPage extends StatefulWidget {
   @override
   _TraderPageState createState() => _TraderPageState();
@@ -40,28 +42,28 @@ class _TraderPageState extends State<TraderPage> {
                 AssetImage('assets/icons/home.png'),
                 color: currentIndex == 0 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
               ),
-              label: 'Home',
+              label: S.of(context).homeLabel,
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/icons/buy.png'),
                 color: currentIndex == 1 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
               ),
-              label: 'Buy',
+              label: S.of(context).buyDialogButtonText,
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/icons/sell.png'),
                 color: currentIndex == 2 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
               ),
-              label: 'Sell',
+              label: S.of(context).sellLabel,
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/icons/profile.png'),
                 color: currentIndex == 3 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
               ),
-              label: 'Profile',
+              label: S.of(context).profileLabel,
             ),
           ],
         ),

@@ -17,6 +17,9 @@ import 'package:ounce/screens/home/trader_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ounce/providers/notification_provider.dart';
 import 'services/push_notification_service.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
+import 'package:intl/intl.dart';
 
 late SharedPreferences prefs;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -52,10 +55,18 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => NotificationProvider()),
           ChangeNotifierProvider(create: (context) => OperationProvider()),
           ChangeNotifierProvider(create: (context) => OperationTracksProvider()),
-          ChangeNotifierProvider(create: (context)=>NotificationProvider())
+          ChangeNotifierProvider(create: (context)=>NotificationProvider()..getNotifications())
         ],
         child: MaterialApp(navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
+          locale:const Locale('en'),
+          localizationsDelegates:const[
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           routes: {
             '/': (context) => InitialLoadingScreen(),
             '/sign-in': (context) => SignInScreen(),
@@ -78,7 +89,6 @@ class MyApp extends StatelessWidget {
               onSecondary: Colors.white,
               // Text color on top of the secondary color
               onSurface: buttonAccentColor,
-              onBackground: buttonAccentColor,
               onError: Colors.white,
               brightness: Brightness
                   .light, // Choose Brightness.light or Brightness.dark
@@ -117,10 +127,11 @@ class MyApp extends StatelessWidget {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-
   pushNotificationService.notificationHandler(message);
 }
 
-
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}
 
 

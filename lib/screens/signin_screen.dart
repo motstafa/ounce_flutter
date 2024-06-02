@@ -1,9 +1,8 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ounce/main.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:provider/provider.dart';
-import '../services/push_notification_service.dart';
+import '../generated/l10n.dart';
 import '/screens/signup_screen.dart';
 import '/widgets/custom_scaffold.dart';
 import '../theme/theme.dart';
@@ -24,11 +23,10 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
 
-
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context);
+    BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context,listen: false);
 
     handleSignIn() async {
       setState(() {
@@ -38,8 +36,6 @@ class _SignInScreenState extends State<SignInScreen> {
         email: emailController.text,
         password: passwordController.text,
       )) {
-
-
         if (prefs.getInt('role') == Constants.userRoles['trader']) {
           if (await balanceProvider.callToGetBalance()) {
             Navigator.pushNamed(context, '/trader');
@@ -51,7 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-              'Gagal Login!',
+              'wrong username or password',
               textAlign: TextAlign.center,
             ),
           ),
@@ -89,7 +85,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Welcome back',
+                        S.of(context).welcome,
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.w900,
@@ -102,14 +98,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Email';
+                            return S.of(context).emailValidator;
                           }
                           return null;
                         },
                         controller: emailController,
                         decoration: InputDecoration(
-                          label: const Text('Email'),
-                          hintText: 'Enter Email',
+                          label: Text(S.of(context).email),
+                          hintText: S.of(context).enterEmail,
                           hintStyle: const TextStyle(
                             color: Colors.black26,
                           ),
@@ -136,13 +132,13 @@ class _SignInScreenState extends State<SignInScreen> {
                         controller: passwordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter Password';
+                            return S.of(context).pleasePass;
                           }
                           return null;
                         },
                         decoration: InputDecoration(
-                          label: const Text('Password'),
-                          hintText: 'Enter Password',
+                          label: Text(S.of(context).password),
+                          hintText: S.of(context).enterPassword,
                           hintStyle: const TextStyle(
                             color: Colors.black26,
                           ),
@@ -177,9 +173,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                 },
                                 activeColor: lightColorScheme.primary,
                               ),
-                              const Text(
-                                'Remember me',
-                                style: TextStyle(
+                              Text(
+                                S.of(context).rememberMe,
+                                style: const TextStyle(
                                   color: Colors.black45,
                                 ),
                               ),
@@ -187,7 +183,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                           GestureDetector(
                             child: Text(
-                              'Forget password?',
+                              S.of(context).forgetPassword,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: lightColorScheme.primary,
@@ -206,20 +202,19 @@ class _SignInScreenState extends State<SignInScreen> {
                             if (_formSignInKey.currentState!.validate() &&
                                 rememberPassword) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Processing Data'),
+                                SnackBar(
+                                  content: Text(S.of(context).processing),
                                 ),
                               );
                               handleSignIn();
                             } else if (!rememberPassword) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Please agree to the processing of personal data')),
+                                SnackBar(
+                                    content: Text(S.of(context).pleaseAgree)),
                               );
                             }
                           },
-                          child: const Text('Sign In'),
+                          child: Text(S.of(context).signin),
                         ),
                       ),
                       const SizedBox(
@@ -234,14 +229,14 @@ class _SignInScreenState extends State<SignInScreen> {
                               color: Colors.grey.withOpacity(0.5),
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
                               vertical: 0,
                               horizontal: 10,
                             ),
                             child: Text(
-                              'Sign up with',
-                              style: TextStyle(
+                              S.of(context).signUpWith,
+                              style: const TextStyle(
                                 color: Colors.black45,
                               ),
                             ),
@@ -264,9 +259,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            'Don\'t have an account? ',
-                            style: TextStyle(
+                          Text(
+                            S.of(context).dontHaveAccount,
+                            style: const TextStyle(
                               color: Colors.black45,
                             ),
                           ),
@@ -280,7 +275,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               );
                             },
                             child: Text(
-                              'Sign up',
+                              S.of(context).signUp,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: lightColorScheme.primary,

@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:ounce/screens/delivery/pending_tab.dart';
-import 'package:provider/provider.dart';
-import 'package:ounce/providers/auth_provider.dart';
+import '../../generated/l10n.dart';
 import '../delivery/completed_tab.dart';
 import '../delivery/inProgress_tab.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    // Retrieve the tabIndex from the arguments
+    final int? tabIndex = ModalRoute.of(context)?.settings.arguments as int?;
 
     return DefaultTabController(
+      initialIndex: tabIndex ?? 0, // Use the passed tabIndex, default to 0
       length: 3,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.black,
-          bottom: const TabBar(
+          bottom:  TabBar(
             tabs: [
-              Tab(text: 'Pending'),
-              Tab(text: 'In-progress'),
-              Tab(text: 'Completed'),
+              Tab(text: S.of(context).pendingTab),
+              Tab(text: S.of(context).inProgressTab),
+              Tab(text: S.of(context).completedTab),
             ],
           ),
         ),

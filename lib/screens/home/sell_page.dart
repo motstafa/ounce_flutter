@@ -5,6 +5,7 @@ import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../generated/l10n.dart';
 import '../../providers/notification_provider.dart';
 
 class SellPage extends StatefulWidget {
@@ -39,7 +40,7 @@ class _SellPageState extends State<SellPage> {
 
   @override
   Widget build(BuildContext context) {
-    BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context);
+    BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context,listen: false);
     balanceProvider.callToGetBalance();
     return FutureBuilder(
       // Assume getSellBalance is a method that returns a Future<int>
@@ -59,7 +60,7 @@ class _SellPageState extends State<SellPage> {
           );
         } else if (snapshot.hasError) {
           // Handle error state
-          return Text('Error: ${snapshot.error}');
+          return Text('${S.of(context).error}: ${snapshot.error}');
         } else {
           // Check if the balance is zero and display a message instead of the form
           final sellBalance = snapshot.data ?? 0;
@@ -69,14 +70,14 @@ class _SellPageState extends State<SellPage> {
               appBar: AppBar(
                 backgroundColor: Colors.black,
                 title: Text(
-                  'Sell Page',
+                  S.of(context).sellPageTitle,
                   style: TextStyle(color: buttonAccentColor),
                   textAlign: TextAlign.center,
                 ),
               ),
-              body: const Center(
+              body: Center(
                 child: Text(
-                  'You do not have enough balance to sell items.',
+                  S.of(context).notEnoughBalanceMessage,
                   style: TextStyle(color: Colors.white, fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
@@ -85,15 +86,15 @@ class _SellPageState extends State<SellPage> {
           } else {
             return Scaffold(
               backgroundColor: Colors.black,
-              appBar: CustomAppBar(pageName: 'Sell Page', balanceType: "sell"),
+              appBar: CustomAppBar(pageName: S.of(context).sellPageTitle, balanceType: "sell"),
               body: Form(
                 key: _formKey,
                 child: ListView(
                   padding: EdgeInsets.all(8.0),
                   children: <Widget>[
                     TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Unit Price',
+                      decoration: InputDecoration(
+                        labelText: S.of(context).unitPriceLabel,
                         border: OutlineInputBorder(),
                       ),
                       keyboardType:
@@ -104,8 +105,8 @@ class _SellPageState extends State<SellPage> {
 
                     DropdownButtonFormField<String>(
                       value: unitTypeController,
-                      decoration: const InputDecoration(
-                        labelText: 'Unit Type',
+                      decoration: InputDecoration(
+                        labelText: S.of(context).unitTypeLabel,
                         border: OutlineInputBorder(),
                       ),
                       items: unitTypes
@@ -121,8 +122,8 @@ class _SellPageState extends State<SellPage> {
                     ),
                     SizedBox(height: 16.0),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Number of Units',
+                      decoration: InputDecoration(
+                        labelText: S.of(context).numberOfUnitsLabel,
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.number,
@@ -141,10 +142,10 @@ class _SellPageState extends State<SellPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: _imageFile == null
-                            ? const Padding(
+                            ? Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Upload Once\'s Picture',
+                                  S.of(context).uploadOncePictureLabel,
                                   style: TextStyle(),
                                 ),
                               )
@@ -168,12 +169,11 @@ class _SellPageState extends State<SellPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: const Text('Insufficient Balance'),
-                                  content: const Text(
-                                      'You do not have enough balance to sell items.'),
+                                  title: Text(S.of(context).insufficientBalanceTitle),
+                                  content:Text(S.of(context).insufficientBalanceMessage),
                                   actions: <Widget>[
                                     TextButton(
-                                      child: Text('OK'),
+                                      child: Text(S.of(context).okButtonLabel),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
@@ -211,12 +211,11 @@ class _SellPageState extends State<SellPage> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Insufficient Balance'),
-                                    content: const Text(
-                                        'You do not have enough balance to sell items.'),
+                                    title: Text(S.of(context).insufficientBalanceTitle),
+                                    content: Text(S.of(context).insufficientBalanceMessage),
                                     actions: <Widget>[
                                       TextButton(
-                                        child: Text('OK'),
+                                        child: Text(S.of(context).okButtonLabel),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
@@ -229,7 +228,7 @@ class _SellPageState extends State<SellPage> {
                           }
                         }
                       },
-                      child: const Text('Submit'),
+                      child: Text(S.of(context).submitButtonLabel),
                     ),
                   ],
                 ),

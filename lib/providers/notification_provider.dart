@@ -6,7 +6,7 @@ import '../models/notification_model.dart';
 import '../services/backend_notifications.dart';
 
 class NotificationProvider with ChangeNotifier {
-  late int notificationCount=0;
+  int notificationCount=0;
   List<NotificationItem> _notifications = [];
 
   List<NotificationItem> get notifications => _notifications;
@@ -18,6 +18,7 @@ class NotificationProvider with ChangeNotifier {
   }
 
   Future<void> markAsRead(int Id) async {
+    notificationCount--;
     if (await backendNotificationService().markAsRead(Id)) getNotifications();
   }
 
@@ -37,7 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text('$pageName Page'),
+      title: Text('$pageName'),
       backgroundColor: Colors.black,
       automaticallyImplyLeading: false,
       actions: <Widget>[
@@ -49,7 +50,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 if (balanceType !=
                     null) // Conditional check at the level of Padding
                   Padding(
-                    padding: EdgeInsets.only(right: 20.0.w),
+                    padding: const EdgeInsets.only(right: 70),
                     // 20% of screen width
                     child: displayBalance(balanceType: '$balanceType'),
                   ),
@@ -79,7 +80,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       child: Text(
                         '${provider.notificationCount}',
                         // Dynamic notification count
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 8, // Fixed font size
                         ),

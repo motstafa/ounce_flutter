@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:ounce/models/pending_operation_model.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
+import '../../generated/l10n.dart';
 
 class PendingTab extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _PendingTabState extends State<PendingTab> {
               return ListTile(
                 title: Text(item.operationId.toString()),
                 // Assuming 'operationStatus' is the title
-                subtitle: Text(item.operationStatus),
+                subtitle: Text(S.operationStatus(item.operationStatus)),
                 // Assuming 'streetAdress' is the subtitle
                 onTap: () {
                   showDialog(
@@ -78,7 +79,7 @@ class _PendingDialogState extends State<PendingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Text('Delivery Details'),
+        title: Text(S.of(context).deliveryDetailsTitle),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
@@ -88,10 +89,10 @@ class _PendingDialogState extends State<PendingDialog> {
                 // Align items to the start of the cross axis
                 children: <Widget>[
                   Flexible(
-                    child: Text('Name: ${widget.item.address.fullName}'),
+                    child: Text('${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
                   ),
                   Flexible(
-                    child: Text('Phone: ${widget.item.address.phone}'),
+                    child: Text('${S.of(context).phone}: ${widget.item.address.phone}'),
                   ),
                 ],
               ),
@@ -104,11 +105,11 @@ class _PendingDialogState extends State<PendingDialog> {
                 children: <Widget>[
                   Flexible(
                     child:
-                        Text('Prefecture: ${widget.item.address.prefecture}'),
+                        Text('${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
                   ),
                   Flexible(
                     child:
-                        Text('City or Town: ${widget.item.address.cityTown}'),
+                        Text('${S.of(context).city}: ${widget.item.address.cityTown}'),
                   ),
                 ],
               ),
@@ -119,11 +120,11 @@ class _PendingDialogState extends State<PendingDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Flexible(
-                      child: Text('Ward: ${widget.item.address.ward}'),
+                      child: Text('${S.of(context).wardLabel}: ${widget.item.address.ward}'),
                     ),
                     Flexible(
                       child:
-                          Text('Street: ${widget.item.address.streetAdress}'),
+                          Text('${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
                     ),
                   ],
                 ),
@@ -135,10 +136,10 @@ class _PendingDialogState extends State<PendingDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Flexible(
-                      child: Text('Building: ${widget.item.address.building}'),
+                      child: Text('${S.of(context).buildingLabel}: ${widget.item.address.building}'),
                     ),
                     Flexible(
-                      child: Text('Floor: ${widget.item.address.floor}'),
+                      child: Text('${S.of(context).floorLabel}: ${widget.item.address.floor}'),
                     ),
                   ],
                 ),
@@ -159,12 +160,12 @@ class _PendingDialogState extends State<PendingDialog> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: timeToSellerController,
-                        decoration: const InputDecoration(
-                          hintText: 'estimated time to seller',
+                        decoration: InputDecoration(
+                          hintText: S.of(context).estimatedTimeToSellerHint,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter estimated time to seller';
+                            return S.of(context).pleaseEnterEstimatedTimeToSeller;
                           }
                           return null; // The field is valid
                         },
@@ -177,12 +178,12 @@ class _PendingDialogState extends State<PendingDialog> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: timeTobuyerController,
-                        decoration: const InputDecoration(
-                          hintText: 'estimated time to buyer',
+                        decoration: InputDecoration(
+                          hintText: S.of(context).estimatedTimeToBuyerHint,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter estimated time to buyer';
+                            return S.of(context).pleaseEnterEstimatedTimeToSeller;
                           }
                           return null; // The field is valid
                         },
@@ -192,7 +193,7 @@ class _PendingDialogState extends State<PendingDialog> {
                   ],
                 ),
                 TextButton(
-                  child: const Text('Move to In-progress'),
+                  child: Text(S.of(context).moveToInProgressButton),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       // Check if form is valid
