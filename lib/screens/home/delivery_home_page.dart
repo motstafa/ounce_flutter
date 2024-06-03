@@ -4,7 +4,7 @@ import '../../generated/l10n.dart';
 import '../delivery/completed_tab.dart';
 import '../delivery/inProgress_tab.dart';
 
-class HomePage extends StatelessWidget {
+class DeliveryHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Retrieve the tabIndex from the arguments

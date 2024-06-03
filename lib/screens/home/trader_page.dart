@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ounce/screens/home/buy_page.dart';
-import 'package:ounce/screens/home/home_page.dart';
+import 'package:ounce/screens/home/trader_home_page.dart';
 import 'package:ounce/screens/home/profile_page.dart';
 import 'package:ounce/screens/home/sell_page.dart';
 import 'package:ounce/theme/theme.dart';
@@ -75,7 +75,7 @@ class _TraderPageState extends State<TraderPage> {
   Widget body() {
     switch (currentIndex) {
       case 0:
-        return HomePage();
+        return TraderHomePage();
       case 1:
         return BuyPage();
       case 2:
@@ -83,7 +83,7 @@ class _TraderPageState extends State<TraderPage> {
       case 3:
         return ProfilePage();
       default:
-        return HomePage();
+        return TraderHomePage();
     }
   }
 }
