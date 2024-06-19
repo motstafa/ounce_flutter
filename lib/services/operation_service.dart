@@ -59,24 +59,27 @@ class OperationService {
     }
   }
 
-  Future<bool> sell(double unitPrice, String unitType, XFile img, int unitsNumber) async {
+  Future<bool> sell(unitPrice, String unitType, XFile? img,unitsNumber) async {
     final token =
         prefs.getString('auth_token'); // Retrieve token from shared preferences
     var url = '$baseUrl/operation';
     // Create a multipart request
     var request = http.MultipartRequest('POST', Uri.parse(url))
-      ..fields['unit_price'] = unitPrice.toString()
+      ..fields['unit_price'] = unitPrice
       ..fields['unit_type'] = unitType
-      ..fields['number_of_units'] = unitsNumber.toString()
+      ..fields['number_of_units'] = unitsNumber
       ..headers['Authorization'] = 'Bearer $token';
+
     // Add the image file to the request
-    var imageBytes = await img.readAsBytes();
+    if (img != null) {
+      var imageBytes = await img.readAsBytes();
+      request.files.add(http.MultipartFile.fromBytes(
+        'pic_of_units', // The field name expected by your Laravel API
+        imageBytes,
+        filename: img.name, // To get only the file name
+      ));
+    }
     // Add the file to the request
-    request.files.add(http.MultipartFile.fromBytes(
-      'pic_of_units', // The field name expected by your Laravel API
-      imageBytes,
-      filename: img.name, // To get only the file name
-    ));
     // Send the request
     var response = await request.send();
 

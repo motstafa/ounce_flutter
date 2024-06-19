@@ -63,8 +63,8 @@ class S {
   /// `welcome back`
   String get welcome {
     return Intl.message(
-      'welcome back',
-      name: 'welcome',
+      'Welcome Back',
+      name: 'Welcome',
       desc: '',
       args: [],
     );
@@ -73,8 +73,8 @@ class S {
   /// `email`
   String get email {
     return Intl.message(
-      'email',
-      name: 'email',
+      'Email',
+      name: 'mail',
       desc: '',
       args: [],
     );
@@ -83,7 +83,7 @@ class S {
   /// `enter email`
   String get enterEmail {
     return Intl.message(
-      'enter email',
+      'Enter Email',
       name: 'enterEmail',
       desc: '',
       args: [],
@@ -753,8 +753,8 @@ class S {
   /// `Type Of Ounces`
   String get typeOfOuncesLabel {
     return Intl.message(
-      'Type Of Ounces',
-      name: 'typeOfOuncesLabel',
+      'Type',
+      name: 'type',
       desc: '',
       args: [],
     );
@@ -982,7 +982,161 @@ class S {
     // If the key or locale is not found, return an empty string
     return '';
   }
+
+  /// `Profile`
+  String get profile {
+    return Intl.message(
+      'Profile',
+      name: 'profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get name {
+    return Intl.message(
+      'Name',
+      name: 'Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get username {
+    return Intl.message(
+      'Username',
+      name: 'Username',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `locationInformation`
+  String get locationInformation {
+    return Intl.message(
+      'Store location information',
+      name: 'locationInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `locationInformation`
+  String get zone1 {
+    return Intl.message(
+      'Jnaah',
+      name: 'Jnaah',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `locationInformation`
+  String get zone2 {
+    return Intl.message(
+      'Bir AL Abed',
+      name: 'Bir Al Abed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `locationInformation`
+  String get firstName {
+    return Intl.message(
+      'First Name',
+      name: 'First Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `locationInformation`
+  String get lastName {
+    return Intl.message(
+      'Last Name',
+      name: 'Last Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get pleaseFirstName {
+    return Intl.message(
+      'Please enter First Name',
+      name: 'Please enter First Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get enterFirstName {
+    return Intl.message(
+      'Enter First Name',
+      name: 'Enter First Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get pleaseLastName {
+    return Intl.message(
+      'Please enter Last Name',
+      name: 'Please enter Last Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get enterLastName {
+    return Intl.message(
+      'Enter Last Name',
+      name: 'Enter Last Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get total{
+    return Intl.message(
+      'Total',
+      name: 'Total',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get retailLabel{
+   return Intl.message(
+     'Retail Purchase',
+     name: 'Retail Purchase',
+     desc: '',
+     args: [],
+   );
+  }
+
+  String get trueLabel{
+    return Intl.message(
+      'True',
+      name: 'True',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get falseLabel{
+    return Intl.message(
+      'False',
+      name: 'False',
+      desc: '',
+      args: [],
+    );
+  }
+
 }
+
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   const AppLocalizationDelegate();

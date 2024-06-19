@@ -1,7 +1,7 @@
 {
 "loginError":"خطئ في ادخال البيانات",
 "welcome":"اهلا بك مجددا",
-"email":"البريد الكتروني",
+"email": "البريد الإلكتروني",
 "enterEmail":"أدخل البريد الكتروني",
 "emailValidator":"الرجاء إدخال البريد الكتروني",
 "pleasePass":"الرجاء إدخال كلمة المرور",
@@ -21,6 +21,12 @@
 "fullName":"الاسم الكامل",
 "pleaseFullName":"الرجاء إدخال الاسم الكامل",
 "enterFullName":"أدخل الاسم الكامل",
+"firstName":"الاسم الأول",
+"pleaseFirstName":"الرجاء إدخال الاسم الأول",
+"enterFirstName":"أدخل الاسم الأول",
+"lastName":"اسم العائلة",
+"pleaseLastName":"الرجاء إدخال الاسم الأخير",
+"enterLastName":"إدخال اسم آخر",
 "pleaseEnterEmail":"الرجاء إدخال البريد الإلكتروني",
 "uploadProfile": "تحميل الصورة الشخصية",
 "address":"معلومات العنوان",
@@ -69,7 +75,7 @@
 "error":"خطأ",
 "operationNumberLabel": "رقم العملية",
 "numberOfOuncesLabel": "عدد الأوقيات",
-"typeOfOuncesLabel": "نوع الأوقيات",
+"typeOfOuncesLabel": "النوع",
 "totalPriceLabel": "السعر الإجمالي",
 "dateOfOperationLabel": "تاريخ العملية",
 "buyButtonText": "زر الشراء",
@@ -96,5 +102,15 @@
     "pending": "معلق",
     "failed": "فشل",
     "paused": "موقوف"
-  }
+  },
+"profile": "الملف الشخصي",
+"name": "الاسم",
+"username": "اسم المستخدم",
+"locationInformation":"تخزين معلومات الموقع",
+"zone1":"جناج",
+"zone2":"بير العبد",
+"total":"السعر الإجمالي",
+"retailLabel": "شراء بالتجزئة",
+"trueLabel":"صحيح",
+"falseLabel":"خطأ"
 }

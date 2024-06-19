@@ -4,7 +4,6 @@ import 'package:ounce/theme/theme.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../generated/l10n.dart';
 import '../../providers/notification_provider.dart';
 
@@ -194,10 +193,10 @@ class _SellPageState extends State<SellPage> {
                                 int.tryParse(numberOfUnitsController.text);
 
                             bool result = await operationProvider.sell(
-                                price!,
+                                priceController.text,
                                 unitTypeController!,
-                                _imageFile!,
-                                numberOfUnits!);
+                                _imageFile,
+                                numberOfUnitsController.text);
                             if (result) {
                               setState(() {
                                 priceController.clear();

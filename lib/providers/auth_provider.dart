@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ounce/services/auth_service.dart';
 import 'package:ounce/models/user_model.dart';
 
@@ -12,22 +13,44 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> register({
-    required String name,
-    required String username,
-    required String email,
-    required String password,
-  }) async {
+  Future<bool> register(
+    String firstName,
+    String lastName,
+    String email,
+    String password,
+    XFile? profilePicture,
+    String storeName,
+    String phoneNumber,
+    XFile? storePicture,
+    String prefecture,
+    int zoneId,
+    String cityTown,
+    String ward,
+    String streetAddress,
+    String building,
+    int floor,
+  ) async {
     try {
-      UserModel user = await AuthService().register(
-        name: name,
-        username: username,
-        email: email,
-        password: password,
-      );
-
-      _user = user;
+      if(await AuthService().register(
+        firstName,
+        lastName,
+        email,
+        password,
+        profilePicture,
+        storeName,
+        phoneNumber,
+        storePicture,
+        prefecture,
+        zoneId,
+        cityTown,
+        ward,
+        streetAddress,
+        building,
+        floor
+      )){
       return true;
+      }
+      return false;
     } catch (e) {
       print(e);
       return false;
@@ -43,6 +66,17 @@ class AuthProvider with ChangeNotifier {
         email: email,
         password: password,
       );
+      _user = user;
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> getUser() async{
+    try {
+      UserModel user = await AuthService().getUser();
       _user = user;
       return true;
     } catch (e) {

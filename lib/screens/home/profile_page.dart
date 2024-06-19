@@ -1,161 +1,135 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:ounce/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/models/user_model.dart';
 import 'package:ounce/providers/auth_provider.dart';
-import 'package:ounce/theme/theme.dart';
+import '../../generated/l10n.dart';
+import '../../providers/local_provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  UserModel? user;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      AuthProvider authProvider =
+      Provider.of<AuthProvider>(context, listen: false);
+      bool success = await authProvider.getUser();
+      if (success) {
+        setState(() {
+          user = authProvider.user;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    UserModel user = authProvider.user;
-
-    Widget header() {
-      return AppBar(
-        backgroundColor: backgroundColor1,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
         automaticallyImplyLeading: false,
-        elevation: 0,
-        flexibleSpace: SafeArea(
-          child: Container(
-            padding: EdgeInsets.all(defaultMargin),
-            child: Row(
-              children: [
-                ClipOval(
-                  child: Image.network(
-                    user.profilePhotoUrl ?? '',
-                    width: 64,
-                  ),
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hallo, ${user.name}',
-                        style: primaryTextStyle.copyWith(
-                          fontSize: 24,
-                          fontWeight: semiBold,
-                        ),
-                      ),
-                      Text(
-                        '${user.username}',
-                        style: subtitleTextStyle.copyWith(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/sign-in', (route) => false);
-                  },
-                  child: Image.asset(
-                    'assets/button_exit.png',
-                    width: 20,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    Widget menuItem(String text) {
-      return Container(
-        margin: EdgeInsets.only(
-          top: 16,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        backgroundColor: Colors.black,
+        title: Text(S.of(context).profile),
+        actions: [
+          LanguageSwitcher(),
+        ],
+      ),
+      body: user == null
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
           children: [
-            Text(
-              text,
-              style: secondaryTextStyle.copyWith(
-                fontSize: 13,
+            if (user?.profilePhotoUrl != null)
+              Center(
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(user!.profilePhotoUrl!),
+                ),
               ),
+            SizedBox(height: 20),
+            UserInfoTile(
+              label: S.of(context).name,
+              value: user?.name ?? 'N/A',
             ),
-            Icon(
-              Icons.chevron_right,
-              color: primaryTextColor,
+            UserInfoTile(
+              label: S.of(context).email,
+              value: user?.email ?? 'N/A',
             ),
+            UserInfoTile(
+              label: S.of(context).username,
+              value: user?.username ?? 'N/A',
+            ),
+            // Add more UserInfoTile widgets as needed
           ],
         ),
-      );
-    }
+      ),
+    );
+  }
+}
 
-    Widget content() {
-      return Expanded(
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-          decoration: BoxDecoration(
-            color: backgroundColor3,
+
+class UserInfoTile extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const UserInfoTile({
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Text(
+            '$label: ',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Account',
-                style: primaryTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: semiBold,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/edit-profile');
-                },
-                child: menuItem(
-                  'Edit Profile',
-                ),
-              ),
-              menuItem(
-                'Your Orders',
-              ),
-              menuItem(
-                'Help',
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                'General',
-                style: primaryTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: semiBold,
-                ),
-              ),
-              menuItem(
-                'Privacy & Policy',
-              ),
-              menuItem(
-                'Term of Sevice',
-              ),
-              menuItem(
-                'Rate App',
-              ),
-            ],
+          Expanded(
+            child: Text(value),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class LanguageSwitcher extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    LocaleProvider localeProvider = Provider.of<LocaleProvider>(context);
+
+    return DropdownButton<Locale>(
+      value: localeProvider.locale,
+      icon: Icon(Icons.language,color: buttonAccentColor,),
+      padding:const EdgeInsets.only(left: 17),
+      items: const [
+        DropdownMenuItem(
+          child: Text('English'),
+          value: Locale('en'),
         ),
-      );
-    }
-
-    return Column(
-      children: [
-        header(),
-        content(),
+        DropdownMenuItem(
+          child: Text('العربية'),
+          value: Locale('ar'),
+        ),
       ],
+      onChanged: (Locale? locale) {
+        if (locale != null) {
+          localeProvider.setLocale(locale);
+        }
+      },
     );
   }
 }

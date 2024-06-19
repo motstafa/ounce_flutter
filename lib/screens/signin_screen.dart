@@ -72,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Container(
               padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 20.0),
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.0),
                   topRight: Radius.circular(40.0),
@@ -89,7 +89,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.w900,
-                          color: lightColorScheme.primary,
+                          color: buttonAccentColor,
                         ),
                       ),
                       const SizedBox(
@@ -106,18 +106,18 @@ class _SignInScreenState extends State<SignInScreen> {
                         decoration: InputDecoration(
                           label: Text(S.of(context).email),
                           hintText: S.of(context).enterEmail,
-                          hintStyle: const TextStyle(
-                            color: Colors.black26,
+                          hintStyle: TextStyle(
+                            color:buttonAccentColor,
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
+                            borderSide: BorderSide(
+                              color: buttonAccentColor, // Default border color
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
+                            borderSide:  BorderSide(
+                              color: buttonAccentColor, // Default border color
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -139,18 +139,18 @@ class _SignInScreenState extends State<SignInScreen> {
                         decoration: InputDecoration(
                           label: Text(S.of(context).password),
                           hintText: S.of(context).enterPassword,
-                          hintStyle: const TextStyle(
-                            color: Colors.black26,
+                          hintStyle: TextStyle(
+                            color:buttonAccentColor,
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
+                            borderSide: BorderSide(
+                              color: buttonAccentColor, // Default border color
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.black12, // Default border color
+                            borderSide: BorderSide(
+                              color: buttonAccentColor, // Default border color
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -171,12 +171,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                     rememberPassword = value!;
                                   });
                                 },
-                                activeColor: lightColorScheme.primary,
+                                activeColor: buttonAccentColor,
                               ),
                               Text(
                                 S.of(context).rememberMe,
-                                style: const TextStyle(
-                                  color: Colors.black45,
+                                style: TextStyle(
+                                  color: buttonAccentColor,
                                 ),
                               ),
                             ],
@@ -186,7 +186,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               S.of(context).forgetPassword,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: lightColorScheme.primary,
+                                color: buttonAccentColor,
                               ),
                             ),
                           ),
@@ -220,51 +220,17 @@ class _SignInScreenState extends State<SignInScreen> {
                       const SizedBox(
                         height: 25.0,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.7,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                              horizontal: 10,
-                            ),
-                            child: Text(
-                              S.of(context).signUpWith,
-                              style: const TextStyle(
-                                color: Colors.black45,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.7,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
                       // don't have an account
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             S.of(context).dontHaveAccount,
-                            style: const TextStyle(
-                              color: Colors.black45,
+                            style: TextStyle(
+                              color: buttonAccentColor,
                             ),
                           ),
+                          const SizedBox(width:5),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -278,7 +244,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               S.of(context).signUp,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: lightColorScheme.primary,
+                                color: buttonAccentColor,
                               ),
                             ),
                           ),

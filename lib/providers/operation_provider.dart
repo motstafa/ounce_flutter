@@ -70,7 +70,7 @@ class OperationProvider with ChangeNotifier {
   }
 
 
-  Future<bool> sell(double unitPrice, String unitType,XFile img, int unitsNumber) async {
+  Future<bool> sell(unitPrice, String unitType,XFile? img,unitsNumber) async {
     try {
       print('before service');
       bool result = await operationservice.sell(unitPrice, unitType, img, unitsNumber);

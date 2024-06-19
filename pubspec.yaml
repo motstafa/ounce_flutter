@@ -74,6 +74,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/bg1.png
+    - assets/images/bg2.png
+    - assets/images/bg3.jpeg
+    - assets/images/bg4.jpeg
     - assets/icons/home.png
     - assets/icons/buy.png
     - assets/icons/sell.png

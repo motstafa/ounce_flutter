@@ -7,7 +7,8 @@ class Operation {
   final String dateOfOperation;
   final int unitPrice;
   final String unitType;
-  final String picOfUnits;
+  String? picOfUnits;
+  final int retail;
   final int numberOfUnits;
   final int total;
 
@@ -18,7 +19,8 @@ class Operation {
     required this.dateOfOperation,
     required this.unitPrice,
     required this.unitType,
-    required this.picOfUnits,
+    this.picOfUnits,
+    required this.retail,
     required this.numberOfUnits,
     required this.total,
   });
@@ -32,6 +34,7 @@ class Operation {
       unitPrice: json['unit_price'],
       unitType: json['unit_type'],
       picOfUnits: json['pic_of_units'],
+      retail: json['retail'],
       numberOfUnits: json['number_of_units'],
       total: json['total'],
     );

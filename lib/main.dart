@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ounce/providers/balance_provider.dart';
+import 'package:ounce/providers/local_provider.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
 import 'package:ounce/screens/home/initial_loading_screen.dart';
@@ -38,7 +39,18 @@ void main() async {
     sound: true,
   );
 
-  runApp(MyApp(navigatorKey: navigatorKey));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ChangeNotifierProvider(create: (context) => BalanceProvider()),
+      ChangeNotifierProvider(create: (context) => NotificationProvider()),
+      ChangeNotifierProvider(create: (context) => OperationProvider()),
+      ChangeNotifierProvider(create: (context) => LocaleProvider()),
+      ChangeNotifierProvider(create: (context) => OperationTracksProvider()),
+      ChangeNotifierProvider(create: (context) => NotificationProvider()..getNotifications())
+    ],
+    child: MyApp(navigatorKey: navigatorKey),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -48,18 +60,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => AuthProvider()),
-          ChangeNotifierProvider(create: (context) => BalanceProvider()),
-          ChangeNotifierProvider(create: (context) => NotificationProvider()),
-          ChangeNotifierProvider(create: (context) => OperationProvider()),
-          ChangeNotifierProvider(create: (context) => OperationTracksProvider()),
-          ChangeNotifierProvider(create: (context)=>NotificationProvider()..getNotifications())
-        ],
-        child: MaterialApp(navigatorKey: navigatorKey,
+    final localeProvider = Provider.of<LocaleProvider>(context);
+
+    return
+      MaterialApp(navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
-          locale:const Locale('en'),
+          locale:localeProvider.locale,
           localizationsDelegates:const[
             S.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -117,7 +123,7 @@ class MyApp extends StatelessWidget {
             ),
             // Add other theme properties if needed
           ),
-        ));
+        );
   }
 
 }
