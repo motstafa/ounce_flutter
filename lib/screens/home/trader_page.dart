@@ -18,54 +18,70 @@ class _TraderPageState extends State<TraderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: currentIndex == 0 ? backgroundColor1 : backgroundColor3,
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(24), // Adjust the radius as needed
-          topRight: Radius.circular(24), // Adjust the radius as needed
-          bottomRight: Radius.circular(24),
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: buttonFocusedColor,
-          unselectedItemColor: buttonAccentColor.withOpacity(0.5),
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/icons/home.png'),
-                color: currentIndex == 0 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
-              ),
-              label: S.of(context).homeLabel,
+      backgroundColor: Colors.black,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(4.0), // Adjust the padding as needed
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: GoldColor ?? Colors.amber, // Set your special border color here
+              width: 1.0, // Set the width of the border
             ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/icons/buy.png'),
-                color: currentIndex == 1 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
-              ),
-              label: S.of(context).buyDialogButtonText,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+              bottomRight: Radius.circular(24),
             ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/icons/sell.png'),
-                color: currentIndex == 2 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
-              ),
-              label: S.of(context).sellLabel,
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+              bottomRight: Radius.circular(24),
             ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/icons/profile.png'),
-                color: currentIndex == 3 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
-              ),
-              label: S.of(context).profileLabel,
+            child: BottomNavigationBar(
+              backgroundColor: Colors.black,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: buttonFocusedColor,
+              unselectedItemColor: buttonAccentColor.withOpacity(0.5),
+              currentIndex: currentIndex,
+              onTap: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/home.png'),
+                    color: currentIndex == 0 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                  ),
+                  label: S.of(context).homeLabel,
+                ),
+                BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/buy.png'),
+                    color: currentIndex == 1 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                  ),
+                  label: S.of(context).buyDialogButtonText,
+                ),
+                BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/sell.png'),
+                    color: currentIndex == 2 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                  ),
+                  label: S.of(context).sellLabel,
+                ),
+                BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage('assets/icons/profile.png'),
+                    color: currentIndex == 3 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                  ),
+                  label: S.of(context).profileLabel,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       body: body(),

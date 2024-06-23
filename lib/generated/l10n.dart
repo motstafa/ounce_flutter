@@ -60,27 +60,27 @@ class S {
     );
   }
 
-  /// `welcome back`
+  /// `Welcome Back`
   String get welcome {
     return Intl.message(
       'Welcome Back',
-      name: 'Welcome',
+      name: 'welcome',
       desc: '',
       args: [],
     );
   }
 
-  /// `email`
+  /// `Email`
   String get email {
     return Intl.message(
       'Email',
-      name: 'mail',
+      name: 'email',
       desc: '',
       args: [],
     );
   }
 
-  /// `enter email`
+  /// `Enter Email`
   String get enterEmail {
     return Intl.message(
       'Enter Email',
@@ -90,20 +90,20 @@ class S {
     );
   }
 
-  /// `please enter Email`
+  /// `Please Enter Email`
   String get emailValidator {
     return Intl.message(
-      'please enter Email',
+      'Please Enter Email',
       name: 'emailValidator',
       desc: '',
       args: [],
     );
   }
 
-  /// `please enter Password`
+  /// `Please Enter Password`
   String get pleasePass {
     return Intl.message(
-      'please enter Password',
+      'Please Enter Password',
       name: 'pleasePass',
       desc: '',
       args: [],
@@ -265,6 +265,66 @@ class S {
     return Intl.message(
       'Enter Full Name',
       name: 'enterFullName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Name`
+  String get firstName {
+    return Intl.message(
+      'First Name',
+      name: 'firstName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter First Name`
+  String get pleaseFirstName {
+    return Intl.message(
+      'Please enter First Name',
+      name: 'pleaseFirstName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter First Name`
+  String get enterFirstName {
+    return Intl.message(
+      'Enter First Name',
+      name: 'enterFirstName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Name`
+  String get lastName {
+    return Intl.message(
+      'Last Name',
+      name: 'lastName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter Last Name`
+  String get pleaseLastName {
+    return Intl.message(
+      'Please enter Last Name',
+      name: 'pleaseLastName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Last Name`
+  String get enterLastName {
+    return Intl.message(
+      'Enter Last Name',
+      name: 'enterLastName',
       desc: '',
       args: [],
     );
@@ -750,11 +810,11 @@ class S {
     );
   }
 
-  /// `Type Of Ounces`
+  /// `Type`
   String get typeOfOuncesLabel {
     return Intl.message(
       'Type',
-      name: 'type',
+      name: 'typeOfOuncesLabel',
       desc: '',
       args: [],
     );
@@ -780,10 +840,10 @@ class S {
     );
   }
 
-  /// `Buy Button`
+  /// `Buy`
   String get buyButtonText {
     return Intl.message(
-      'Buy Button',
+      'Buy',
       name: 'buyButtonText',
       desc: '',
       args: [],
@@ -950,39 +1010,6 @@ class S {
     );
   }
 
-  static String operationStatus(String key) {
-    final Map<String, Map<String, String>> localizedStrings = {
-      'en': {
-        "canceled": "Canceled",
-        "done": "Done",
-        "in progress": "In Progress",
-        "pending": "Pending",
-        "failed": "Failed",
-        "paused": "Paused"
-      },
-      'ar': {
-        "canceled": "تم الإلغاء",
-        "done": "تم",
-        "in progress": "قيد التقدم",
-        "pending": "قيد الانتظار",
-        "failed": "فشل",
-        "paused": "متوقف"
-      }
-    };
-
-    final locale = Intl.getCurrentLocale();
-
-    if (localizedStrings.containsKey(locale)) {
-      final localizedMap = localizedStrings[locale]!;
-      if (localizedMap.containsKey(key)) {
-        return localizedMap[key]!;
-      }
-    }
-
-    // If the key or locale is not found, return an empty string
-    return '';
-  }
-
   /// `Profile`
   String get profile {
     return Intl.message(
@@ -997,7 +1024,7 @@ class S {
   String get name {
     return Intl.message(
       'Name',
-      name: 'Name',
+      name: 'name',
       desc: '',
       args: [],
     );
@@ -1007,13 +1034,13 @@ class S {
   String get username {
     return Intl.message(
       'Username',
-      name: 'Username',
+      name: 'username',
       desc: '',
       args: [],
     );
   }
 
-  /// `locationInformation`
+  /// `Store location information`
   String get locationInformation {
     return Intl.message(
       'Store location information',
@@ -1023,120 +1050,166 @@ class S {
     );
   }
 
-  /// `locationInformation`
+  /// `Jnaah`
   String get zone1 {
     return Intl.message(
       'Jnaah',
-      name: 'Jnaah',
+      name: 'zone1',
       desc: '',
       args: [],
     );
   }
 
-  /// `locationInformation`
+  /// `Bir AL Abed`
   String get zone2 {
     return Intl.message(
       'Bir AL Abed',
-      name: 'Bir Al Abed',
+      name: 'zone2',
       desc: '',
       args: [],
     );
   }
 
-  /// `locationInformation`
-  String get firstName {
-    return Intl.message(
-      'First Name',
-      name: 'First Name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `locationInformation`
-  String get lastName {
-    return Intl.message(
-      'Last Name',
-      name: 'Last Name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  String get pleaseFirstName {
-    return Intl.message(
-      'Please enter First Name',
-      name: 'Please enter First Name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  String get enterFirstName {
-    return Intl.message(
-      'Enter First Name',
-      name: 'Enter First Name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  String get pleaseLastName {
-    return Intl.message(
-      'Please enter Last Name',
-      name: 'Please enter Last Name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  String get enterLastName {
-    return Intl.message(
-      'Enter Last Name',
-      name: 'Enter Last Name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  String get total{
+  /// `Total`
+  String get total {
     return Intl.message(
       'Total',
-      name: 'Total',
+      name: 'total',
       desc: '',
       args: [],
     );
   }
 
-  String get retailLabel{
-   return Intl.message(
-     'Retail Purchase',
-     name: 'Retail Purchase',
-     desc: '',
-     args: [],
-   );
+  /// `Retail Purchase`
+  String get retailLabel {
+    return Intl.message(
+      'Retail Purchase',
+      name: 'retailLabel',
+      desc: '',
+      args: [],
+    );
   }
 
-  String get trueLabel{
+  /// `True`
+  String get trueLabel {
     return Intl.message(
       'True',
-      name: 'True',
+      name: 'trueLabel',
       desc: '',
       args: [],
     );
   }
 
-  String get falseLabel{
+  /// `False`
+  String get falseLabel {
     return Intl.message(
       'False',
-      name: 'False',
+      name: 'falseLabel',
       desc: '',
       args: [],
     );
   }
 
-}
+  /// `All deliveries are currently busy.`
+  String get busy {
+    return Intl.message(
+      'All deliveries are currently busy.',
+      name: 'busy',
+      desc: '',
+      args: [],
+    );
+  }
 
+  /// `Your order may take an additional 20 minutes.`
+  String get delayed {
+    return Intl.message(
+      'Your order may take an additional 20 minutes.',
+      name: 'delayed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your order may take from 5 to 10 minutes.`
+  String get noDelay {
+    return Intl.message(
+      'Your order may take from 5 to 10 minutes.',
+      name: 'noDelay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get operationDone {
+    return Intl.message(
+      'Done',
+      name: 'operationDone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress`
+  String get operationInProgress {
+    return Intl.message(
+      'In Progress',
+      name: 'operationInProgress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get operationPending {
+    return Intl.message(
+      'Pending',
+      name: 'operationPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get operationFailed {
+    return Intl.message(
+      'Failed',
+      name: 'operationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paused`
+  String get operationPaused {
+    return Intl.message(
+      'Paused',
+      name: 'operationPaused',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Canceled`
+  String get operationCanceled {
+    return Intl.message(
+      'Canceled',
+      name: 'operationCanceled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+}
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   const AppLocalizationDelegate();

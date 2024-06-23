@@ -59,7 +59,7 @@ class OperationService {
     }
   }
 
-  Future<bool> sell(unitPrice, String unitType, XFile? img,unitsNumber) async {
+  Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber) async {
     final token =
         prefs.getString('auth_token'); // Retrieve token from shared preferences
     var url = '$baseUrl/operation';
@@ -89,6 +89,31 @@ class OperationService {
       // Read the response body to get more details about the error
       var responseBody = await response.stream.bytesToString();
       throw Exception('Operation selling failed: $responseBody');
+    }
+  }
+
+  Future<bool> checkDeliveries(int operationId) async {
+    var url = '$baseUrl/checkDeliveries';
+    final token =
+        prefs.getString('auth_token'); // Retrieve token from shared preferences
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var body = jsonEncode({'operation_id': operationId});
+
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      final data =jsonDecode(response.body);
+      return data['available'];
+    } else {
+      throw Exception('operation buying failed');
     }
   }
 }

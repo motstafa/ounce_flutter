@@ -28,27 +28,36 @@ class MessageLookup extends MessageLookupByLibrary {
         "agreeToMoveToCompletedText":
             MessageLookupByLibrary.simpleMessage("Agree to move to completed"),
         "buildingLabel": MessageLookupByLibrary.simpleMessage("Building"),
-        "buyButtonText": MessageLookupByLibrary.simpleMessage("Buy Button"),
+        "busy": MessageLookupByLibrary.simpleMessage(
+            "All deliveries are currently busy."),
+        "buyButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
         "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
         "buyPageTitle": MessageLookupByLibrary.simpleMessage("Buy Page"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "city": MessageLookupByLibrary.simpleMessage("City Or Town"),
         "completedTab": MessageLookupByLibrary.simpleMessage("Completed"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "dateOfOperationLabel":
             MessageLookupByLibrary.simpleMessage("Date of Operation"),
+        "delayed": MessageLookupByLibrary.simpleMessage(
+            "Your order may take an additional 20 minutes."),
         "deliveryDetailsTitle":
             MessageLookupByLibrary.simpleMessage("Delivery Details"),
         "dontHaveAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
-        "email": MessageLookupByLibrary.simpleMessage("email"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
         "emailValidator":
-            MessageLookupByLibrary.simpleMessage("please enter Email"),
+            MessageLookupByLibrary.simpleMessage("Please Enter Email"),
         "enterBuilding": MessageLookupByLibrary.simpleMessage("Enter Building"),
         "enterCity": MessageLookupByLibrary.simpleMessage("Enter City Or Town"),
-        "enterEmail": MessageLookupByLibrary.simpleMessage("enter email"),
+        "enterEmail": MessageLookupByLibrary.simpleMessage("Enter Email"),
+        "enterFirstName":
+            MessageLookupByLibrary.simpleMessage("Enter First Name"),
         "enterFloor": MessageLookupByLibrary.simpleMessage("Enter Floor"),
         "enterFullName":
             MessageLookupByLibrary.simpleMessage("Enter Full Name"),
+        "enterLastName":
+            MessageLookupByLibrary.simpleMessage("Enter Last Name"),
         "enterPassword": MessageLookupByLibrary.simpleMessage("Enter Password"),
         "enterPhone":
             MessageLookupByLibrary.simpleMessage("Enter Phone Number"),
@@ -64,6 +73,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("estimated time to buyer"),
         "estimatedTimeToSellerHint":
             MessageLookupByLibrary.simpleMessage("estimated time to seller"),
+        "falseLabel": MessageLookupByLibrary.simpleMessage("False"),
+        "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
         "floorLabel": MessageLookupByLibrary.simpleMessage("Floor"),
         "forgetPassword":
             MessageLookupByLibrary.simpleMessage("Forget Password?"),
@@ -74,14 +85,20 @@ class MessageLookup extends MessageLookupByLibrary {
             "You do not have enough balance to sell items."),
         "insufficientBalanceTitle":
             MessageLookupByLibrary.simpleMessage("Insufficient Balance"),
+        "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
+        "locationInformation":
+            MessageLookupByLibrary.simpleMessage("Store location information"),
         "loginError":
             MessageLookupByLibrary.simpleMessage("wrong username or password"),
         "moveToCompletedButton":
             MessageLookupByLibrary.simpleMessage("Move to Completed"),
         "moveToInProgressButton":
             MessageLookupByLibrary.simpleMessage("Move to In-progress"),
+        "name": MessageLookupByLibrary.simpleMessage("Name"),
         "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "noDelay": MessageLookupByLibrary.simpleMessage(
+            "Your order may take from 5 to 10 minutes."),
         "notEnoughBalanceMessage": MessageLookupByLibrary.simpleMessage(
             "You do not have enough balance to sell items."),
         "notification": MessageLookupByLibrary.simpleMessage("Notifications"),
@@ -92,8 +109,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "numberOfUnitsLabel":
             MessageLookupByLibrary.simpleMessage("Number of Units"),
         "okButtonLabel": MessageLookupByLibrary.simpleMessage("OK"),
+        "operationCanceled": MessageLookupByLibrary.simpleMessage("Canceled"),
+        "operationDone": MessageLookupByLibrary.simpleMessage("Done"),
+        "operationFailed": MessageLookupByLibrary.simpleMessage("Failed"),
+        "operationInProgress":
+            MessageLookupByLibrary.simpleMessage("In Progress"),
         "operationNumberLabel":
             MessageLookupByLibrary.simpleMessage("Operation Number"),
+        "operationPaused": MessageLookupByLibrary.simpleMessage("Paused"),
+        "operationPending": MessageLookupByLibrary.simpleMessage("Pending"),
         "operationsProgressPageTitle":
             MessageLookupByLibrary.simpleMessage("Operations Progress"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
@@ -115,12 +139,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterEstimatedTimeToSeller":
             MessageLookupByLibrary.simpleMessage(
                 "Please enter estimated time to seller"),
+        "pleaseFirstName":
+            MessageLookupByLibrary.simpleMessage("Please enter First Name"),
         "pleaseFloor":
             MessageLookupByLibrary.simpleMessage("Please enter Floor"),
         "pleaseFullName":
             MessageLookupByLibrary.simpleMessage("Please enter Full Name"),
+        "pleaseLastName":
+            MessageLookupByLibrary.simpleMessage("Please enter Last Name"),
         "pleasePass":
-            MessageLookupByLibrary.simpleMessage("please enter Password"),
+            MessageLookupByLibrary.simpleMessage("Please Enter Password"),
         "pleasePrefecture":
             MessageLookupByLibrary.simpleMessage("Please enter Prefecture"),
         "pleaseStoreName":
@@ -130,8 +158,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseWard": MessageLookupByLibrary.simpleMessage("Please enter Ward"),
         "prefecture": MessageLookupByLibrary.simpleMessage("Prefecture"),
         "processing": MessageLookupByLibrary.simpleMessage("Processing Data"),
+        "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "profileLabel": MessageLookupByLibrary.simpleMessage("Profile"),
         "rememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
+        "retailLabel": MessageLookupByLibrary.simpleMessage("Retail Purchase"),
         "selectZone": MessageLookupByLibrary.simpleMessage("Select Zone"),
         "sellLabel": MessageLookupByLibrary.simpleMessage("Sell"),
         "sellPageTitle": MessageLookupByLibrary.simpleMessage("Sell Page"),
@@ -144,17 +174,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "streetAddressLabel":
             MessageLookupByLibrary.simpleMessage("Street Address"),
         "submitButtonLabel": MessageLookupByLibrary.simpleMessage("Submit"),
+        "total": MessageLookupByLibrary.simpleMessage("Total"),
         "totalPriceLabel": MessageLookupByLibrary.simpleMessage("Total Price"),
-        "typeOfOuncesLabel":
-            MessageLookupByLibrary.simpleMessage("Type Of Ounces"),
+        "trueLabel": MessageLookupByLibrary.simpleMessage("True"),
+        "typeOfOuncesLabel": MessageLookupByLibrary.simpleMessage("Type"),
         "unitPriceLabel": MessageLookupByLibrary.simpleMessage("Unit Price"),
         "unitTypeLabel": MessageLookupByLibrary.simpleMessage("Unit Type"),
         "uploadOncePictureLabel":
             MessageLookupByLibrary.simpleMessage("Upload Once\'s Picture"),
         "uploadProfile":
             MessageLookupByLibrary.simpleMessage("Upload Profile Picture"),
+        "username": MessageLookupByLibrary.simpleMessage("Username"),
         "wardLabel": MessageLookupByLibrary.simpleMessage("Ward"),
-        "welcome": MessageLookupByLibrary.simpleMessage("welcome back"),
-        "zone": MessageLookupByLibrary.simpleMessage("Zone")
+        "welcome": MessageLookupByLibrary.simpleMessage("Welcome Back"),
+        "zone": MessageLookupByLibrary.simpleMessage("Zone"),
+        "zone1": MessageLookupByLibrary.simpleMessage("Jnaah"),
+        "zone2": MessageLookupByLibrary.simpleMessage("Bir AL Abed")
       };
 }

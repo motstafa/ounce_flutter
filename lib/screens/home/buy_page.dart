@@ -77,109 +77,65 @@ class OperationItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: BoxBackground, // Dark theme background color
         borderRadius: BorderRadius.circular(10.0),
-        border:
-            Border.all(color: buttonAccentColor), // Gold border for emphasis
+        border: Border.all(color: buttonAccentColor), // Gold border for emphasis
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.inventory_2, color: buttonAccentColor),
-                        SizedBox(width: 8.0),
-                        Expanded(
-                          child: Text(
-                            '${S.of(context).numberOfOuncesLabel}: ${operation.numberOfUnits}',
-                            style: TextStyle(
-                              color:
-                                  buttonAccentColor, // Light text color for contrast
+      child: InkWell(
+        onTap: () {
+          showBuyItemDialog(context, operation);
+        },
+        borderRadius: BorderRadius.circular(10.0), // Ensures ripple effect respects container shape
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.inventory_2, color: buttonAccentColor),
+                          SizedBox(width: 8.0),
+                          Expanded(
+                            child: Text(
+                              '${S.of(context).numberOfOuncesLabel}: ${operation.numberOfUnits}',
+                              style: TextStyle(
+                                  color: buttonAccentColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        Icon(Icons.attach_money, color: buttonAccentColor),
-                        SizedBox(width: 8.0),
-                        Expanded(
-                          child: Text(
-                            '${S.of(context).totalPriceLabel}: \$${operation.total}',
-                            style: TextStyle(
-                              color:
-                                  buttonAccentColor, // Light text color for contrast
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.0),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              // Adjust the value as needed
-              child: ElevatedButton(
-                onPressed: () {
-                  showBuyItemDialog(context, operation);
-                },
-                style: ButtonStyle(
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      side: BorderSide(
-                          color: buttonAccentColor), // Gold border for emphasis
-                    ),
-                  ),
-                  padding: WidgetStateProperty.all(EdgeInsets
-                      .zero), // Needed to make the Container fill the button
-                ),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: GoldButton, // Replace with your gradient colors
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Container(
-                    constraints:const BoxConstraints(
-                        minWidth: double.infinity, minHeight: 35.0),
-                    // Set minimum size for the button
-                    alignment: Alignment.center,
-                    child: Text(
-                      S.of(context).buyButtonText,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors
-                            .white, // Choose a color that contrasts well with the gradient
+                        ],
                       ),
-                    ),
+                      SizedBox(height: 8.0),
+                      Row(
+                        children: [
+                          Icon(Icons.attach_money, color: buttonAccentColor),
+                          SizedBox(width: 8.0),
+                          Expanded(
+                            child: Text(
+                              '${S.of(context).totalPriceLabel}: \$${operation.total}',
+                              style: TextStyle(
+                                  color: buttonAccentColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.0),
+                    ],
                   ),
                 ),
-              ),
+              ],
             ),
-          )
-
-          // Add other relevant information from your Operation model
-          // For example: unit type, number of units, total, etc.
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -214,6 +170,7 @@ class _PurchaseDialogState extends State<PurchaseDialog> {
   bool _isConfirming = false;
   int? calculatedValue = 0;
   int selectedItems = 0;
+  bool _deliveryAvailable=false;
 
   @override
   Widget build(BuildContext context) {
@@ -221,128 +178,180 @@ class _PurchaseDialogState extends State<PurchaseDialog> {
       title: Text(_isConfirming ? 'Confirm Delivery' : 'Confirm Purchase'),
       content: SingleChildScrollView(
         child: ListBody(
-            children: _isConfirming
-                ? <Widget>[
-                    Text('All deliveries are currently busy.'),
-                    Text('Your order may take an additional 20 minutes.'),
-                  ]
-                : <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(left: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              displayBalance(balanceType: 'buy'),
-                              SizedBox(height: 20),
-                              // Adjust the space as needed
-                            ],
-                          ),
-                        ),
-                        // ... other widgets
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          Text(
-                            '${S.of(context).typeOfOuncesLabel}: ',
-                            // This text will update when setState is called
-                            style: TextStyle(
-                              color: buttonAccentColor,
-                            ),
-                          ),
-                          Text(
-                            widget.operation!.unitType,
-                            // This text will update when setState is called
-                            style: const TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ]),
-                        Container(
-                          width: 85.0,
-                          // Set your desired width for the image
-                          height: 85.0,
-                          // Set your desired height for the image
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10.0),
-                            ),
-                          ),
-                          child: Image.network(
-                            widget.operation!.picOfUnits ?? '',
-                            fit: BoxFit.cover,
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
-                              // Return default asset image when network image fails to load
-                              return Image.asset('assets/images/ounce.png',
-                                  fit: BoxFit.cover);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('${S.of(context).numberOfOuncesDialogLabel}: '),
-                        DropdownButton<int>(
-                          value: selectedItems,
-                          items: [
-                            const DropdownMenuItem<int>(
-                              value: 0,
-                              child: Text(
-                                  '0'), // This represents your default value
-                            ),
-                            ...List.generate(
-                              widget.operation!.numberOfUnits,
-                              (index) => DropdownMenuItem<int>(
-                                value: index + 1,
-                                child: Text('${index + 1}'),
-                              ),
-                            ),
+          children: _isConfirming
+              ? <Widget>[
+                 _deliveryAvailable ? Text(''): Text(S.of(context).busy),
+                 _deliveryAvailable ? Text(S.of(context).noDelay):Text(S.of(context).delayed)
+                ]
+              : <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            displayBalance(balanceType: 'buy'),
+                            SizedBox(height: 20),
+                            // Adjust the space as needed
                           ],
-                          onChanged: (value) {
-                            setState(() {
-                              selectedItems = value ?? 0; // Set to 0 if null
-                              calculatedValue = Constants().CalculatePrice(
-                                  selectedItems, widget.operation!.unitPrice);
-                            });
-                          },
-                        )
-                      ], // Add more product info here
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                        ),
+                      ),
+                      // ... other widgets
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(children: [
                         Text(
-                          '${S.of(context).total}: ',
+                          '${S.of(context).typeOfOuncesLabel}: ',
                           // This text will update when setState is called
                           style: TextStyle(
                             color: buttonAccentColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         Text(
-                          '$calculatedValue',
+                          widget.operation!.unitType,
                           // This text will update when setState is called
                           style: const TextStyle(
                             color: Colors.grey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
-                        )
-                      ],
-                    )
-                  ]),
+                        ),
+                      ]),
+                      Container(
+                        width: 85.0,
+                        height: 85.0,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10.0),
+                          ),
+                        ),
+                        child: Image.network(
+                          widget.operation!.picOfUnits ?? '',
+                          fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Image.asset('assets/images/ounce.png',
+                                fit: BoxFit.cover);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${S.of(context).retailLabel}: ${widget.operation!.retail == 1 ? S.of(context).trueLabel : S.of(context).falseLabel}',
+                        style: TextStyle(
+                          color: buttonAccentColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${S.of(context).numberOfOuncesDialogLabel}: '),
+                      DropdownButton<int>(
+                        value: widget.operation!.retail == 0
+                            ? selectedItems=widget.operation!.numberOfUnits
+                            : selectedItems,
+                        items: [
+                          const DropdownMenuItem<int>(
+                            value: 0,
+                            child: Text('0'), // Default value
+                          ),
+                          ...List.generate(
+                            widget.operation!.numberOfUnits,
+                            (index) => DropdownMenuItem<int>(
+                              value: index + 1,
+                              child: Text('${index + 1}'),
+                            ),
+                          ),
+                        ],
+                        onChanged: widget.operation!.retail == 0
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  selectedItems =
+                                      value ?? 0; // Set to 0 if null
+                                  calculatedValue = Constants().CalculatePrice(
+                                      selectedItems,
+                                      widget.operation!.unitPrice);
+                                });
+                              },
+                      ),
+                    ], // Add more product info here
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${S.of(context).total}: ',
+                        // This text will update when setState is called
+                        style: TextStyle(
+                          color: buttonAccentColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '${widget.operation!.retail == 0 ? widget.operation!.total : calculatedValue} \$',
+                        // This text will update when setState is called
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+        ),
       ),
       actions: <Widget>[
         if (!_isConfirming)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                child: Text(S.of(context).buyButtonText),
+                onPressed: () async{
+                  final operationProvider =
+                  Provider.of<OperationProvider>(context, listen: false);
+                  _deliveryAvailable = await operationProvider.checkDeliveries(
+                      widget.operation!.id);
+                  if(selectedItems>0){
+                  setState(() {
+                    _isConfirming = true;
+                  });
+                  }
+                },
+              ),
+              ElevatedButton(
+                child: Text(S.of(context).cancel),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ],
+          ),
+        if (_isConfirming)
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             ElevatedButton(
-              child: Text('Buy'),
+              child: Text(S.of(context).confirm),
               onPressed: () async {
+                // Handle the confirmation action
                 // Perform purchase action
                 final operationProvider =
                     Provider.of<OperationProvider>(context, listen: false);
@@ -351,23 +360,17 @@ class _PurchaseDialogState extends State<PurchaseDialog> {
                 if (result) {
                   await operationProvider.refreshPage();
                   widget.balanceProvider!.callToGetBalance();
-                  Navigator.of(context, rootNavigator: true)
-                      .pop(); // This will close the topmost dialog
-                }
-                setState(() {
-                  _isConfirming = true;
-                });
-              },
-            ),
-            ElevatedButton(
-              child: Text(_isConfirming ? 'Confirm' : 'Cancel'),
-              onPressed: () {
-                if (_isConfirming) {
-                  // Handle the confirmation action
+                  Navigator.of(context, rootNavigator: true).pop();
                 }
                 Navigator.of(context).pop(); // Close the dialog
               },
             ),
+            ElevatedButton(
+              child: Text(S.of(context).cancel),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            )
           ]),
       ],
     );

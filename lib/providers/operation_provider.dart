@@ -69,6 +69,17 @@ class OperationProvider with ChangeNotifier {
     return false;
   }
 
+  Future<bool> checkDeliveries(int id) async{
+    try {
+      if (await operationservice.checkDeliveries(id)) {
+        return true;
+      }
+    } catch (e) {
+      print('Error fetching operations: $e');
+    }
+    return false;
+  }
+
 
   Future<bool> sell(unitPrice, String unitType,XFile? img,unitsNumber) async {
     try {

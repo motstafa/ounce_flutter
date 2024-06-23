@@ -28,19 +28,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "agreeToMoveToCompletedText": MessageLookupByLibrary.simpleMessage(
             "أوافق على الانتقال إلى المكتمل"),
         "buildingLabel": MessageLookupByLibrary.simpleMessage("المبنى"),
-        "buyButtonText": MessageLookupByLibrary.simpleMessage("زر الشراء"),
+        "busy": MessageLookupByLibrary.simpleMessage(
+            "كل خدمات التوصيل مشغولة حالياً."),
+        "buyButtonText": MessageLookupByLibrary.simpleMessage("شراء"),
         "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("شراء"),
         "buyPageTitle": MessageLookupByLibrary.simpleMessage("صفحة الشراء"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "city": MessageLookupByLibrary.simpleMessage("مدينة أو بلدة"),
         "completedTab": MessageLookupByLibrary.simpleMessage("مكتمل"),
+        "confirm": MessageLookupByLibrary.simpleMessage("ثبت"),
         "dateOfOperationLabel":
             MessageLookupByLibrary.simpleMessage("تاريخ العملية"),
+        "delayed": MessageLookupByLibrary.simpleMessage(
+            "قد يستغرق طلبك 20 دقيقة إضافية."),
         "deliveryDetailsTitle":
             MessageLookupByLibrary.simpleMessage("تفاصيل التوصيل"),
         "dontHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
-        "email": MessageLookupByLibrary.simpleMessage("البريد الكتروني"),
+        "email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
         "emailValidator": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال البريد الكتروني"),
         "enterBuilding": MessageLookupByLibrary.simpleMessage("أدخل المبنى"),
@@ -48,9 +53,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل المدينة أو المدينة"),
         "enterEmail":
             MessageLookupByLibrary.simpleMessage("أدخل البريد الكتروني"),
+        "enterFirstName":
+            MessageLookupByLibrary.simpleMessage("أدخل الاسم الأول"),
         "enterFloor": MessageLookupByLibrary.simpleMessage("أدخل الطابق"),
         "enterFullName":
             MessageLookupByLibrary.simpleMessage("أدخل الاسم الكامل"),
+        "enterLastName": MessageLookupByLibrary.simpleMessage("إدخال اسم آخر"),
         "enterPassword":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة المرور"),
         "enterPhone": MessageLookupByLibrary.simpleMessage("أدخل رقم الهاتف"),
@@ -66,6 +74,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الوقت المقدر للمشتري"),
         "estimatedTimeToSellerHint":
             MessageLookupByLibrary.simpleMessage("الوقت المقدر للبائع"),
+        "falseLabel": MessageLookupByLibrary.simpleMessage("خطأ"),
+        "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
         "floorLabel": MessageLookupByLibrary.simpleMessage("الطابق"),
         "forgetPassword":
             MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
@@ -76,14 +86,20 @@ class MessageLookup extends MessageLookupByLibrary {
             "ليس لديك رصيد كافٍ لبيع العناصر."),
         "insufficientBalanceTitle":
             MessageLookupByLibrary.simpleMessage("رصيد غير كافٍ"),
+        "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
+        "locationInformation":
+            MessageLookupByLibrary.simpleMessage("تخزين معلومات الموقع"),
         "loginError":
             MessageLookupByLibrary.simpleMessage("خطئ في ادخال البيانات"),
         "moveToCompletedButton":
             MessageLookupByLibrary.simpleMessage("الانتقال إلى المكتمل"),
         "moveToInProgressButton":
             MessageLookupByLibrary.simpleMessage("الانتقال إلى قيد التنفيذ"),
+        "name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "nameLabel": MessageLookupByLibrary.simpleMessage("الاسم"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
+        "noDelay": MessageLookupByLibrary.simpleMessage(
+            "قد يستغرق طلبك من 5 إلى 10 دقائق."),
         "notEnoughBalanceMessage": MessageLookupByLibrary.simpleMessage(
             "ليس لديك رصيد كافٍ لبيع العناصر."),
         "notification": MessageLookupByLibrary.simpleMessage("إشعارات"),
@@ -94,8 +110,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "numberOfUnitsLabel":
             MessageLookupByLibrary.simpleMessage("عدد الوحدات"),
         "okButtonLabel": MessageLookupByLibrary.simpleMessage("موافق"),
+        "operationCanceled": MessageLookupByLibrary.simpleMessage("ملغي"),
+        "operationDone": MessageLookupByLibrary.simpleMessage("تم"),
+        "operationFailed": MessageLookupByLibrary.simpleMessage("فشل"),
+        "operationInProgress":
+            MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
         "operationNumberLabel":
             MessageLookupByLibrary.simpleMessage("رقم العملية"),
+        "operationPaused": MessageLookupByLibrary.simpleMessage("متوقف"),
+        "operationPending":
+            MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
         "operationsProgressPageTitle":
             MessageLookupByLibrary.simpleMessage("تقدم العمليات"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
@@ -117,10 +141,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterEstimatedTimeToSeller":
             MessageLookupByLibrary.simpleMessage(
                 "يرجى إدخال الوقت المقدر للبائع"),
+        "pleaseFirstName":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال الاسم الأول"),
         "pleaseFloor":
             MessageLookupByLibrary.simpleMessage("يرجى إدخال الطابق"),
         "pleaseFullName":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال الاسم الكامل"),
+        "pleaseLastName":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال الاسم الأخير"),
         "pleasePass":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال كلمة المرور"),
         "pleasePrefecture":
@@ -132,8 +160,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseWard": MessageLookupByLibrary.simpleMessage("يرجى إدخال الحي"),
         "prefecture": MessageLookupByLibrary.simpleMessage("المحافظة"),
         "processing": MessageLookupByLibrary.simpleMessage("قيد التحقق"),
+        "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "profileLabel": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "rememberMe": MessageLookupByLibrary.simpleMessage("تذكرني"),
+        "retailLabel": MessageLookupByLibrary.simpleMessage("شراء بالتجزئة"),
         "selectZone": MessageLookupByLibrary.simpleMessage("حدد المنطقة"),
         "sellLabel": MessageLookupByLibrary.simpleMessage("بيع"),
         "sellPageTitle": MessageLookupByLibrary.simpleMessage("صفحة البيع"),
@@ -145,18 +175,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "streetAddressLabel":
             MessageLookupByLibrary.simpleMessage("عنوان الشارع"),
         "submitButtonLabel": MessageLookupByLibrary.simpleMessage("إرسال"),
+        "total": MessageLookupByLibrary.simpleMessage("السعر الإجمالي"),
         "totalPriceLabel":
             MessageLookupByLibrary.simpleMessage("السعر الإجمالي"),
-        "typeOfOuncesLabel":
-            MessageLookupByLibrary.simpleMessage("نوع الأوقيات"),
+        "trueLabel": MessageLookupByLibrary.simpleMessage("صحيح"),
+        "typeOfOuncesLabel": MessageLookupByLibrary.simpleMessage("النوع"),
         "unitPriceLabel": MessageLookupByLibrary.simpleMessage("سعر الوحدة"),
         "unitTypeLabel": MessageLookupByLibrary.simpleMessage("نوع الوحدة"),
         "uploadOncePictureLabel":
             MessageLookupByLibrary.simpleMessage("تحميل صورة الأوقية"),
         "uploadProfile":
             MessageLookupByLibrary.simpleMessage("تحميل الصورة الشخصية"),
+        "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "wardLabel": MessageLookupByLibrary.simpleMessage("الحي"),
         "welcome": MessageLookupByLibrary.simpleMessage("اهلا بك مجددا"),
-        "zone": MessageLookupByLibrary.simpleMessage("منطقة")
+        "zone": MessageLookupByLibrary.simpleMessage("منطقة"),
+        "zone1": MessageLookupByLibrary.simpleMessage("جناج"),
+        "zone2": MessageLookupByLibrary.simpleMessage("بير العبد")
       };
 }

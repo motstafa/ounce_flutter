@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:ounce/models/pending_operation_model.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
+import '../../constants/constants.dart';
 import '../../generated/l10n.dart';
 
 class PendingTab extends StatefulWidget {
@@ -43,7 +44,7 @@ class _PendingTabState extends State<PendingTab> {
               return ListTile(
                 title: Text(item.operationId.toString()),
                 // Assuming 'operationStatus' is the title
-                subtitle: Text(S.operationStatus(item.operationStatus)),
+                subtitle: Text(Constants().getOperationStatusTranslation(context,item.operationStatus)),
                 // Assuming 'streetAdress' is the subtitle
                 onTap: () {
                   showDialog(

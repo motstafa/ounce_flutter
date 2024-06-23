@@ -1,5 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ounce/main.dart';
+import 'package:flutter/material.dart';
+import '../generated/l10n.dart';
 
 class Constants {
   //android emulator http://10.0.2.2:8000/api
@@ -21,5 +23,24 @@ class Constants {
   Future<String?> getTokenFromSecureStorage() async {
     String? value= await storage.read(key: 'sanctum_token');
     return value;
+  }
+
+  String getOperationStatusTranslation(BuildContext context, String status) {
+    switch (status) {
+      case 'done':
+        return S.of(context).operationDone;
+      case 'inProgress':
+        return S.of(context).operationInProgress;
+      case 'pending':
+        return S.of(context).operationPending;
+      case 'failed':
+        return S.of(context).operationFailed;
+      case 'paused':
+        return S.of(context).operationPaused;
+      case 'canceled':
+        return S.of(context).operationCanceled;
+      default:
+        return status; // Or a default value or error string
+    }
   }
 }

@@ -21,7 +21,6 @@ class OperationTracks {
         headers: headers);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      var length = data.length;
       return data
           .map<PendingOperation>(
               (json) => PendingOperation.fromJson(json as Map<String, dynamic>))
@@ -44,7 +43,6 @@ class OperationTracks {
         headers: headers);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      var length = data.length;
       return data
           .map<PendingOperation>(
               (json) => PendingOperation.fromJson(json as Map<String, dynamic>))
