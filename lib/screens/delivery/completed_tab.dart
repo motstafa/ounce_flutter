@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
@@ -6,8 +5,6 @@ import 'package:ounce/providers/operation_tracks_provider.dart';
 import '../../constants/constants.dart';
 import '../../generated/l10n.dart';
 import '../../models/pending_operation_model.dart';
-
-
 
 class CompletedTab extends StatefulWidget {
   @override
@@ -29,7 +26,7 @@ class _CompletedTabState extends State<CompletedTab> {
   Widget build(BuildContext context) {
     // Access the provider but don't listen to changes to avoid unnecessary rebuilds
     var pendingProvider =
-    Provider.of<OperationTracksProvider>(context, listen: false);
+        Provider.of<OperationTracksProvider>(context, listen: false);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -46,7 +43,8 @@ class _CompletedTabState extends State<CompletedTab> {
               return ListTile(
                 title: Text(item.operationId.toString()),
                 // Assuming 'operationStatus' is the title
-                subtitle: Text(Constants().getOperationStatusTranslation(context,item.operationStatus)),
+                subtitle: Text(Constants().getOperationStatusTranslation(
+                    context, item.operationStatus)),
                 // Assuming 'streetAdress' is the subtitle
                 onTap: () {
                   showDialog(
@@ -65,8 +63,6 @@ class _CompletedTabState extends State<CompletedTab> {
   }
 }
 
-
-
 class CompletedDialog extends StatefulWidget {
   final PendingOperation item;
 
@@ -77,7 +73,6 @@ class CompletedDialog extends StatefulWidget {
 }
 
 class _CompletedDialogState extends State<CompletedDialog> {
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -89,15 +84,18 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // Align items to the start of the cross axis
-                children: <Widget>[
-                  Flexible(
-                    child: Text('${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
-                  ),
-                  Flexible(
-                    child: Text('${S.of(context).phone}: ${widget.item.address.phone}'),
-                  ),
+                children: [
+                  Text(
+                      '${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
                 ],
               ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // Align items to the start of the cross axis
+                  children: [
+                    Text('${S.of(context).phone}: ${widget.item.address.phone}')
+                  ]),
               // Add a SizedBox for consistent spacing between rows
               const SizedBox(height: 10),
               Row(
@@ -106,52 +104,61 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 // Align items to the start of the cross axis
                 children: <Widget>[
                   Flexible(
-                    child:
-                    Text('${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
+                    child: Text(
+                        '${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
                   ),
                   Flexible(
-                    child:
-                    Text('${S.of(context).city}: ${widget.item.address.cityTown}'),
+                    child: Text(
+                        '${S.of(context).city}: ${widget.item.address.cityTown}'),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Flexible(
-                      child: Text('${S.of(context).wardLabel}: ${widget.item.address.ward}'),
-                    ),
-                    Flexible(
-                      child:
-                      Text('${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
-                    ),
-                  ],
-                ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // Align items to the start of the cross axis
+                children: [
+                  Text('${S.of(context).city}: ${widget.item.address.cityTown}')
+                ],
               ),
               const SizedBox(height: 10),
-              IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Flexible(
-                      child: Text('${S.of(context).buildingLabel}: ${widget.item.address.building}'),
-                    ),
-                    Flexible(
-                      child: Text('${S.of(context).floorLabel}: ${widget.item.address.floor}'),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${S.of(context).wardLabel}: ${widget.item.address.ward}'),
+                ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${S.of(context).buildingLabel}: ${widget.item.address.building}'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${S.of(context).floorLabel}: ${widget.item.address.floor}'),
+                ],
+              )
             ],
           ),
         ),
-        actions: const <Widget>[
-         
-        ]);
+        actions: const <Widget>[]);
   }
 }
-

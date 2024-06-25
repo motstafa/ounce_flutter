@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
@@ -7,15 +6,12 @@ import '../../constants/constants.dart';
 import '../../generated/l10n.dart';
 import '../../models/pending_operation_model.dart';
 
-
-
 class InProgressTab extends StatefulWidget {
   @override
   _InProgressTabState createState() => _InProgressTabState();
 }
 
 class _InProgressTabState extends State<InProgressTab> {
-
   @override
   void initState() {
     super.initState();
@@ -30,7 +26,7 @@ class _InProgressTabState extends State<InProgressTab> {
   Widget build(BuildContext context) {
     // Access the provider but don't listen to changes to avoid unnecessary rebuilds
     var inProgressProvider =
-    Provider.of<OperationTracksProvider>(context, listen: false);
+        Provider.of<OperationTracksProvider>(context, listen: false);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -47,7 +43,8 @@ class _InProgressTabState extends State<InProgressTab> {
               return ListTile(
                 title: Text(item.operationId.toString()),
                 // Assuming 'operationStatus' is the title
-                subtitle: Text(Constants().getOperationStatusTranslation(context,item.operationStatus)),
+                subtitle: Text(Constants().getOperationStatusTranslation(
+                    context, item.operationStatus)),
                 // Assuming 'streetAdress' is the subtitle
                 onTap: () {
                   showDialog(
@@ -66,9 +63,6 @@ class _InProgressTabState extends State<InProgressTab> {
   }
 }
 
-
-
-
 class InProgressDialog extends StatefulWidget {
   final PendingOperation item;
 
@@ -79,7 +73,6 @@ class InProgressDialog extends StatefulWidget {
 }
 
 class _InProgressDialogState extends State<InProgressDialog> {
-
   bool _isChecked = false; // Define this in your state class
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -95,12 +88,16 @@ class _InProgressDialogState extends State<InProgressDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               // Align items to the start of the cross axis
               children: <Widget>[
-                Flexible(
-                  child: Text('${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
-                ),
-                Flexible(
-                  child: Text('${S.of(context).phone}: ${widget.item.address.phone}'),
-                ),
+                Text(
+                    '${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // Align items to the start of the cross axis
+              children: <Widget>[
+                Text('${S.of(context).phone}: ${widget.item.address.phone}')
               ],
             ),
             // Add a SizedBox for consistent spacing between rows
@@ -110,47 +107,51 @@ class _InProgressDialogState extends State<InProgressDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               // Align items to the start of the cross axis
               children: <Widget>[
-                Flexible(
-                  child:
-                  Text('${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
-                ),
-                Flexible(
-                  child:
-                  Text('${S.of(context).city}: ${widget.item.address.cityTown}'),
-                ),
+                Text(
+                    '${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // Align items to the start of the cross axis
+              children: <Widget>[
+                Text('${S.of(context).city}: ${widget.item.address.cityTown}'),
               ],
             ),
             const SizedBox(height: 10),
-            IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Flexible(
-                    child: Text('${S.of(context).wardLabel}: ${widget.item.address.ward}'),
-                  ),
-                  Flexible(
-                    child:
-                    Text('${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('${S.of(context).wardLabel}: ${widget.item.address.ward}'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    '${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
+              ],
             ),
             const SizedBox(height: 10),
-            IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Flexible(
-                    child: Text('${S.of(context).buildingLabel}: ${widget.item.address.building}'),
-                  ),
-                  Flexible(
-                    child: Text('${S.of(context).floorLabel}: ${widget.item.address.floor}'),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    '${S.of(context).buildingLabel}: ${widget.item.address.building}'),
+              ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    '${S.of(context).floorLabel}: ${widget.item.address.floor}'),
+              ],
+            )
           ],
         ),
       ),
@@ -171,15 +172,18 @@ class _InProgressDialogState extends State<InProgressDialog> {
         ),
         TextButton(
           child: Text(S.of(context).moveToCompletedButton),
-          onPressed: _isChecked ? () async {
-            var inProgressProvider =
-            Provider.of<OperationTracksProvider>(context,
-                listen: false);
+          onPressed: _isChecked
+              ? () async {
+                  var inProgressProvider = Provider.of<OperationTracksProvider>(
+                      context,
+                      listen: false);
 
-            // Logic to transfer the item to 'Completed'
-            await inProgressProvider.moveToComplete(widget.item.operationId);
-            Navigator.of(context).pop(); // Close the dialog
-          } : null, // Button is disabled if _isChecked is false
+                  // Logic to transfer the item to 'Completed'
+                  await inProgressProvider
+                      .moveToComplete(widget.item.operationId);
+                  Navigator.of(context).pop(); // Close the dialog
+                }
+              : null, // Button is disabled if _isChecked is false
         ),
       ],
     );

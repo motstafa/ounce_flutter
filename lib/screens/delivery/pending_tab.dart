@@ -44,7 +44,8 @@ class _PendingTabState extends State<PendingTab> {
               return ListTile(
                 title: Text(item.operationId.toString()),
                 // Assuming 'operationStatus' is the title
-                subtitle: Text(Constants().getOperationStatusTranslation(context,item.operationStatus)),
+                subtitle: Text(Constants().getOperationStatusTranslation(
+                    context, item.operationStatus)),
                 // Assuming 'streetAdress' is the subtitle
                 onTap: () {
                   showDialog(
@@ -88,13 +89,16 @@ class _PendingDialogState extends State<PendingDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // Align items to the start of the cross axis
-                children: <Widget>[
-                  Flexible(
-                    child: Text('${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
-                  ),
-                  Flexible(
-                    child: Text('${S.of(context).phone}: ${widget.item.address.phone}'),
-                  ),
+                children: [
+                  Text(
+                      '${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${S.of(context).phone}: ${widget.item.address.phone}'),
                 ],
               ),
               // Add a SizedBox for consistent spacing between rows
@@ -103,47 +107,52 @@ class _PendingDialogState extends State<PendingDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // Align items to the start of the cross axis
-                children: <Widget>[
-                  Flexible(
-                    child:
-                        Text('${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
-                  ),
-                  Flexible(
-                    child:
-                        Text('${S.of(context).city}: ${widget.item.address.cityTown}'),
-                  ),
+                children: [
+                  Text(
+                      '${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
+                ],
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // Align items to the start of the cross axis
+                  children: [
+                    Text(
+                        '${S.of(context).city}: ${widget.item.address.cityTown}')
+                  ]),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${S.of(context).wardLabel}: ${widget.item.address.ward}'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
                 ],
               ),
               const SizedBox(height: 10),
-              IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Flexible(
-                      child: Text('${S.of(context).wardLabel}: ${widget.item.address.ward}'),
-                    ),
-                    Flexible(
-                      child:
-                          Text('${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                      '${S.of(context).buildingLabel}: ${widget.item.address.building}'),
+                ],
               ),
-              const SizedBox(height: 10),
-              IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Flexible(
-                      child: Text('${S.of(context).buildingLabel}: ${widget.item.address.building}'),
-                    ),
-                    Flexible(
-                      child: Text('${S.of(context).floorLabel}: ${widget.item.address.floor}'),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                      '${S.of(context).floorLabel}: ${widget.item.address.floor}'),
+                ],
               ),
             ],
           ),
@@ -154,44 +163,36 @@ class _PendingDialogState extends State<PendingDialog> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Expanded(
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: timeToSellerController,
-                        decoration: InputDecoration(
-                          hintText: S.of(context).estimatedTimeToSellerHint,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return S.of(context).pleaseEnterEstimatedTimeToSeller;
-                          }
-                          return null; // The field is valid
-                        },
-                        // Add other properties and methods as needed
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    // Spacing between the input fields
-                    Expanded(
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: timeTobuyerController,
-                        decoration: InputDecoration(
-                          hintText: S.of(context).estimatedTimeToBuyerHint,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return S.of(context).pleaseEnterEstimatedTimeToSeller;
-                          }
-                          return null; // The field is valid
-                        },
-                        // Add other properties and methods as needed
-                      ),
-                    ),
-                  ],
+                TextFormField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  controller: timeToSellerController,
+                  decoration: InputDecoration(
+                    hintText: S.of(context).estimatedTimeToSellerHint,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return S.of(context).pleaseEnterEstimatedTimeToSeller;
+                    }
+                    return null; // The field is valid
+                  },
+                  // Add other properties and methods as needed
+                ),
+                const SizedBox(height: 10),
+                // Spacing between the input fields
+                TextFormField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  controller: timeTobuyerController,
+                  decoration: InputDecoration(
+                    hintText: S.of(context).estimatedTimeToBuyerHint,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return S.of(context).pleaseEnterEstimatedTimeToSeller;
+                    }
+                    return null; // The field is valid
+                  },
                 ),
                 TextButton(
                   child: Text(S.of(context).moveToInProgressButton),
