@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
 import '../main.dart';
 import '../providers/notification_provider.dart';
+import '../theme/theme.dart';
 
 
 // The Notification Center screen
@@ -21,7 +22,10 @@ class NotificationCenterScreen extends StatelessWidget {
             itemCount: provider.notifications.length,
             itemBuilder: (context, index) {
               var notification = provider.notifications[index];
-              return ListTile(
+              return
+                Container(
+                margin: const EdgeInsets.only(bottom: 6),
+                child:ListTile(
                 title: Text(isArabic() ? notification.titleAr : notification.title),
                 subtitle: Text(isArabic() ? notification.textAr : notification.text),
                 onTap: () async {
@@ -36,9 +40,9 @@ class NotificationCenterScreen extends StatelessWidget {
                     tabIndex = int.tryParse(parts[1]);
                   }
                   await Navigator.of(context).pushNamed(route, arguments: tabIndex);
-                  }
-                ,
-              );
+                  },
+                tileColor: notification.read == 0 ? blackColor : Colors.transparent,
+              ));
             },
           );
         },

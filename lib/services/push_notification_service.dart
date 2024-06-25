@@ -84,7 +84,7 @@ class PushNotificationService {
       print('Route key not found in data');
     }
     // Assuming you have a way to convert RemoteMessage to NotificationItem
-    NotificationItem newNotification = NotificationItem(id:notification.hashCode,title: notification?.title ?? '',text: notification?.body ??'',titleAr:message.data['title_ar'] ,textAr: message.data['body_ar'],read: 0,route: route ??'');
+    NotificationItem newNotification = NotificationItem(id:notification.hashCode,title: notification?.title ?? '',text: notification?.body ??'',titleAr:message.data['title_ar']??'' ,textAr: message.data['body_ar']??'',read: 0,route: route ??'');
 
     // Find the provider and call addNotification
     NotificationProvider provider = Provider.of<NotificationProvider>(

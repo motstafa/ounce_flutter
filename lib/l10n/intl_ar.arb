@@ -114,5 +114,9 @@
   "operationFailed": "فشل",
   "operationPaused": "متوقف",
   "operationCanceled": "ملغي",
-  "confirm":"ثبت"
+  "confirm":"ثبت",
+  "allowRetail":"السماح بالشراء بالقطعة",
+  "yourBalance":"رصيدك:",
+  "purchaseFailed":"فشلت العملية",
+  "purchaseFailedText":"ليس لديك الرصيد الكافي للإجراء هذه العملية"
 }

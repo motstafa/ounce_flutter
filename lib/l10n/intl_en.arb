@@ -114,6 +114,10 @@
   "operationFailed": "Failed",
   "operationPaused": "Paused",   
   "operationCanceled": "Canceled",
-  "confirm":"Confirm"
+  "confirm":"Confirm",
+  "allowRetail":"Allow retail puchase?",
+  "yourBalance":"Your Balance:",
+  "purchaseFailed":"Purchase Failed",
+  "purchaseFailedText":"You do not have enough balance to complete the purchase."
 }
     

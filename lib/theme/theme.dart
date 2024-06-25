@@ -22,6 +22,7 @@ Color blackColor = Color(0xff2E2E2E);
 Color? GoldColor= Color.lerp(Color(0xFFd1b071), Color(0xFFff991b), 0 / 3); // RGB values for gold color
 Color buttonFocusedColor = Color(0xFFff991b);
 Color buttonAccentColor = Color(0xFFc5a567);
+Color GoldInBetween = Color(0xFFEC9D34);
 Color BoxBackground = Color(0xFF2e2d2c);
 List<Color> GoldButton = [Color(0xFFfefdf3),Color(0xFF926300),Color(0xFFfefdf3)];
 

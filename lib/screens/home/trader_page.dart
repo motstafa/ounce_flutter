@@ -6,6 +6,7 @@ import 'package:ounce/screens/home/sell_page.dart';
 import 'package:ounce/theme/theme.dart';
 
 import '../../generated/l10n.dart';
+import '../../providers/notification_provider.dart';
 
 class TraderPage extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _TraderPageState extends State<TraderPage> {
           decoration: BoxDecoration(
             border: Border.all(
               color: GoldColor ?? Colors.amber, // Set your special border color here
-              width: 1.0, // Set the width of the border
+              width: 1.5, // Set the width of the border
             ),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(24),
@@ -42,7 +43,7 @@ class _TraderPageState extends State<TraderPage> {
             child: BottomNavigationBar(
               backgroundColor: Colors.black,
               type: BottomNavigationBarType.fixed,
-              selectedItemColor: buttonFocusedColor,
+              selectedItemColor: GoldInBetween,
               unselectedItemColor: buttonAccentColor.withOpacity(0.5),
               currentIndex: currentIndex,
               onTap: (index) {
@@ -54,28 +55,28 @@ class _TraderPageState extends State<TraderPage> {
                 BottomNavigationBarItem(
                   icon: ImageIcon(
                     AssetImage('assets/icons/home.png'),
-                    color: currentIndex == 0 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                    color: currentIndex == 0 ? GoldInBetween : buttonAccentColor.withOpacity(0.5),
                   ),
                   label: S.of(context).homeLabel,
                 ),
                 BottomNavigationBarItem(
                   icon: ImageIcon(
                     AssetImage('assets/icons/buy.png'),
-                    color: currentIndex == 1 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                    color: currentIndex == 1 ? GoldInBetween : buttonAccentColor.withOpacity(0.5),
                   ),
                   label: S.of(context).buyDialogButtonText,
                 ),
                 BottomNavigationBarItem(
                   icon: ImageIcon(
                     AssetImage('assets/icons/sell.png'),
-                    color: currentIndex == 2 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                    color: currentIndex == 2 ? GoldInBetween : buttonAccentColor.withOpacity(0.5),
                   ),
                   label: S.of(context).sellLabel,
                 ),
                 BottomNavigationBarItem(
                   icon: ImageIcon(
                     AssetImage('assets/icons/profile.png'),
-                    color: currentIndex == 3 ? buttonFocusedColor : buttonAccentColor.withOpacity(0.5),
+                    color: currentIndex == 3 ? GoldInBetween : buttonAccentColor.withOpacity(0.5),
                   ),
                   label: S.of(context).profileLabel,
                 ),

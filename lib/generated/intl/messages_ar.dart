@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أوافق على معالجة"),
         "agreeToMoveToCompletedText": MessageLookupByLibrary.simpleMessage(
             "أوافق على الانتقال إلى المكتمل"),
+        "allowRetail":
+            MessageLookupByLibrary.simpleMessage("السماح بالشراء بالقطعة"),
         "buildingLabel": MessageLookupByLibrary.simpleMessage("المبنى"),
         "busy": MessageLookupByLibrary.simpleMessage(
             "كل خدمات التوصيل مشغولة حالياً."),
@@ -162,6 +164,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "processing": MessageLookupByLibrary.simpleMessage("قيد التحقق"),
         "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "profileLabel": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
+        "purchaseFailed": MessageLookupByLibrary.simpleMessage("فشلت العملية"),
+        "purchaseFailedText": MessageLookupByLibrary.simpleMessage(
+            "ليس لديك الرصيد الكافي للإجراء هذه العملية"),
         "rememberMe": MessageLookupByLibrary.simpleMessage("تذكرني"),
         "retailLabel": MessageLookupByLibrary.simpleMessage("شراء بالتجزئة"),
         "selectZone": MessageLookupByLibrary.simpleMessage("حدد المنطقة"),
@@ -189,6 +194,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "wardLabel": MessageLookupByLibrary.simpleMessage("الحي"),
         "welcome": MessageLookupByLibrary.simpleMessage("اهلا بك مجددا"),
+        "yourBalance": MessageLookupByLibrary.simpleMessage("رصيدك:"),
         "zone": MessageLookupByLibrary.simpleMessage("منطقة"),
         "zone1": MessageLookupByLibrary.simpleMessage("جناج"),
         "zone2": MessageLookupByLibrary.simpleMessage("بير العبد")

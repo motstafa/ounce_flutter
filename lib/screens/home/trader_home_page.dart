@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../generated/l10n.dart';
+import '../../providers/notification_provider.dart';
 
 class TraderHomePage extends StatelessWidget {
   @override
@@ -6,10 +8,10 @@ class TraderHomePage extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.black,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
-        ),
+      appBar: CustomAppBar(
+          pageName: S
+              .of(context)
+              .homeLabel, balanceType: null),
       );
   }
 }

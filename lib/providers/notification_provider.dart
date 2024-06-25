@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 import '../models/notification_model.dart';
 import '../services/backend_notifications.dart';
 
@@ -13,7 +12,7 @@ class NotificationProvider with ChangeNotifier {
 
   Future<void> getNotifications() async {
     _notifications = await backendNotificationService().getNotifications();
-    notificationCount=_notifications.length;
+    notificationCount= _notifications.where((notification)=>notification.read==0).length;
     notifyListeners();
   }
 
@@ -47,49 +46,54 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             return Stack(
               alignment: Alignment.centerRight,
               children: <Widget>[
-                if (balanceType !=
-                    null) // Conditional check at the level of Padding
-                  Padding(
-                    padding: const EdgeInsets.only(right: 70),
-                    // 20% of screen width
-                    child: displayBalance(balanceType: '$balanceType'),
-                  ),
-                IconButton(
-                  icon: Icon(Icons.notifications),
-                  iconSize: 24, // Fixed icon size
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/notifications');
-                  },
-                ),
-                if (provider.notificationCount > 0)
-                  Positioned(
-                    right: 12,
-                    // Adjusted to position the badge on the bell icon based on the fixed icon size
-                    top: 10,
-                    // Adjusted to position the badge correctly above the bell icon
-                    child: Container(
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
+                Row(
+                  children: [
+                    if (balanceType != null) // Conditional check at the level of Padding
+                      Padding(
+                        padding: const EdgeInsets.only(right: 70),
+                        // 20% of screen width
+                        child: displayBalance(balanceType: '$balanceType'),
                       ),
-                      constraints: const BoxConstraints(
-                        minWidth: 12,
-                        minHeight: 12,
-                      ),
-                      child: Text(
-                        '${provider.notificationCount}',
-                        // Dynamic notification count
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 8, // Fixed font size
+                    Stack(
+                      alignment: Alignment.center, // Center the icon in the stack
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.notifications),
+                          iconSize: 24, // Fixed icon size
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/notifications');
+                          },
                         ),
-                        textAlign: TextAlign.center,
-                      ),
+                        if (provider.notificationCount > 0)
+                          Positioned(
+                            right: 12, // Adjust these values based on your design
+                            top: 10, // Adjust these values based on your design
+                            child: Container(
+                              padding: EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 12,
+                                minHeight: 12,
+                              ),
+                              child: Text(
+                                '${provider.notificationCount}',
+                                // Dynamic notification count
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 8, // Fixed font size
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                  ),
-              ],
-            );
+                  ],
+                )
+              ]);
           },
         ),
       ],

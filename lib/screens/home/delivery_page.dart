@@ -44,7 +44,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
             child: BottomNavigationBar(
               backgroundColor: Colors.black,
               type: BottomNavigationBarType.fixed,
-              selectedItemColor: buttonFocusedColor,
+              selectedItemColor: GoldInBetween,
               unselectedItemColor: buttonAccentColor.withOpacity(0.5),
               currentIndex: currentIndex,
               onTap: (index) {
@@ -57,7 +57,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
                   icon: ImageIcon(
                     AssetImage('assets/icons/home.png'),
                     color: currentIndex == 0
-                        ? buttonFocusedColor
+                        ? GoldInBetween
                         : buttonAccentColor.withOpacity(0.5),
                   ),
                   label: S.of(context).homeLabel,
@@ -66,7 +66,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
                   icon: ImageIcon(
                     AssetImage('assets/icons/profile.png'),
                     color: currentIndex == 1
-                        ? buttonFocusedColor
+                        ? GoldInBetween
                         : buttonAccentColor.withOpacity(0.5),
                   ),
                   label: S.of(context).profileLabel,

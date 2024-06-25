@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/services/balance_service.dart';
 import 'package:ounce/theme/theme.dart';
+import '../generated/l10n.dart';
 
 class BalanceProvider with ChangeNotifier {
   late int _sellingBalance;
@@ -70,7 +71,7 @@ class BalanceDisplay extends StatelessWidget {
 class displayBalance extends StatelessWidget{
 
   String balanceType;
-
+  int? Balance;
   displayBalance({required this.balanceType});
 
   @override
@@ -92,10 +93,10 @@ class displayBalance extends StatelessWidget{
             textAlign: TextAlign.center,
           );
         } else {
-          final sellingBalance = snapshot.data ?? 0.0; // Default to 0.0 if data is null
+          Balance = (snapshot.data)?.toInt() ?? 0; // Default to 0.0 if data is null
           return Text(
-            'Your Balance: $sellingBalance',
-            style: TextStyle(color: buttonAccentColor),
+            '${S.of(context).yourBalance} $Balance',
+            style: TextStyle(color: buttonAccentColor,fontWeight:FontWeight.w600,fontSize: 17),
             textAlign: TextAlign.center,
           );
         }

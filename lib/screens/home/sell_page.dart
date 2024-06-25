@@ -14,8 +14,8 @@ class SellPage extends StatefulWidget {
 
 class _SellPageState extends State<SellPage> {
   XFile? _imageFile;
-
   final _formKey = GlobalKey<FormState>();
+  final SwitchButton switcher=SwitchButton();
 
   TextEditingController priceController = TextEditingController();
   String? unitTypeController;
@@ -129,6 +129,7 @@ class _SellPageState extends State<SellPage> {
                       controller: numberOfUnitsController,
                     ),
                     SizedBox(height: 16.0),
+                    switcher,
                     GestureDetector(
                       onTap: _selectImage,
                       // Call _selectImage function when tapped
@@ -191,12 +192,11 @@ class _SellPageState extends State<SellPage> {
                                 double.tryParse(priceController.text);
                             int? numberOfUnits =
                                 int.tryParse(numberOfUnitsController.text);
-
                             bool result = await operationProvider.sell(
                                 priceController.text,
                                 unitTypeController!,
                                 _imageFile,
-                                numberOfUnitsController.text);
+                                numberOfUnitsController.text,switcher.getValue()? 1 : 0);
                             if (result) {
                               setState(() {
                                 priceController.clear();
@@ -238,4 +238,45 @@ class _SellPageState extends State<SellPage> {
       },
     );
   }
+}
+
+
+class SwitchButton extends StatefulWidget{
+   bool? isRetail;
+
+   SwitchButton({Key? key, this.isRetail}) : super(key: key);
+
+  @override
+  _SwitchWidgetState createState()=> _SwitchWidgetState();
+
+   bool getValue(){
+     return isRetail ?? false;
+   }
+}
+
+class _SwitchWidgetState extends State<SwitchButton>{
+  @override
+  Widget build(BuildContext context) {
+   return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            S.of(context).allowRetail,
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(width: 10),
+          Switch(
+            value: widget.isRetail ?? false,
+            onChanged: (value) {
+              setState(() {
+                widget.isRetail = value;
+              });
+            },
+          )
+        ],
+      ),
+    );
+  }
+
 }

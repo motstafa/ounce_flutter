@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "I agree to the processing of"),
         "agreeToMoveToCompletedText":
             MessageLookupByLibrary.simpleMessage("Agree to move to completed"),
+        "allowRetail":
+            MessageLookupByLibrary.simpleMessage("Allow retail puchase?"),
         "buildingLabel": MessageLookupByLibrary.simpleMessage("Building"),
         "busy": MessageLookupByLibrary.simpleMessage(
             "All deliveries are currently busy."),
@@ -160,6 +162,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "processing": MessageLookupByLibrary.simpleMessage("Processing Data"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "profileLabel": MessageLookupByLibrary.simpleMessage("Profile"),
+        "purchaseFailed":
+            MessageLookupByLibrary.simpleMessage("Purchase Failed"),
+        "purchaseFailedText": MessageLookupByLibrary.simpleMessage(
+            "You do not have enough balance to complete the purchase."),
         "rememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
         "retailLabel": MessageLookupByLibrary.simpleMessage("Retail Purchase"),
         "selectZone": MessageLookupByLibrary.simpleMessage("Select Zone"),
@@ -187,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "wardLabel": MessageLookupByLibrary.simpleMessage("Ward"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome Back"),
+        "yourBalance": MessageLookupByLibrary.simpleMessage("Your Balance:"),
         "zone": MessageLookupByLibrary.simpleMessage("Zone"),
         "zone1": MessageLookupByLibrary.simpleMessage("Jnaah"),
         "zone2": MessageLookupByLibrary.simpleMessage("Bir AL Abed")

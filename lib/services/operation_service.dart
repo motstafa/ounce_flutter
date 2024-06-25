@@ -59,7 +59,7 @@ class OperationService {
     }
   }
 
-  Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber) async {
+  Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber,retail) async {
     final token =
         prefs.getString('auth_token'); // Retrieve token from shared preferences
     var url = '$baseUrl/operation';
@@ -68,6 +68,7 @@ class OperationService {
       ..fields['unit_price'] = unitPrice
       ..fields['unit_type'] = unitType
       ..fields['number_of_units'] = unitsNumber
+      ..fields['retail']=retail
       ..headers['Authorization'] = 'Bearer $token';
 
     // Add the image file to the request

@@ -1209,6 +1209,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Allow retail puchase?`
+  String get allowRetail {
+    return Intl.message(
+      'Allow retail puchase?',
+      name: 'allowRetail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Balance:`
+  String get yourBalance {
+    return Intl.message(
+      'Your Balance:',
+      name: 'yourBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Purchase Failed`
+  String get purchaseFailed {
+    return Intl.message(
+      'Purchase Failed',
+      name: 'purchaseFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You do not have enough balance to complete the purchase.`
+  String get purchaseFailedText {
+    return Intl.message(
+      'You do not have enough balance to complete the purchase.',
+      name: 'purchaseFailedText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
