@@ -31,10 +31,10 @@ class _InitialLoadingScreenState extends State<InitialLoadingScreen> {
       if (isValid) {
         if (role == Constants.userRoles['trader']) {
           if (await balanceProvider.callToGetBalance()) {
-            Navigator.pushNamed(context, '/trader');
+            Navigator.pushReplacementNamed(context, '/trader');
           }
         } else {
-          Navigator.pushNamed(context, '/delivery');
+          Navigator.pushReplacementNamed(context, '/delivery');
         }
       } else {
         Navigator.pushReplacementNamed(context, '/sign-in');

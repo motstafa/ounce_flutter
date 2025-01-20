@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "buyButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
         "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
         "buyPageTitle": MessageLookupByLibrary.simpleMessage("Buy Page"),
+        "buyerLocation": MessageLookupByLibrary.simpleMessage("Buyer Location"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "city": MessageLookupByLibrary.simpleMessage("City Or Town"),
         "completedTab": MessageLookupByLibrary.simpleMessage("Completed"),
@@ -171,6 +172,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectZone": MessageLookupByLibrary.simpleMessage("Select Zone"),
         "sellLabel": MessageLookupByLibrary.simpleMessage("Sell"),
         "sellPageTitle": MessageLookupByLibrary.simpleMessage("Sell Page"),
+        "sellerLocation":
+            MessageLookupByLibrary.simpleMessage("Seller Location"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "signUpWith": MessageLookupByLibrary.simpleMessage("Sign Up With"),
         "signin": MessageLookupByLibrary.simpleMessage("Sign In"),

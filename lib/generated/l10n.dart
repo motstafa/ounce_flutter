@@ -1249,6 +1249,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Buyer Location`
+  String get buyerLocation {
+    return Intl.message(
+      'Buyer Location',
+      name: 'buyerLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seller Location`
+  String get sellerLocation {
+    return Intl.message(
+      'Seller Location',
+      name: 'sellerLocation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

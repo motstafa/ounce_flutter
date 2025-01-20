@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:image_picker/image_picker.dart';
@@ -56,6 +57,12 @@ class OperationProvider with ChangeNotifier {
       print('Error fetching operations: $e');
       return false;
     }
+  }
+
+  void startPollingUpdatedOperations() {
+    Timer.periodic(Duration(seconds: 10), (timer) async {
+      await refreshPage(); // Fetch new data every 10 seconds
+    });
   }
 
   Future<bool> Buy(int id, int selectedItems) async {

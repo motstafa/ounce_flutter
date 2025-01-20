@@ -9,12 +9,22 @@ import '../../generated/l10n.dart';
 import '../../providers/notification_provider.dart';
 
 class TraderPage extends StatefulWidget {
+  final int initialIndex;
+
+  TraderPage({this.initialIndex = 0});
   @override
   _TraderPageState createState() => _TraderPageState();
 }
 
 class _TraderPageState extends State<TraderPage> {
-  int currentIndex = 0;
+  late int currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.initialIndex; // Set initial tab based on passed index
+  }
+
 
   @override
   Widget build(BuildContext context) {

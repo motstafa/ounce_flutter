@@ -118,5 +118,7 @@
   "allowRetail":"السماح بالشراء بالقطعة",
   "yourBalance":"رصيدك:",
   "purchaseFailed":"فشلت العملية",
-  "purchaseFailedText":"ليس لديك الرصيد الكافي للإجراء هذه العملية"
+  "purchaseFailedText":"ليس لديك الرصيد الكافي للإجراء هذه العملية",
+  "buyerLocation":"موقع المشتري",
+  "sellerLocation":"موقع البائع"
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ounce/providers/auth_provider.dart';
+import 'package:ounce/screens/signin_screen.dart';
 import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
 import '/theme/theme.dart';
@@ -154,26 +155,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         );
                         var floorInt = int.tryParse(floor?.text ?? '') ?? 0;
                         // Perform the asynchronous operation without calling setState
-                        await AuthProvider().register(
-                            firstName.text,
-                            lastName.text,
-                            email.text,
-                            password.text,
-                            profilePicture,
-                            storeName.text,
-                            phoneNumber.text,
-                            storePicture,
-                            prefecture.text,
-                            zoneId ?? 1,
-                            cityTown.text,
-                            ward.text,
-                            streetAddress.text,
-                            building.text,
-                            floorInt);
-                        // After the async operation, update the state if needed
-                        setState(() {
-                          // Update your state here if necessary after the async call
-                        });
+                        final response= await AuthProvider().register(
+                          firstName.text,
+                          lastName.text,
+                          email.text,
+                          password.text,
+                          profilePicture,
+                          storeName.text,
+                          phoneNumber.text,
+                          storePicture,
+                          prefecture.text,
+                          zoneId ?? 1,
+                          cityTown.text,
+                          ward.text,
+                          streetAddress.text,
+                          building.text,
+                          floorInt);
+                        if (response['success']) {
+                          // Registration successful
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignInScreen(
+                                initialEmail: email.text,
+                                initialPassword: password.text,
+                              ),
+                            ),
+                          );
+                        } else {
+                          // Show validation errors
+                          final errors = response['errors'] as Map<String, dynamic>;
+                          errors.forEach((key, value) {
+                            final errorMessages = (value as List).join(', ');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('$key: $errorMessages')),
+                            );
+                          });
+                        }
                       } else if (!agreePersonalData) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -360,8 +378,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     : Image.file(
                                         File(profilePicture!.path),
                                         fit: BoxFit.cover,
-                                        width: double.infinity,
-                                        height: double.infinity,
+                                        width: 150.0,
+                                        height: 150.0,
                                       ),
                               ),
                             ),
@@ -439,8 +457,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   : Image.file(
                                       File(storePicture!.path),
                                       fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: double.infinity,
+                                      width: 150.0,
+                                      height: 150.0,
                                     ),
                             ),
                           ),

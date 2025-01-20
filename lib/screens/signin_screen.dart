@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ounce/main.dart';
 import 'package:ounce/providers/balance_provider.dart';
+import 'package:ounce/screens/home/delivery_page.dart';
+import 'package:ounce/screens/home/trader_page.dart';
 import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
+import '../services/push_notification_service.dart';
 import '/screens/signup_screen.dart';
 import '/widgets/custom_scaffold.dart';
 import '../theme/theme.dart';
@@ -10,7 +13,11 @@ import 'package:ounce/providers/auth_provider.dart';
 import 'package:ounce/constants/constants.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+  final String? initialEmail;
+  final String? initialPassword;
+
+  const SignInScreen({Key? key, this.initialEmail, this.initialPassword})
+      : super(key: key);
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -24,9 +31,17 @@ class _SignInScreenState extends State<SignInScreen> {
   bool isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController(text: widget.initialEmail);
+    passwordController = TextEditingController(text: widget.initialPassword);
+  }
+
+  @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context,listen: false);
+    BalanceProvider balanceProvider =
+        Provider.of<BalanceProvider>(context, listen: false);
 
     handleSignIn() async {
       setState(() {
@@ -36,12 +51,18 @@ class _SignInScreenState extends State<SignInScreen> {
         email: emailController.text,
         password: passwordController.text,
       )) {
+        final pushNotificationService = PushNotificationService();
+        await pushNotificationService.init();
         if (prefs.getInt('role') == Constants.userRoles['trader']) {
           if (await balanceProvider.callToGetBalance()) {
-            Navigator.pushNamed(context, '/trader');
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => TraderPage()));
+            // Navigator.pushNamed(context, '/trader');
           }
         } else {
-          Navigator.pushNamed(context, '/delivery');
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => DeliveryPage()));
+          // Navigator.pushNamed(context, '/delivery');
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -107,7 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           label: Text(S.of(context).email),
                           hintText: S.of(context).enterEmail,
                           hintStyle: TextStyle(
-                            color:buttonAccentColor,
+                            color: buttonAccentColor,
                           ),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -116,7 +137,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide:  BorderSide(
+                            borderSide: BorderSide(
                               color: buttonAccentColor, // Default border color
                             ),
                             borderRadius: BorderRadius.circular(10),
@@ -140,7 +161,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           label: Text(S.of(context).password),
                           hintText: S.of(context).enterPassword,
                           hintStyle: TextStyle(
-                            color:buttonAccentColor,
+                            color: buttonAccentColor,
                           ),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -230,7 +251,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               color: buttonAccentColor,
                             ),
                           ),
-                          const SizedBox(width:5),
+                          const SizedBox(width: 5),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(

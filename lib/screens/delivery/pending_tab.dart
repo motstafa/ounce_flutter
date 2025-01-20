@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
 import '../../constants/constants.dart';
 import '../../generated/l10n.dart';
+import '../../widgets/location_detail.dart';
 
 class PendingTab extends StatefulWidget {
   @override
@@ -20,6 +21,8 @@ class _PendingTabState extends State<PendingTab> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<OperationTracksProvider>(context, listen: false)
           .fetchPendingOperations();
+      Provider.of<OperationTracksProvider>(context, listen: false)
+          .startPollingPendingOperations();
     });
   }
 
@@ -78,85 +81,28 @@ class _PendingDialogState extends State<PendingDialog> {
   TextEditingController timeToSellerController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+
+  @override
+  void dispose() {
+    timeToSellerController.dispose();
+    timeTobuyerController.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
         title: Text(S.of(context).deliveryDetailsTitle),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // Align items to the start of the cross axis
-                children: [
-                  Text(
-                      '${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${S.of(context).phone}: ${widget.item.address.phone}'),
-                ],
-              ),
-              // Add a SizedBox for consistent spacing between rows
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // Align items to the start of the cross axis
-                children: [
-                  Text(
-                      '${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // Align items to the start of the cross axis
-                  children: [
-                    Text(
-                        '${S.of(context).city}: ${widget.item.address.cityTown}')
-                  ]),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      '${S.of(context).wardLabel}: ${widget.item.address.ward}'),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      '${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                      '${S.of(context).buildingLabel}: ${widget.item.address.building}'),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                      '${S.of(context).floorLabel}: ${widget.item.address.floor}'),
-                ],
-              ),
-            ],
-          ),
-        ),
+        content:
+        Container(
+           width: double.maxFinite,
+           height: 200,
+           child:  PageView(
+          children: [
+            LocationDetail(Location: 'buyer',address:widget.item.buyerAddress),
+            LocationDetail(Location: 'seller',address:widget.item.sellerAddress)],
+        )),
         actions: <Widget>[
           Form(
             key: _formKey, // Make sure this is defined in your state class

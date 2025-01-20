@@ -118,6 +118,8 @@
   "allowRetail":"Allow retail puchase?",
   "yourBalance":"Your Balance:",
   "purchaseFailed":"Purchase Failed",
-  "purchaseFailedText":"You do not have enough balance to complete the purchase."
+  "purchaseFailedText":"You do not have enough balance to complete the purchase.",
+  "buyerLocation":"Buyer Location",
+  "sellerLocation":"Seller Location"
 }
     

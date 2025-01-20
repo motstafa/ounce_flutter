@@ -86,7 +86,7 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 // Align items to the start of the cross axis
                 children: [
                   Text(
-                      '${S.of(context).nameLabel}: ${widget.item.address.fullName}'),
+                      '${S.of(context).nameLabel}: ${widget.item.buyerAddress.fullName}'),
                 ],
               ),
               Row(
@@ -94,7 +94,7 @@ class _CompletedDialogState extends State<CompletedDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   // Align items to the start of the cross axis
                   children: [
-                    Text('${S.of(context).phone}: ${widget.item.address.phone}')
+                    Text('${S.of(context).phone}: ${widget.item.buyerAddress.phone}')
                   ]),
               // Add a SizedBox for consistent spacing between rows
               const SizedBox(height: 10),
@@ -105,11 +105,11 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 children: <Widget>[
                   Flexible(
                     child: Text(
-                        '${S.of(context).prefecture}: ${widget.item.address.prefecture}'),
+                        '${S.of(context).prefecture}: ${widget.item.buyerAddress.prefecture}'),
                   ),
                   Flexible(
                     child: Text(
-                        '${S.of(context).city}: ${widget.item.address.cityTown}'),
+                        '${S.of(context).city}: ${widget.item.buyerAddress.cityTown}'),
                   ),
                 ],
               ),
@@ -119,7 +119,7 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // Align items to the start of the cross axis
                 children: [
-                  Text('${S.of(context).city}: ${widget.item.address.cityTown}')
+                  Text('${S.of(context).city}: ${widget.item.buyerAddress.cityTown}')
                 ],
               ),
               const SizedBox(height: 10),
@@ -128,7 +128,7 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '${S.of(context).wardLabel}: ${widget.item.address.ward}'),
+                      '${S.of(context).wardLabel}: ${widget.item.buyerAddress.ward}'),
                 ],
               ),
               Row(
@@ -136,7 +136,7 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '${S.of(context).streetAddressLabel}: ${widget.item.address.streetAdress}'),
+                      '${S.of(context).streetAddressLabel}: ${widget.item.buyerAddress.streetAdress}'),
                 ],
               ),
               const SizedBox(height: 10),
@@ -145,7 +145,7 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '${S.of(context).buildingLabel}: ${widget.item.address.building}'),
+                      '${S.of(context).buildingLabel}: ${widget.item.buyerAddress.building}'),
                 ],
               ),
               Row(
@@ -153,7 +153,7 @@ class _CompletedDialogState extends State<CompletedDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '${S.of(context).floorLabel}: ${widget.item.address.floor}'),
+                      '${S.of(context).floorLabel}: ${widget.item.buyerAddress.floor}'),
                 ],
               )
             ],

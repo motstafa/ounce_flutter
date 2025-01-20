@@ -13,7 +13,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> register(
+  Future<Map<String, dynamic>> register(
     String firstName,
     String lastName,
     String email,
@@ -30,31 +30,26 @@ class AuthProvider with ChangeNotifier {
     String building,
     int floor,
   ) async {
-    try {
-      if(await AuthService().register(
-        firstName,
-        lastName,
-        email,
-        password,
-        profilePicture,
-        storeName,
-        phoneNumber,
-        storePicture,
-        prefecture,
-        zoneId,
-        cityTown,
-        ward,
-        streetAddress,
-        building,
-        floor
-      )){
-      return true;
+    Map<String, dynamic> response =await AuthService().register(
+          firstName,
+          lastName,
+          email,
+          password,
+          profilePicture,
+          storeName,
+          phoneNumber,
+          storePicture,
+          prefecture,
+          zoneId,
+          cityTown,
+          ward,
+          streetAddress,
+          building,
+          floor);
+      if(response['success']){
+      return response;
       }
-      return false;
-    } catch (e) {
-      print(e);
-      return false;
-    }
+      return response;
   }
 
   Future<bool> login({

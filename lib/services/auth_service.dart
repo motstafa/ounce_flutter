@@ -14,7 +14,7 @@ class AuthService {
   final storage = const FlutterSecureStorage();
 
 
-  Future<bool> register(
+  Future<Map<String, dynamic>> register(
       String firstName,
       String lastName,
       String email,
@@ -49,7 +49,6 @@ class AuthService {
         ..fields['street_adress'] = streetAddress
         ..fields['building'] = building
         ..fields['floor'] = floor.toString(); // Convert integer to string
-
       // Add profile picture file
       if (profilePicture != null) {
         var imageBytes = await profilePicture.readAsBytes();
@@ -75,12 +74,17 @@ class AuthService {
 
       if (response.statusCode == 200) {
         print('Success: User registered successfully.');
-        return true;
+        // Parse success response
+        return {'success': true};
       } else {
-        print('Failed: ${response.statusCode}');
-        var responseBody = await response.stream.bytesToString();
-        print('Response body: $responseBody');
-        return false;
+        // Parse validation errors
+        final responseBody = await response.stream.bytesToString();
+        final decodedBody = jsonDecode(responseBody);
+
+        return {
+          'success': false,
+          'errors': decodedBody['message'], // Return validation errors
+        };
       }
     } catch (exception) {
       print('Exception: $exception');

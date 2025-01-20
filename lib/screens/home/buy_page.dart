@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ounce/constants/constants.dart';
+import 'package:ounce/screens/home/trader_page.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/models/operation_model.dart';
 import 'package:ounce/providers/operation_provider.dart';
@@ -20,6 +21,8 @@ class BuyPage extends StatelessWidget {
     Provider.of<OperationProvider>(context, listen: false);
     final BalanceProvider balanceProvider =
     Provider.of<BalanceProvider>(context, listen: false);
+
+    operationProvider.startPollingUpdatedOperations();
 
     if (operationProvider.operations.isEmpty) {
       operationProvider.loadOperations();
@@ -405,8 +408,7 @@ class _PurchaseDialogState extends State<PurchaseDialog> {
                     widget.operation!.id, selectedItems);
                 if (result) {
                   await operationProvider.refreshPage();
-                  widget.balanceProvider!.callToGetBalance();
-                  Navigator.of(context, rootNavigator: true).pop();
+                  await widget.balanceProvider!.callToGetBalance();
                 }
                 Navigator.of(context).pop(); // Close the dialog
               },

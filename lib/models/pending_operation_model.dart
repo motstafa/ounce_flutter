@@ -5,14 +5,16 @@ class PendingOperation {
   final int operationId;
   final int zoneId;
   final String operationStatus;
-  final Address address;
+  final Address buyerAddress;
+  final Address sellerAddress;
 
   PendingOperation({
     required this.id,
     required this.operationId,
     required this.zoneId,
     required this.operationStatus,
-    required this.address,
+    required this.buyerAddress,
+    required this.sellerAddress
   });
 
   factory PendingOperation.fromJson(Map<String, dynamic> json) {
@@ -21,18 +23,30 @@ class PendingOperation {
       operationId: json['operation_id'],
       zoneId: json['zone_id'],
       operationStatus: json['operation_status'],
-      address:  Address(
-        country: json['country'],
-        fullName: json['full_name'],
-        phone: json['phone_number'],
-        storePicture: json['store_picture'],
-        prefecture: json['prefecture'],
-        cityTown: json['city_town'],
-        ward: json['ward'],
-        streetAdress: json['street_adress'],
-        building: json['building'],
-        floor: json['floor'],
+      buyerAddress:  Address(
+        country: json['buyer_country'],
+        fullName: json['buyer_name'],
+        phone: json['buyer_phone_number'],
+        storePicture: json['buyer_store_picture'],
+        prefecture: json['buyer_prefecture'],
+        cityTown: json['buyer_city_town'],
+        ward: json['buyer_ward'],
+        streetAdress: json['buyer_street_adress'],
+        building: json['buyer_building'],
+        floor: json['buyer_floor'],
       ),
+      sellerAddress: Address(
+        country: json['seller_country'],
+        fullName: json['seller_name'],
+        phone: json['seller_phone_number'],
+        storePicture: json['seller_store_picture'],
+        prefecture: json['seller_prefecture'],
+        cityTown: json['seller_city_town'],
+        ward: json['seller_ward'],
+        streetAdress: json['seller_street_adress'],
+        building: json['seller_building'],
+        floor: json['seller_floor'],
+      )
     );
   }
 
