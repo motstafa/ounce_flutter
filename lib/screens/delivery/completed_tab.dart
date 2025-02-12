@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ounce/screens/delivery/operation_details.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
 
@@ -50,7 +51,7 @@ class _CompletedTabState extends State<CompletedTab> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return CompletedDialog(item: item);
+                      return OperationDetails(item: item,formSection: const SizedBox.shrink());
                     },
                   );
                 },
@@ -60,105 +61,5 @@ class _CompletedTabState extends State<CompletedTab> {
         },
       ),
     );
-  }
-}
-
-class CompletedDialog extends StatefulWidget {
-  final PendingOperation item;
-
-  const CompletedDialog({super.key, required this.item});
-
-  @override
-  _CompletedDialogState createState() => _CompletedDialogState();
-}
-
-class _CompletedDialogState extends State<CompletedDialog> {
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-        title: Text(S.of(context).deliveryDetailsTitle),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // Align items to the start of the cross axis
-                children: [
-                  Text(
-                      '${S.of(context).nameLabel}: ${widget.item.buyerAddress.fullName}'),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // Align items to the start of the cross axis
-                  children: [
-                    Text('${S.of(context).phone}: ${widget.item.buyerAddress.phone}')
-                  ]),
-              // Add a SizedBox for consistent spacing between rows
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // Align items to the start of the cross axis
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                        '${S.of(context).prefecture}: ${widget.item.buyerAddress.prefecture}'),
-                  ),
-                  Flexible(
-                    child: Text(
-                        '${S.of(context).city}: ${widget.item.buyerAddress.cityTown}'),
-                  ),
-                ],
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // Align items to the start of the cross axis
-                children: [
-                  Text('${S.of(context).city}: ${widget.item.buyerAddress.cityTown}')
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      '${S.of(context).wardLabel}: ${widget.item.buyerAddress.ward}'),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      '${S.of(context).streetAddressLabel}: ${widget.item.buyerAddress.streetAdress}'),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      '${S.of(context).buildingLabel}: ${widget.item.buyerAddress.building}'),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      '${S.of(context).floorLabel}: ${widget.item.buyerAddress.floor}'),
-                ],
-              )
-            ],
-          ),
-        ),
-        actions: const <Widget>[]);
   }
 }

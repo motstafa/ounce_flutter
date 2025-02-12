@@ -26,7 +26,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   XFile? profilePicture;
-  TextEditingController storeName = TextEditingController();
   TextEditingController  phoneNumber= TextEditingController();
   XFile? storePicture;
   TextEditingController prefecture = TextEditingController();
@@ -161,7 +160,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           email.text,
                           password.text,
                           profilePicture,
-                          storeName.text,
                           phoneNumber.text,
                           storePicture,
                           prefecture.text,
@@ -398,37 +396,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       content: Column(
                         children: [
                           // Store Name
-                          const SizedBox(height: 5),
-                          TextFormField(
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return S.of(context).pleaseStoreName;
-                              }
-                              return null;
-                            },
-                            controller: storeName,
-                            decoration: InputDecoration(
-                              labelText: S.of(context).storeName,
-                              hintText: S.of(context).enterStoreName,
-                              hintStyle: TextStyle(
-                                color: buttonAccentColor,
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color:
-                                      buttonAccentColor, // Default border color
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color:
-                                      buttonAccentColor, // Default border color
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
                           const SizedBox(height: 25.0),
                           // store picture
                           GestureDetector(

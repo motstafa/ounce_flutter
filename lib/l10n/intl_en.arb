@@ -61,9 +61,9 @@
   "notification": "Notifications",
   "deliveryDetailsTitle": "Delivery Details",
   "nameLabel": "Name",
-  "estimatedTimeToSellerHint": "estimated time to seller",
+  "estimatedTimeToSellerHint": "estimated time to seller per minutes",
   "pleaseEnterEstimatedTimeToSeller": "Please enter estimated time to seller",
-  "estimatedTimeToBuyerHint": "estimated time to buyer",
+  "estimatedTimeToBuyerHint": "estimated time to buyer per minutes",
   "pleaseEnterEstimatedTimeToBuyer": "Please enter estimated time to buyer",
   "moveToInProgressButton": "Move to In-progress",
   "agreeToMoveToCompletedText": "Agree to move to completed",
@@ -120,6 +120,7 @@
   "purchaseFailed":"Purchase Failed",
   "purchaseFailedText":"You do not have enough balance to complete the purchase.",
   "buyerLocation":"Buyer Location",
-  "sellerLocation":"Seller Location"
+  "sellerLocation":"Seller Location",
+  "numberOfUnits":"Number Of Units"
 }
     

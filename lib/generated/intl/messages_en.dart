@@ -72,10 +72,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter Street Address"),
         "enterWard": MessageLookupByLibrary.simpleMessage("Enter Ward"),
         "error": MessageLookupByLibrary.simpleMessage("Error"),
-        "estimatedTimeToBuyerHint":
-            MessageLookupByLibrary.simpleMessage("estimated time to buyer"),
-        "estimatedTimeToSellerHint":
-            MessageLookupByLibrary.simpleMessage("estimated time to seller"),
+        "estimatedTimeToBuyerHint": MessageLookupByLibrary.simpleMessage(
+            "estimated time to buyer per minutes"),
+        "estimatedTimeToSellerHint": MessageLookupByLibrary.simpleMessage(
+            "estimated time to seller per minutes"),
         "falseLabel": MessageLookupByLibrary.simpleMessage("False"),
         "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
         "floorLabel": MessageLookupByLibrary.simpleMessage("Floor"),
@@ -109,6 +109,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("number of ounces"),
         "numberOfOuncesLabel":
             MessageLookupByLibrary.simpleMessage("Number Of Ounces"),
+        "numberOfUnits":
+            MessageLookupByLibrary.simpleMessage("Number Of Units"),
         "numberOfUnitsLabel":
             MessageLookupByLibrary.simpleMessage("Number of Units"),
         "okButtonLabel": MessageLookupByLibrary.simpleMessage("OK"),

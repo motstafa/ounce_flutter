@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 double defaultMargin = 30;
 
@@ -27,33 +26,6 @@ Color BoxBackground = Color(0xFF2e2d2c);
 List<Color> GoldButton = [Color(0xFFfefdf3),Color(0xFF926300),Color(0xFFfefdf3)];
 
 
-TextStyle primaryTextStyle = GoogleFonts.poppins(
-  color: primaryTextColor,
-);
-
-TextStyle secondaryTextStyle = GoogleFonts.poppins(
-  color: secondaryTextColor,
-);
-
-TextStyle subtitleTextStyle = GoogleFonts.poppins(
-  color: subtitleColor,
-);
-
-TextStyle priceTextStyle = GoogleFonts.poppins(
-  color: priceColor,
-);
-
-TextStyle purpleTextStyle = GoogleFonts.poppins(
-  color: primaryColor,
-);
-
-TextStyle blackTextStyle = GoogleFonts.poppins(
-  color: blackColor,
-);
-
-TextStyle alertTextStyle = GoogleFonts.poppins(
-  color: alertColor,
-);
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;

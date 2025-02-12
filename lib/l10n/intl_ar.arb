@@ -61,9 +61,9 @@
   "notification": "إشعارات",
   "deliveryDetailsTitle": "تفاصيل التوصيل",
   "nameLabel": "الاسم",
-  "estimatedTimeToSellerHint": "الوقت المقدر للبائع",
+  "estimatedTimeToSellerHint": "الوقت المقدر للبائع بالدقائق",
   "pleaseEnterEstimatedTimeToSeller": "يرجى إدخال الوقت المقدر للبائع",
-  "estimatedTimeToBuyerHint": "الوقت المقدر للمشتري",
+  "estimatedTimeToBuyerHint": "الوقت المقدر للمشتري بالدقائق",
   "pleaseEnterEstimatedTimeToBuyer": "يرجى إدخال الوقت المقدر للمشتري",
   "moveToInProgressButton": "الانتقال إلى قيد التنفيذ",
   "agreeToMoveToCompletedText": "أوافق على الانتقال إلى المكتمل",
@@ -120,5 +120,6 @@
   "purchaseFailed":"فشلت العملية",
   "purchaseFailedText":"ليس لديك الرصيد الكافي للإجراء هذه العملية",
   "buyerLocation":"موقع المشتري",
-  "sellerLocation":"موقع البائع"
+  "sellerLocation":"موقع البائع",
+  "numberOfUnits":"عدد الوحدات"
 }

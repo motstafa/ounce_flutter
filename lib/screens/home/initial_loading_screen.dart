@@ -47,6 +47,7 @@ class _InitialLoadingScreenState extends State<InitialLoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
         child: CircularProgressIndicator(),
       ),

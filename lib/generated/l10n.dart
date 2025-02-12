@@ -670,10 +670,10 @@ class S {
     );
   }
 
-  /// `estimated time to seller`
+  /// `estimated time to seller per minutes`
   String get estimatedTimeToSellerHint {
     return Intl.message(
-      'estimated time to seller',
+      'estimated time to seller per minutes',
       name: 'estimatedTimeToSellerHint',
       desc: '',
       args: [],
@@ -690,10 +690,10 @@ class S {
     );
   }
 
-  /// `estimated time to buyer`
+  /// `estimated time to buyer per minutes`
   String get estimatedTimeToBuyerHint {
     return Intl.message(
-      'estimated time to buyer',
+      'estimated time to buyer per minutes',
       name: 'estimatedTimeToBuyerHint',
       desc: '',
       args: [],
@@ -1265,6 +1265,16 @@ class S {
     return Intl.message(
       'Seller Location',
       name: 'sellerLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number Of Units`
+  String get numberOfUnits {
+    return Intl.message(
+      'Number Of Units',
+      name: 'numberOfUnits',
       desc: '',
       args: [],
     );

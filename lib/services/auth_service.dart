@@ -20,7 +20,6 @@ class AuthService {
       String email,
       String password,
       XFile? profilePicture,
-      String storeName,
       String phoneNumber,
       XFile? storePicture,
       String prefecture,
@@ -40,7 +39,6 @@ class AuthService {
         ..fields['last_name'] = lastName
         ..fields['email'] = email
         ..fields['password'] = password
-        ..fields['full_name'] = storeName
         ..fields['phone_number'] = phoneNumber
         ..fields['zone_id'] = zoneId.toString() // Convert integer to string
         ..fields['prefecture'] = prefecture

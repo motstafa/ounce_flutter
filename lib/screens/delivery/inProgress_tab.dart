@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ounce/screens/delivery/operation_details.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
 
@@ -51,7 +52,7 @@ class _InProgressTabState extends State<InProgressTab> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return InProgressDialog(item: item);
+                      return OperationDetails(item: item,formSection:  CompletionSection(item: item,));
                     },
                   );
                 },
@@ -64,32 +65,25 @@ class _InProgressTabState extends State<InProgressTab> {
   }
 }
 
-class InProgressDialog extends StatefulWidget {
+class CompletionSection extends StatefulWidget {
   final PendingOperation item;
 
-  const InProgressDialog({super.key, required this.item});
+  const CompletionSection({Key? key, required this.item}) : super(key: key);
 
   @override
-  _InProgressDialogState createState() => _InProgressDialogState();
+  State<CompletionSection> createState() => _CompletionSectionState();
 }
 
-class _InProgressDialogState extends State<InProgressDialog> {
-  bool _isChecked = false; // Define this in your state class
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _CompletionSectionState extends State<CompletionSection> {
+  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(S.of(context).deliveryDetailsTitle),
-      content: Container(
-          width: double.maxFinite,
-          height: 200,
-          child:  PageView(
-            children: [
-              LocationDetail(address:widget.item.sellerAddress),
-              LocationDetail(address:widget.item.buyerAddress)],
-          )),
-      actions: <Widget>[
+    return 
+      Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: 
+      Column(
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -98,28 +92,31 @@ class _InProgressDialogState extends State<InProgressDialog> {
               value: _isChecked,
               onChanged: (bool? value) {
                 setState(() {
-                  _isChecked = value!;
+                  _isChecked = value ?? false;
                 });
               },
             ),
           ],
         ),
-        TextButton(
-          child: Text(S.of(context).moveToCompletedButton),
+        const SizedBox(height: 10),
+        ElevatedButton(
           onPressed: _isChecked
               ? () async {
-                  var inProgressProvider = Provider.of<OperationTracksProvider>(
-                      context,
-                      listen: false);
+            var inProgressProvider =
+            Provider.of<OperationTracksProvider>(context, listen: false);
 
-                  // Logic to transfer the item to 'Completed'
-                  await inProgressProvider
-                      .moveToComplete(widget.item.operationId);
-                  Navigator.of(context).pop(); // Close the dialog
-                }
+            // Logic to transfer the item to 'Completed'
+            await inProgressProvider.moveToComplete(widget.item.operationId);
+
+            if (mounted) {
+              Navigator.of(context).pop(); // Close the dialog
+            }
+          }
               : null, // Button is disabled if _isChecked is false
+          child: Text(S.of(context).moveToCompletedButton),
         ),
       ],
-    );
+    ));
   }
 }
+

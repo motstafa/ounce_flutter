@@ -3,6 +3,7 @@ import 'address_model.dart';
 class PendingOperation {
   final int id;
   final int operationId;
+  final int numberOfUnits;
   final int zoneId;
   final String operationStatus;
   final Address buyerAddress;
@@ -11,6 +12,7 @@ class PendingOperation {
   PendingOperation({
     required this.id,
     required this.operationId,
+    required this.numberOfUnits,
     required this.zoneId,
     required this.operationStatus,
     required this.buyerAddress,
@@ -21,6 +23,7 @@ class PendingOperation {
     return PendingOperation(
       id: json['id'],
       operationId: json['operation_id'],
+      numberOfUnits: json['number_of_units'],
       zoneId: json['zone_id'],
       operationStatus: json['operation_status'],
       buyerAddress:  Address(

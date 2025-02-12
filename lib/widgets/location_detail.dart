@@ -22,7 +22,7 @@ class LocationDetail extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if(Location =='seller') const Icon(Icons.arrow_back) ,
+              if (Location == "buyer") const Icon(Icons.arrow_back),
               Text(
                 Location == 'seller'
                     ? S.of(context).sellerLocation
@@ -30,7 +30,7 @@ class LocationDetail extends StatelessWidget {
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-             if(Location =="buyer")  const Icon(Icons.arrow_forward),
+              if (Location == 'seller') const Icon(Icons.arrow_forward),
             ],
           ),
           Row(

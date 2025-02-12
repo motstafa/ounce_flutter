@@ -31,14 +31,15 @@ class LoadingButton extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 4,
             ),
-            Text(
+            const Text(
               'Loading',
-              style: primaryTextStyle.copyWith(
+              style: TextStyle(
                 fontSize: 16,
-                fontWeight: medium,
+                fontWeight: FontWeight.normal, // Use FontWeight.normal for a standard style
+                color: Colors.black, // Set the color if required
               ),
             ),
           ],

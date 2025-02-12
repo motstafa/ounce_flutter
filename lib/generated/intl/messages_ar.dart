@@ -73,10 +73,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل عنوان الشارع"),
         "enterWard": MessageLookupByLibrary.simpleMessage("أدخل الحي"),
         "error": MessageLookupByLibrary.simpleMessage("خطأ"),
-        "estimatedTimeToBuyerHint":
-            MessageLookupByLibrary.simpleMessage("الوقت المقدر للمشتري"),
-        "estimatedTimeToSellerHint":
-            MessageLookupByLibrary.simpleMessage("الوقت المقدر للبائع"),
+        "estimatedTimeToBuyerHint": MessageLookupByLibrary.simpleMessage(
+            "الوقت المقدر للمشتري بالدقائق"),
+        "estimatedTimeToSellerHint": MessageLookupByLibrary.simpleMessage(
+            "الوقت المقدر للبائع بالدقائق"),
         "falseLabel": MessageLookupByLibrary.simpleMessage("خطأ"),
         "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
         "floorLabel": MessageLookupByLibrary.simpleMessage("الطابق"),
@@ -110,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("عدد الأوقيات"),
         "numberOfOuncesLabel":
             MessageLookupByLibrary.simpleMessage("عدد الأوقيات"),
+        "numberOfUnits": MessageLookupByLibrary.simpleMessage("عدد الوحدات"),
         "numberOfUnitsLabel":
             MessageLookupByLibrary.simpleMessage("عدد الوحدات"),
         "okButtonLabel": MessageLookupByLibrary.simpleMessage("موافق"),

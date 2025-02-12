@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ounce/models/pending_operation_model.dart';
+import 'package:ounce/screens/delivery/operation_details.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
 import '../../constants/constants.dart';
@@ -54,7 +55,7 @@ class _PendingTabState extends State<PendingTab> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return PendingDialog(item: item);
+                      return OperationDetails(item: item,formSection: FormSection(item: item),);
                     },
                   );
                 },
@@ -67,102 +68,97 @@ class _PendingTabState extends State<PendingTab> {
   }
 }
 
-class PendingDialog extends StatefulWidget {
+
+
+class FormSection extends StatefulWidget {
   final PendingOperation item;
 
-  const PendingDialog({super.key, required this.item});
+  const FormSection({Key? key, required this.item}) : super(key: key);
 
   @override
-  _PendingDialogState createState() => _PendingDialogState();
+  State<FormSection> createState() => _FormSectionState();
 }
 
-class _PendingDialogState extends State<PendingDialog> {
-  TextEditingController timeTobuyerController = TextEditingController();
-  TextEditingController timeToSellerController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+class _FormSectionState extends State<FormSection> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController timeToSellerController = TextEditingController();
+  final TextEditingController timeToBuyerController = TextEditingController();
 
   @override
   void dispose() {
     timeToSellerController.dispose();
-    timeTobuyerController.dispose();
+    timeToBuyerController.dispose();
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-        title: Text(S.of(context).deliveryDetailsTitle),
-        content:
-        Container(
-           width: double.maxFinite,
-           height: 200,
-           child:  PageView(
-          children: [
-            LocationDetail(Location: 'buyer',address:widget.item.buyerAddress),
-            LocationDetail(Location: 'seller',address:widget.item.sellerAddress)],
-        )),
-        actions: <Widget>[
-          Form(
-            key: _formKey, // Make sure this is defined in your state class
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextFormField(
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  controller: timeToSellerController,
-                  decoration: InputDecoration(
-                    hintText: S.of(context).estimatedTimeToSellerHint,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return S.of(context).pleaseEnterEstimatedTimeToSeller;
-                    }
-                    return null; // The field is valid
-                  },
-                  // Add other properties and methods as needed
-                ),
-                const SizedBox(height: 10),
-                // Spacing between the input fields
-                TextFormField(
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  controller: timeTobuyerController,
-                  decoration: InputDecoration(
-                    hintText: S.of(context).estimatedTimeToBuyerHint,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return S.of(context).pleaseEnterEstimatedTimeToSeller;
-                    }
-                    return null; // The field is valid
-                  },
-                ),
-                TextButton(
-                  child: Text(S.of(context).moveToInProgressButton),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      // Check if form is valid
-                      var pendingProvider =
-                          Provider.of<OperationTracksProvider>(context,
-                              listen: false);
-
-                      await pendingProvider.acceptOrder(
-                          widget.item.operationId,
-                          timeToSellerController.text,
-                          timeTobuyerController.text);
-                      // Use a mounted check before calling Navigator.of(context).pop()
-                      if (mounted) {
-                        Navigator.of(context).pop(); // Close the dialog
-                      }
-                    }
-                  },
-                ),
-              ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+            controller: timeToSellerController,
+            decoration: InputDecoration(
+              hintText: S
+                  .of(context)
+                  .estimatedTimeToSellerHint,
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return S
+                    .of(context)
+                    .pleaseEnterEstimatedTimeToSeller;
+              }
+              return null;
+            },
           ),
-        ]);
+          const SizedBox(height: 10),
+          TextFormField(
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+            controller: timeToBuyerController,
+            decoration: InputDecoration(
+              hintText: S
+                  .of(context)
+                  .estimatedTimeToBuyerHint,
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return S
+                    .of(context)
+                    .pleaseEnterEstimatedTimeToSeller;
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                var pendingProvider = Provider.of<OperationTracksProvider>(
+                    context,
+                    listen: false);
+
+                await pendingProvider.acceptOrder(
+                  widget.item.operationId,
+                  timeToSellerController.text,
+                  timeToBuyerController.text,
+                );
+
+                if (mounted) {
+                  Navigator.of(context).pop();
+                }
+              }
+            },
+            child: Text(S
+                .of(context)
+                .moveToInProgressButton),
+          ),
+        ],
+      ),
+    );
   }
 }
