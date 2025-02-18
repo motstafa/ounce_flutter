@@ -31,7 +31,7 @@ class AuthService {
       balance['buy_balance'] = data['buy_balance'];
       return balance;
     } else {
-      throw Exception('Failed to load operations');
+      return {};
     }
   }
 }
