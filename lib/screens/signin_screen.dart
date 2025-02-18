@@ -51,8 +51,6 @@ class _SignInScreenState extends State<SignInScreen> {
         email: emailController.text,
         password: passwordController.text,
       )) {
-        final pushNotificationService = PushNotificationService();
-        await pushNotificationService.init();
         if (prefs.getInt('role') == Constants.userRoles['trader']) {
           if (await balanceProvider.callToGetBalance()) {
             Navigator.pushReplacement(

@@ -10,12 +10,12 @@ import '../constants/constants.dart';
 import '../main.dart';
 import '../providers/notification_provider.dart';
 
-
 class PushNotificationService {
   String baseUrl = Constants.apiUri;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
   BuildContext? get globalContext => navigatorKey.currentContext;
 
   Future<void> init() async {
@@ -27,22 +27,46 @@ class PushNotificationService {
         AndroidInitializationSettings('@mipmap/ic_launcher');
     final InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
-    await _flutterLocalNotificationsPlugin.initialize(initializationSettings, onDidReceiveNotificationResponse: (NotificationResponse response) {
-      if (response.notificationResponseType ==
-          NotificationResponseType.selectedNotification) {
-        onSelectNotification(response.payload);
-      }
-    },);
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        if (response.notificationResponseType ==
+            NotificationResponseType.selectedNotification) {
+          onSelectNotification(response.payload);
+        }
+      },
+    );
 
     // Get the device token
     String? token = await _firebaseMessaging.getToken();
-    print('Device Token: $token');
-    //save token in the backend
-    sendTokenToBackend(token);
-    // Handle incoming messages
+    if (token != null) {
+      await saveFCMTokenLocally(token);
+    }
+
+    String? storedToken = await getFCMTokenFromLocal(); // Implement this function to get the stored token.
+
+    if (storedToken == null) {
+      // No token found, request a new one
+      String? token = await _firebaseMessaging.getToken();
+      if (token != null) {
+        await saveFCMTokenLocally(token);  // Save token locally
+        sendTokenToBackend(token);  // Send token to backend
+      }
+    }
+    // Handle foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       notificationHandler(message);
     });
+  }
+
+  Future<void> saveFCMTokenLocally(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('fcm_token', token);
+  }
+
+  Future<String?> getFCMTokenFromLocal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('fcm_token');
   }
 
   void notificationHandler(RemoteMessage message) {
@@ -84,17 +108,22 @@ class PushNotificationService {
       print('Route key not found in data');
     }
     // Assuming you have a way to convert RemoteMessage to NotificationItem
-    NotificationItem newNotification = NotificationItem(id:notification.hashCode,title: notification?.title ?? '',text: notification?.body ??'',titleAr:message.data['title_ar']??'' ,textAr: message.data['body_ar']??'',read: 0,route: route ??'');
+    NotificationItem newNotification = NotificationItem(
+        id: notification.hashCode,
+        title: notification?.title ?? '',
+        text: notification?.body ?? '',
+        titleAr: message.data['title_ar'] ?? '',
+        textAr: message.data['body_ar'] ?? '',
+        read: 0,
+        route: route ?? '');
 
     // Find the provider and call addNotification
     NotificationProvider provider = Provider.of<NotificationProvider>(
       globalContext!, // You need to have a reference to the context
       listen: false,
     );
-   provider.addNotification(newNotification);
+    provider.addNotification(newNotification);
   }
-
-
 
   Future onSelectNotification(String? payload) async {
     // Navigate to the notifications screen
@@ -131,7 +160,7 @@ class PushNotificationService {
     if (response.statusCode == 200) {
       return true;
     } else {
-      throw Exception('Gagal Login');
+      throw Exception('something went wrong');
     }
   }
 }
