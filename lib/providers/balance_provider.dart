@@ -49,7 +49,7 @@ class BalanceProvider with ChangeNotifier {
       // notifyListeners();
       return true;
     } catch (e) {
-      throw Exception(e);
+      return {};
     }
   }
 }

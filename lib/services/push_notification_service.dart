@@ -14,39 +14,19 @@ class PushNotificationService {
   String baseUrl = Constants.apiUri;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
+
   BuildContext? get globalContext => navigatorKey.currentContext;
 
   Future<void> init() async {
-    // Request permission for notifications (for iOS)
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    print("Notification permission status: ${settings.authorizationStatus}");
+    // Request permission for notifications
+    await _firebaseMessaging.requestPermission();
 
     // Initialize the Flutter Local Notifications Plugin
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-
-    final DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
-
-    final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
-
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
@@ -59,90 +39,128 @@ class PushNotificationService {
 
     // Get the device token
     String? token = await _firebaseMessaging.getToken();
-    print('Device Token: $token');
-
-    // Save token in the backend
     if (token != null) {
-      sendTokenToBackend(token);
+      await saveFCMTokenLocally(token);
     }
 
-    // Handle incoming messages
+    String? storedToken = await getFCMTokenFromLocal(); // Implement this function to get the stored token.
+
+    if (storedToken == null) {
+      // No token found, request a new one
+      String? token = await _firebaseMessaging.getToken();
+      if (token != null) {
+        await saveFCMTokenLocally(token);  // Save token locally
+        sendTokenToBackend(token);  // Send token to backend
+      }
+    }
+    // Handle foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       notificationHandler(message);
     });
   }
 
+  Future<void> saveFCMTokenLocally(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('fcm_token', token);
+  }
+
+  Future<String?> getFCMTokenFromLocal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('fcm_token');
+  }
+
   void notificationHandler(RemoteMessage message) {
+    // If the message also contains a notification (such as title and body),
+    // we can display a notification to the user using the flutter_local_notifications plugin.
+    // print('Message received: ${message.toMap()}'); // Log the entire message
+
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
-    AppleNotification? apple = message.notification?.apple;
-
-    if (notification != null) {
+    if (notification != null && android != null) {
       _flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
         notification.body,
         NotificationDetails(
-          android: android != null
-              ? AndroidNotificationDetails(
+          android: AndroidNotificationDetails(
             'channel ID',
             'channel Name',
             channelDescription: 'channel description',
             icon: android.smallIcon,
-          )
-              : null,
-          iOS: apple != null
-              ? DarwinNotificationDetails(
-            subtitle: notification.body,
-            badgeNumber: 1,
-          )
-              : null,
+          ),
         ),
       );
     }
 
     String? route = message.data['route'];
+    // Log the entire data map
     print('Message Data: ${message.data}');
 
+    if (message.data.containsKey('route')) {
+      String? route = message.data['route'];
+      if (route != null) {
+        // Handle the route as needed
+        print('Route: $route');
+      } else {
+        print('Route key exists but value is null');
+      }
+    } else {
+      print('Route key not found in data');
+    }
+    // Assuming you have a way to convert RemoteMessage to NotificationItem
     NotificationItem newNotification = NotificationItem(
-      id: notification.hashCode,
-      title: notification?.title ?? '',
-      text: notification?.body ?? '',
-      titleAr: message.data['title_ar'] ?? '',
-      textAr: message.data['body_ar'] ?? '',
-      read: 0,
-      route: route ?? '',
-    );
+        id: notification.hashCode,
+        title: notification?.title ?? '',
+        text: notification?.body ?? '',
+        titleAr: message.data['title_ar'] ?? '',
+        textAr: message.data['body_ar'] ?? '',
+        read: 0,
+        route: route ?? '');
 
+    // Find the provider and call addNotification
     NotificationProvider provider = Provider.of<NotificationProvider>(
-      globalContext!,
+      globalContext!, // You need to have a reference to the context
       listen: false,
     );
     provider.addNotification(newNotification);
   }
 
-  Future<void> onSelectNotification(String? payload) async {
+  Future onSelectNotification(String? payload) async {
+    // Navigate to the notifications screen
     if (globalContext != null) {
       Navigator.of(globalContext!).pushNamed('/notifications');
     }
   }
 
-  Future<bool> sendTokenToBackend(String notificationToken) async {
+  Future<bool> sendTokenToBackend(notificationToken) async {
     final prefs = await SharedPreferences.getInstance();
+
     var url = '$baseUrl/saveNotificationToken';
 
-    final token = prefs.getString('auth_token');
+    final token =
+        prefs.getString('auth_token'); // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
+      'Authorization': 'Bearer $token', // Add the token to the headers
     };
 
-    var body = jsonEncode({'notification_token': notificationToken});
+    var body = jsonEncode({
+      'notification_token': notificationToken,
+    });
 
-    var response = await http.post(Uri.parse(url), headers: headers, body: body);
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+
     print(response.body);
 
-    return response.statusCode == 200;
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('something went wrong');
+    }
   }
 }

@@ -23,6 +23,7 @@ class _SellPageState extends State<SellPage> {
 
   // Assuming this is your static list for unit types
   final List<String> unitTypes = ['swiss', 'italy', 'england'];
+  bool isLoading = false; // Track loading state
 
   // Function to handle image selection
   Future<void> _selectImage() async {
@@ -39,47 +40,27 @@ class _SellPageState extends State<SellPage> {
 
   @override
   Widget build(BuildContext context) {
-    BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context,listen: false);
+    BalanceProvider balanceProvider = Provider.of<BalanceProvider>(context, listen: false);
     balanceProvider.callToGetBalance();
-    return FutureBuilder(
-      // Assume getSellBalance is a method that returns a Future<int>
+
+    return FutureBuilder<int>(
       future: balanceProvider.fetchBalance('sell'),
       builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Return a loader while waiting for the balance value
-          return Padding(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-              ],
-            ),
-          );
+          return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          // Handle error state
           return Text('${S.of(context).error}: ${snapshot.error}');
         } else {
-          // Check if the balance is zero and display a message instead of the form
           final sellBalance = snapshot.data ?? 0;
           if (sellBalance == 0) {
             return Scaffold(
               backgroundColor: Colors.black,
               appBar: AppBar(
                 backgroundColor: Colors.black,
-                title: Text(
-                  S.of(context).sellPageTitle,
-                  style: TextStyle(color: buttonAccentColor),
-                  textAlign: TextAlign.center,
-                ),
+                title: Text(S.of(context).sellPageTitle, style: TextStyle(color: buttonAccentColor)),
               ),
               body: Center(
-                child: Text(
-                  S.of(context).notEnoughBalanceMessage,
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
+                child: Text(S.of(context).notEnoughBalanceMessage, style: TextStyle(color: Colors.white, fontSize: 18)),
               ),
             );
           } else {
@@ -92,39 +73,26 @@ class _SellPageState extends State<SellPage> {
                   padding: EdgeInsets.all(8.0),
                   children: <Widget>[
                     TextFormField(
-                      decoration: InputDecoration(
-                        labelText: S.of(context).unitPriceLabel,
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
+                      decoration: InputDecoration(labelText: S.of(context).unitPriceLabel, border: OutlineInputBorder()),
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
                       controller: priceController,
                     ),
                     SizedBox(height: 16.0),
-
                     DropdownButtonFormField<String>(
                       value: unitTypeController,
-                      decoration: InputDecoration(
-                        labelText: S.of(context).unitTypeLabel,
-                        border: OutlineInputBorder(),
-                      ),
-                      items: unitTypes
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
+                      decoration: InputDecoration(labelText: S.of(context).unitTypeLabel, border: OutlineInputBorder()),
+                      items: unitTypes.map((String value) {
+                        return DropdownMenuItem(value: value, child: Text(value));
                       }).toList(),
                       onChanged: (String? newValue) {
-                        unitTypeController = newValue;
+                        setState(() {
+                          unitTypeController = newValue;
+                        });
                       },
                     ),
                     SizedBox(height: 16.0),
                     TextFormField(
-                      decoration: InputDecoration(
-                        labelText: S.of(context).numberOfUnitsLabel,
-                        border: OutlineInputBorder(),
-                      ),
+                      decoration: InputDecoration(labelText: S.of(context).numberOfUnitsLabel, border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
                       controller: numberOfUnitsController,
                     ),
@@ -132,71 +100,47 @@ class _SellPageState extends State<SellPage> {
                     switcher,
                     GestureDetector(
                       onTap: _selectImage,
-                      // Call _selectImage function when tapped
                       child: Container(
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              // Default border color
-                              ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(10)),
                         child: _imageFile == null
                             ? Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  S.of(context).uploadOncePictureLabel,
-                                  style: TextStyle(),
-                                ),
-                              )
-                            : Image.network(
-                                _imageFile!.path,
-                                fit: BoxFit.cover,
-                                width: 50,
-                                height: 50,
-                              ),
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(S.of(context).uploadOncePictureLabel),
+                        )
+                            : Image.network(_imageFile!.path, fit: BoxFit.cover, width: 50, height: 50),
                       ),
                     ),
-                    // Add other form fields if necessary
                     SizedBox(height: 16.0),
                     ElevatedButton(
-                      onPressed: () async {
+                      onPressed: isLoading
+                          ? null // Disable button while loading
+                          : () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          // Check if sellBalance is 0 and prevent selling
                           if (sellBalance == 0) {
                             showDialog(
                               context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(S.of(context).insufficientBalanceTitle),
-                                  content:Text(S.of(context).insufficientBalanceMessage),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text(S.of(context).okButtonLabel),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
+                              builder: (context) => AlertDialog(
+                                title: Text(S.of(context).insufficientBalanceTitle),
+                                content: Text(S.of(context).insufficientBalanceMessage),
+                                actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text(S.of(context).okButtonLabel))],
+                              ),
                             );
                           } else {
-                            // Perform the selling operation with the form data
-                            final operationProvider =
-                                Provider.of<OperationProvider>(context,
-                                    listen: false);
+                            final operationProvider = Provider.of<OperationProvider>(context, listen: false);
+                            setState(() => isLoading = true); // Show loading indicator
 
-                            double? price =
-                                double.tryParse(priceController.text);
-                            int? numberOfUnits =
-                                int.tryParse(numberOfUnitsController.text);
                             bool result = await operationProvider.sell(
-                                priceController.text,
-                                unitTypeController!,
-                                _imageFile,
-                                numberOfUnitsController.text,switcher.getValue()? 1 : 0);
+                              priceController.text,
+                              unitTypeController!,
+                              _imageFile,
+                              numberOfUnitsController.text,
+                              switcher.getValue() ? 1 : 0,
+                            );
+
+                            setState(() => isLoading = false); // Hide loading indicator
+
                             if (result) {
                               setState(() {
                                 priceController.clear();
@@ -208,26 +152,19 @@ class _SellPageState extends State<SellPage> {
                             } else {
                               showDialog(
                                 context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(S.of(context).insufficientBalanceTitle),
-                                    content: Text(S.of(context).insufficientBalanceMessage),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text(S.of(context).okButtonLabel),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
+                                builder: (context) => AlertDialog(
+                                  title: Text(S.of(context).insufficientBalanceTitle),
+                                  content: Text(S.of(context).insufficientBalanceMessage),
+                                  actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text(S.of(context).okButtonLabel))],
+                                ),
                               );
                             }
                           }
                         }
                       },
-                      child: Text(S.of(context).submitButtonLabel),
+                      child: isLoading
+                          ? SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                          : Text(S.of(context).submitButtonLabel),
                     ),
                   ],
                 ),

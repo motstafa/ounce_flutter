@@ -49,20 +49,26 @@ class _TraderHomePageState extends State<TraderHomePage> {
         },
       );
       if (response.statusCode == 200) {
-        setState(() {
-          goldData = json.decode(response.body);
-          isError = false;
-        });
+        if (mounted) {
+          setState(() {
+            goldData = json.decode(response.body);
+            isError = false;
+          });
+        }
       } else {
-        setState(() {
-          isError = true;
-        });
+        if (mounted) {
+          setState(() {
+            isError = true;
+          });
+        }
         print('Failed to fetch data: ${response.statusCode}');
       }
     } catch (error) {
-      setState(() {
-        isError = true;
-      });
+      if (mounted) {
+        setState(() {
+          isError = true;
+        });
+      }
       print('Error fetching data: $error');
     }
   }
@@ -90,7 +96,8 @@ class _TraderHomePageState extends State<TraderHomePage> {
           decoration: BoxDecoration(
             color: Colors.black,
             border: Border.all(color: GoldColor!, width: 2),
-            borderRadius: const BorderRadius.all(Radius.circular(30)),// Simple Border
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
+            // Simple Border
             boxShadow: [
               BoxShadow(
                 color: GoldInBetween.withOpacity(0.5),
