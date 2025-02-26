@@ -37,26 +37,34 @@ class PushNotificationService {
       },
     );
 
-    // Get the device token
-    String? token = await _firebaseMessaging.getToken();
-    if (token != null) {
-      await saveFCMTokenLocally(token);
-    }
+    // Get or refresh FCM token
+    await handleFCMToken();
 
-    String? storedToken = await getFCMTokenFromLocal(); // Implement this function to get the stored token.
+    // Listen for token refresh
+    _firebaseMessaging.onTokenRefresh.listen((newToken) async {
+      print('FCM Token refreshed: $newToken');
+      await saveFCMTokenLocally(newToken);
+      await Constants().sendTokenToBackend(newToken);
+    });
 
-    if (storedToken == null) {
-      // No token found, request a new one
-      String? token = await _firebaseMessaging.getToken();
-      if (token != null) {
-        await saveFCMTokenLocally(token);  // Save token locally
-        sendTokenToBackend(token);  // Send token to backend
-      }
-    }
     // Handle foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       notificationHandler(message);
     });
+  }
+
+  Future<void> handleFCMToken() async {
+    String? localToken = await getFCMTokenFromLocal();
+
+    if (localToken == null || localToken.isEmpty) {
+      String? newToken = await _firebaseMessaging.getToken();
+      if (newToken != null) {
+        await saveFCMTokenLocally(newToken);
+        String? auth_token =prefs.getString('auth_token');
+        if(auth_token!=null)
+         await Constants().sendTokenToBackend(newToken);
+      }
+    }
   }
 
   Future<void> saveFCMTokenLocally(String token) async {
@@ -132,35 +140,4 @@ class PushNotificationService {
     }
   }
 
-  Future<bool> sendTokenToBackend(notificationToken) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    var url = '$baseUrl/saveNotificationToken';
-
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
-
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token', // Add the token to the headers
-    };
-
-    var body = jsonEncode({
-      'notification_token': notificationToken,
-    });
-
-    var response = await http.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body,
-    );
-
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception('something went wrong');
-    }
-  }
 }

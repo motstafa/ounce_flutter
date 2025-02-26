@@ -51,6 +51,8 @@ class _SignInScreenState extends State<SignInScreen> {
         email: emailController.text,
         password: passwordController.text,
       )) {
+         String? fcm_token =await  prefs.getString('fcm_token');
+         await Constants().sendTokenToBackend(fcm_token);
         if (prefs.getInt('role') == Constants.userRoles['trader']) {
           if (await balanceProvider.callToGetBalance()) {
             Navigator.pushReplacement(

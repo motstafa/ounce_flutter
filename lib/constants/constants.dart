@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ounce/main.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../generated/l10n.dart';
+import 'package:http/http.dart' as http;
 
 class Constants {
   //android emulator http://10.0.2.2:8000/api
@@ -9,7 +13,7 @@ class Constants {
   static const String apiUri = 'http://ounce-laravel-env.eba-nmpjzgug.eu-west-1.elasticbeanstalk.com/api';
   static const userRoles = <String, dynamic>{'trader': 1, 'delivery': 2};
   final storage = const FlutterSecureStorage();
-
+  String baseUrl = Constants.apiUri;
   int CalculatePrice(int itemNumber, int itemPrice) {
     var commission = prefs.getInt('commissions');
     return itemPrice * itemNumber + commission! * itemNumber;
@@ -41,6 +45,38 @@ class Constants {
         return S.of(context).operationCanceled;
       default:
         return status; // Or a default value or error string
+    }
+  }
+
+  Future<bool> sendTokenToBackend(notificationToken) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    var url = '$baseUrl/saveNotificationToken';
+
+    final token =
+    prefs.getString('auth_token'); // Retrieve token from shared preferences
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token', // Add the token to the headers
+    };
+
+    var body = jsonEncode({
+      'notification_token': notificationToken,
+    });
+
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('something went wrong');
     }
   }
 }

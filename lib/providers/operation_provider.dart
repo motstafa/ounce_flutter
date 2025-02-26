@@ -90,9 +90,8 @@ class OperationProvider with ChangeNotifier {
 
   Future<bool> sell(unitPrice, String unitType,XFile? img,unitsNumber,retail) async {
     try {
-      print('before service');
+      print('test ${unitsNumber}');
       bool result = await operationservice.sell(unitPrice, unitType, img, unitsNumber,retail.toString());
-      print('after service');
       return result;
     } catch (e) {
       print('Error fetching operations: ${e.toString()}');
