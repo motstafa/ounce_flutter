@@ -10,7 +10,7 @@ class Operation {
   String? picOfUnits;
   final int retail;
   final int numberOfUnits;
-  final int total;
+   int? total;
 
   Operation({
     required this.id,

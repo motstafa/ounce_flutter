@@ -5,7 +5,6 @@ import 'package:ounce/screens/home/delivery_page.dart';
 import 'package:ounce/screens/home/trader_page.dart';
 import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
-import '../services/push_notification_service.dart';
 import '/screens/signup_screen.dart';
 import '/widgets/custom_scaffold.dart';
 import '../theme/theme.dart';
@@ -51,8 +50,8 @@ class _SignInScreenState extends State<SignInScreen> {
         email: emailController.text,
         password: passwordController.text,
       )) {
-         String? fcm_token =await  prefs.getString('fcm_token');
-         await Constants().sendTokenToBackend(fcm_token);
+         // String? fcm_token =await  prefs.getString('fcm_token');
+         // await Constants().sendTokenToBackend(fcm_token);
         if (prefs.getInt('role') == Constants.userRoles['trader']) {
           if (await balanceProvider.callToGetBalance()) {
             Navigator.pushReplacement(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ounce/providers/balance_provider.dart';
+import 'package:ounce/screens/home/seller_products.dart';
+import 'package:ounce/screens/home/trader_home_page.dart';
 import 'package:provider/provider.dart';
 import '../models/notification_model.dart';
 import '../services/backend_notifications.dart';
@@ -31,11 +33,12 @@ class NotificationProvider with ChangeNotifier {
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   late String pageName;
   late String? balanceType;
-
-  CustomAppBar({required this.pageName, this.balanceType});
+  late bool? sellPage;
+  CustomAppBar({required this.pageName, this.balanceType,this.sellPage});
 
   @override
   Widget build(BuildContext context) {
+    print(sellPage);
     return AppBar(
       title: Text('$pageName'),
       backgroundColor: Colors.black,
@@ -48,6 +51,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: <Widget>[
                 Row(
                   children: [
+                    if(sellPage==true)
+                      IconButton(
+                        icon: Icon(Icons.track_changes), // Track order icon
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SellerProducts(),)
+                          );
+                        },
+                      ),
                     if (balanceType != null) // Conditional check at the level of Padding
                       Padding(
                         padding: const EdgeInsets.only(right: 70),

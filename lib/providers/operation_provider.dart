@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:math';
+import 'package:ounce/constants/constants.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ounce/main.dart';
 import 'package:ounce/services/operation_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ounce/models/operation_model.dart';
@@ -9,6 +9,7 @@ import 'package:ounce/models/operation_model.dart';
 class OperationProvider with ChangeNotifier {
   final OperationService operationservice = OperationService();
   List<Operation> _operations = [];
+  Operation? sellerOperation;
 
   List<Operation> get operations => _operations;
 
@@ -31,6 +32,20 @@ class OperationProvider with ChangeNotifier {
       return false;
     }
     return true;
+  }
+
+  Future<void> loadSellerOperations() async {
+    try {
+      var response = await operationservice.loadSelledOperations();
+      if (response != null) {
+        sellerOperation = response;
+      } else {
+        sellerOperation = null;
+      }
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching operations: $e');
+    }
   }
 
   Future<void> loadOperations() async {
@@ -68,7 +83,7 @@ class OperationProvider with ChangeNotifier {
   Future<bool> Buy(int id, int selectedItems) async {
     try {
       if (await operationservice.Buy(id, selectedItems)) {
-          return true;
+        return true;
       }
     } catch (e) {
       print('Error fetching operations: $e');
@@ -76,7 +91,7 @@ class OperationProvider with ChangeNotifier {
     return false;
   }
 
-  Future<bool> checkDeliveries(int id) async{
+  Future<bool> checkDeliveries(int id) async {
     try {
       if (await operationservice.checkDeliveries(id)) {
         return true;
@@ -87,11 +102,12 @@ class OperationProvider with ChangeNotifier {
     return false;
   }
 
-
-  Future<bool> sell(unitPrice, String unitType,XFile? img,unitsNumber,retail) async {
+  Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber,
+      expiresIn, retail) async {
     try {
-      print('test ${unitsNumber}');
-      bool result = await operationservice.sell(unitPrice, unitType, img, unitsNumber,retail.toString());
+      bool result = await operationservice.sell(
+          unitPrice, unitType, img, unitsNumber, expiresIn, retail.toString());
+      print('after service');
       return result;
     } catch (e) {
       print('Error fetching operations: ${e.toString()}');
@@ -99,5 +115,4 @@ class OperationProvider with ChangeNotifier {
     }
     return false;
   }
-
 }

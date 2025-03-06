@@ -121,6 +121,10 @@
   "purchaseFailedText":"You do not have enough balance to complete the purchase.",
   "buyerLocation":"Buyer Location",
   "sellerLocation":"Seller Location",
-  "numberOfUnits":"Number Of Units"
+  "numberOfUnits":"Number Of Units",
+  "expireIn":"ٍSelling Expires In",
+  "selledItem":"the displayed item",
+  "done":"Done",
+  "NoListingYet":"It looks like you haven't posted anything for sale yet.\nList an item now and start selling!"
 }
     

@@ -10,7 +10,8 @@ class OperationDetails extends StatefulWidget {
   final PendingOperation item;
   final Widget formSection;
 
-  const OperationDetails({super.key, required this.item,required this.formSection});
+  const OperationDetails(
+      {super.key, required this.item, required this.formSection});
 
   @override
   _OperationDetailsState createState() => _OperationDetailsState();
@@ -32,31 +33,31 @@ class _OperationDetailsState extends State<OperationDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S
-            .of(context)
-            .deliveryDetailsTitle),
+        title: Text(S.of(context).deliveryDetailsTitle),
         backgroundColor: BoxBackground,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SectionHeader(numberOfUnits:widget.item.numberOfUnits),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              height: 300, // Set a fixed height
-              child: PageView(
-                children: [
-                  LocationDetail(
-                      Location: 'seller', address: widget.item.sellerAddress),
-                  LocationDetail(
-                      Location: 'buyer', address: widget.item.buyerAddress),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SectionHeader(numberOfUnits: widget.item.numberOfUnits),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
+                height: 300, // Set a fixed height
+                child: PageView(
+                  children: [
+                    LocationDetail(
+                        Location: 'seller', address: widget.item.sellerAddress),
+                    LocationDetail(
+                        Location: 'buyer', address: widget.item.buyerAddress),
+                  ],
+                ),
               ),
             ),
-          ),
-          widget.formSection,
-        ],
+            widget.formSection,
+          ],
+        ),
       ),
     );
   }
@@ -65,27 +66,26 @@ class _OperationDetailsState extends State<OperationDetails> {
 class SectionHeader extends StatelessWidget {
   final int numberOfUnits;
 
-  const SectionHeader({Key? key, required this.numberOfUnits}) : super(key: key);
+  const SectionHeader({Key? key, required this.numberOfUnits})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return
-
-      RichText(
-        text: TextSpan(
-          text: "${S.of(context).numberOfUnitsLabel} ",
-          style: Theme
-            .of(context)
+    return RichText(
+      text: TextSpan(
+        text: "${S.of(context).numberOfUnitsLabel} ",
+        style: Theme.of(context)
             .textTheme
             .headlineMedium
             ?.copyWith(fontWeight: FontWeight.bold), // Default style
-          children: [
-            TextSpan(
-              text: "${numberOfUnits}",
-              style: TextStyle(color: Colors.red,fontSize: 45), // Red color for the number
-            ),
-          ],
-        ),
-      );
+        children: [
+          TextSpan(
+            text: "${numberOfUnits}",
+            style: TextStyle(
+                color: Colors.red, fontSize: 45), // Red color for the number
+          ),
+        ],
+      ),
+    );
   }
 }

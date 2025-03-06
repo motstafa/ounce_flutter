@@ -121,5 +121,9 @@
   "purchaseFailedText":"ليس لديك الرصيد الكافي للإجراء هذه العملية",
   "buyerLocation":"موقع المشتري",
   "sellerLocation":"موقع البائع",
-  "numberOfUnits":"عدد الوحدات"
+  "numberOfUnits":"عدد الوحدات",
+  "expireIn":"تنتهي مدت العرض",
+  "selledItem":"الغرض المعروض",
+  "done":"تم",
+  "NoListingYet": "يبدو أنك لم تنشر أي شيء للبيع بعد. \nقم بإدراج عنصر الآن وابدأ البيع!"
 }

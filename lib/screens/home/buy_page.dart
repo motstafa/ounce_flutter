@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ounce/constants/constants.dart';
 import 'package:ounce/screens/home/trader_page.dart';
 import 'package:provider/provider.dart';

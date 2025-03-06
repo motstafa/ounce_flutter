@@ -1279,6 +1279,43 @@ class S {
       args: [],
     );
   }
+
+  /// `expire In`
+  String get expireIn {
+    return Intl.message(
+      'Selling Expires In',
+      name: 'expireIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get selledItem {
+    return Intl.message(
+      'the displayed item',
+      name: 'selledItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get done {
+    return Intl.message(
+      'Done',
+      name: 'done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get NoListingYet {
+    return Intl.message(
+      'It looks like you haven\'t posted anything for sale yet.\nList an item now and start selling!',
+      name: 'NoListingYet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -2,12 +2,7 @@ import 'dart:convert';
 import 'package:ounce/models/operation_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ounce/constants/constants.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:path/path.dart';
-import 'dart:io';
 import '../main.dart';
-import 'package:mime/mime.dart';
-import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 
 class OperationService {
@@ -27,6 +22,31 @@ class OperationService {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as List;
       return data.map((json) => Operation.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load operations');
+    }
+  }
+
+  Future <Operation?>  loadSelledOperations() async {
+    final token =
+    prefs.getString('auth_token'); // Retrieve token from shared preferences
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token', // Add the token to the headers
+    };
+
+    final response =
+    await http.get(Uri.parse('$baseUrl/loadSelledOperation'), headers: headers);
+    if (response.statusCode == 200) {
+      print('hello it is me');
+      if (response.body.isEmpty || response.body == "null") {
+        return null; // Ensure returning null explicitly
+      }
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      final operation = Operation.fromJson(data);
+      operation.total = operation.numberOfUnits * operation.unitPrice;
+      return operation;
     } else {
       throw Exception('Failed to load operations');
     }
@@ -59,7 +79,7 @@ class OperationService {
     }
   }
 
-  Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber,retail) async {
+  Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber,expiresIn,retail) async {
     final token =
         prefs.getString('auth_token'); // Retrieve token from shared preferences
     var url = '$baseUrl/operation';
@@ -69,6 +89,7 @@ class OperationService {
       ..fields['unit_type'] = unitType
       ..fields['number_of_units'] = unitsNumber
       ..fields['retail']=retail
+      ..fields['expiry']=expiresIn
       ..headers['Authorization'] = 'Bearer $token';
 
     // Add the image file to the request
@@ -115,6 +136,33 @@ class OperationService {
       return data['available'];
     } else {
       throw Exception('operation buying failed');
+    }
+  }
+
+  Future<bool> deleteOperation(int operationId) async {
+    try {
+      final token =
+      prefs.getString('auth_token'); // Retrieve token from shared preferences
+     print('$baseUrl/operation/$operationId');
+     print(token);
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var url = '$baseUrl/operation/$operationId';
+
+      var response = await http.delete(
+        Uri.parse(url),
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Failed to delete operation');
+      }
+    } catch (e) {
+      throw Exception('Error deleting operation: $e');
     }
   }
 }
