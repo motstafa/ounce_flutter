@@ -31,11 +31,26 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<!-- Secure Network Access -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>http://ounce-laravel-env.eba-nmpjzgug.eu-west-1.elasticbeanstalk.com</key> <!-- Replace with your actual API domain -->
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<false/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.2</string>
+			</dict>
+		</dict>
 	</dict>
+
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -64,5 +79,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<!-- Firebase & Notifications -->
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We need permission to send you important notifications about your Ounce app.</string>
+	<key>FirebaseAnalyticsDebugEnabled</key>
+	<false/> <!-- Disabled in production -->
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<true/>
 </dict>
 </plist>

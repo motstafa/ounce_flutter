@@ -9,8 +9,7 @@ class OperationService {
   String baseUrl = Constants.apiUri;
 
   Future<List<Operation>> getOperations() async {
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',
@@ -28,8 +27,7 @@ class OperationService {
   }
 
   Future <Operation?>  loadSelledOperations() async {
-    final token =
-    prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',
@@ -54,8 +52,7 @@ class OperationService {
 
   Future Buy(int operationId, int itemsCount) async {
     var url = '$baseUrl/buy';
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
     var headers = {
       'Content-Type': 'application/json',
@@ -80,8 +77,7 @@ class OperationService {
   }
 
   Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber,expiresIn,retail) async {
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
     var url = '$baseUrl/operation';
     // Create a multipart request
     var request = http.MultipartRequest('POST', Uri.parse(url))
@@ -116,8 +112,7 @@ class OperationService {
 
   Future<bool> checkDeliveries(int operationId) async {
     var url = '$baseUrl/checkDeliveries';
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage();// Retrieve token from shared preferences
 
     var headers = {
       'Content-Type': 'application/json',
@@ -141,8 +136,7 @@ class OperationService {
 
   Future<bool> deleteOperation(int operationId) async {
     try {
-      final token =
-      prefs.getString('auth_token'); // Retrieve token from shared preferences
+     String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
      print('$baseUrl/operation/$operationId');
      print(token);
       var headers = {

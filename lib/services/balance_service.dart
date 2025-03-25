@@ -10,9 +10,7 @@ class AuthService {
   String baseUrl = Constants.apiUri;
 
   Future<Map<String, int>> getTraderBalance() async {
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
-
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token', // Add the token to the headers

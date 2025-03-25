@@ -13,8 +13,7 @@ class backendNotificationService {
 
   Future <List<NotificationItem>> getNotifications() async{
 
-    final token =
-    prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',

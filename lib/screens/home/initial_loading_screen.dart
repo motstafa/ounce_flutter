@@ -16,8 +16,8 @@ class _InitialLoadingScreenState extends State<InitialLoadingScreen> {
   void initState() {
     super.initState();
     // Schedule the _checkToken function to be called after the build method.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkToken();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+     await _checkToken();
     });
   }
 

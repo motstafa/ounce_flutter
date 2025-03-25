@@ -61,7 +61,7 @@ class _TraderHomePageState extends State<TraderHomePage> {
             isError = true;
           });
         }
-        print('Failed to fetch data: ${response.statusCode}');
+        // print('Failed to fetch data: ${response.statusCode}');
       }
     } catch (error) {
       if (mounted) {
@@ -69,7 +69,7 @@ class _TraderHomePageState extends State<TraderHomePage> {
           isError = true;
         });
       }
-      print('Error fetching data: $error');
+      // print('Error fetching data: $error');
     }
   }
 

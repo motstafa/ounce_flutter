@@ -3,28 +3,30 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyB6PDAN9-UQA-8dia5qdVjIdUBkd3K2kko</string>
+	<string>AIzaSyAy7aZteTnCDN2i-jWg2xoVg1gWeghHhu8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>580149088593</string>
+	<string>7894435504</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.ounce</string>
+	<string>com.Norka.ounce</string>
 	<key>PROJECT_ID</key>
-	<string>ounce-notifications</string>
+	<string>ounce-6d0f7</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ounce-notifications.appspot.com</string>
+	<string>ounce-6d0f7.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:580149088593:ios:64136b3ac8e156b8b68370</string>
+	<string>1:7894435504:ios:e0005b31eccb5f1cf75d75</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
 </dict>
 </plist>
