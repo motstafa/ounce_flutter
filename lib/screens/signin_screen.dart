@@ -44,38 +44,65 @@ class _SignInScreenState extends State<SignInScreen> {
 
     handleSignIn() async {
       setState(() {
-        isLoading = true;
+        isLoading = true; // Set loading state to true
       });
-      if (await authProvider.login(
+
+      // Perform login and await response
+      bool loginSuccessful = await authProvider.login(
         email: emailController.text,
         password: passwordController.text,
-      )) {
-         // String? fcm_token =await  prefs.getString('fcm_token');
-         // await Constants().sendTokenToBackend(fcm_token);
-        if (prefs.getInt('role') == Constants.userRoles['trader']) {
-          if (await balanceProvider.callToGetBalance()) {
+      );
+
+      if (loginSuccessful) {
+        await Future.delayed(Duration(milliseconds: 100));
+        String? fcmToken = prefs.getString('fcm_token');
+        await Constants().sendTokenToBackend(fcmToken); // Ensure this is awaited
+        await Future.delayed(Duration(milliseconds: 100));
+        int? role = prefs.getInt('role'); // Retrieve the stored role
+
+        // Once the token is sent, check for role and navigate
+        if (role == Constants.userRoles['trader']) {
+          // If user is a trader, fetch the balance before navigating
+          bool balanceFetched = await balanceProvider.callToGetBalance();
+          if (balanceFetched) {
+            setState(() {
+              isLoading = false; // Set loading to false
+            });
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => TraderPage()));
-            // Navigator.pushNamed(context, '/trader');
+              context,
+              MaterialPageRoute(builder: (context) => TraderPage()),
+            );
+          } else {
+            setState(() {
+              isLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Failed to fetch balance.'),
+              ),
+            );
           }
         } else {
+          // If user is not a trader, navigate directly to DeliveryPage
+          setState(() {
+            isLoading = false; // Set loading to false
+          });
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => DeliveryPage()));
-          // Navigator.pushNamed(context, '/delivery');
+            context,
+            MaterialPageRoute(builder: (context) => DeliveryPage()),
+          );
         }
       } else {
+        // If login fails, show error message
+        setState(() {
+          isLoading = false; // Set loading to false
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text(
-              'wrong username or password',
-              textAlign: TextAlign.center,
-            ),
+            content: Text('Wrong username or password', textAlign: TextAlign.center),
           ),
         );
       }
-      setState(() {
-        isLoading = false;
-      });
     }
 
     return CustomScaffold(

@@ -41,8 +41,8 @@ class backendNotificationService {
 
     var url = '$baseUrl/notification/read';
 
-    final token =
-    prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+    // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',

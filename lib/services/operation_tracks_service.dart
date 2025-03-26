@@ -9,8 +9,8 @@ class OperationTracks {
   String baseUrl = Constants.apiUri;
 
   Future<List<PendingOperation>> getPendingOperations() async {
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+
 
     final headers = {
       'Content-Type': 'application/json',
@@ -31,8 +31,8 @@ class OperationTracks {
   }
 
   Future<List<PendingOperation>> getInProgressOperations() async {
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+
 
     final headers = {
       'Content-Type': 'application/json',
@@ -53,8 +53,8 @@ class OperationTracks {
   }
 
   Future<List<PendingOperation>> getCompleteOperations() async {
-    final token =
-        prefs.getString('auth_token'); // Retrieve token from shared preferences
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+
 
     final headers = {
       'Content-Type': 'application/json',
@@ -79,8 +79,8 @@ class OperationTracks {
       operationId, estimatedTimeToSeller, estimatedTimeToBuyer) async {
     try {
       var url = '$baseUrl/delivery/accept';
-      final token = prefs
-          .getString('auth_token'); // Retrieve token from shared preferences
+      String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+
 
       var headers = {
         'Content-Type': 'application/json',
@@ -114,8 +114,8 @@ class OperationTracks {
   Future deliveryCompleteOperation(operationId) async {
     try {
       var url = '$baseUrl/delivery/finish';
-      final token = prefs
-          .getString('auth_token'); // Retrieve token from shared preferences
+      String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+
 
       var headers = {
         'Content-Type': 'application/json',

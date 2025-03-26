@@ -50,34 +50,34 @@ class Constants {
   }
 
   Future<bool> sendTokenToBackend(notificationToken) async {
-    final prefs = await SharedPreferences.getInstance();
 
-    var url = '$baseUrl/saveNotificationToken';
+      final prefs = await SharedPreferences.getInstance();
 
-    final token =
-    prefs.getString('auth_token'); // Retrieve token from shared preferences
+      var url = '$baseUrl/saveNotificationToken';
 
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token', // Add the token to the headers
-    };
+      String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
-    var body = jsonEncode({
-      'notification_token': notificationToken,
-    });
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token', // Add the token to the headers
+      };
 
-    var response = await http.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body,
-    );
+      var body = jsonEncode({
+        'notification_token': notificationToken,
+      });
 
-    print(response.body);
+      var response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: body,
+      );
 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception('something went wrong');
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Gagal Login');
+      }
     }
-  }
 }
