@@ -21,7 +21,7 @@ class AuthService {
       final data = jsonDecode(response.body);
 
       // add commissions to shared preferences
-      prefs.setInt('commissions', data['commissions']);
+      await prefs.setInt('commissions', data['commissions']);
 
       Map<String, int> balance = {};
 

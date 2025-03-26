@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ounce/main.dart';
 import 'package:ounce/providers/balance_provider.dart';
@@ -53,11 +54,23 @@ class _SignInScreenState extends State<SignInScreen> {
         password: passwordController.text,
       );
 
-      if (loginSuccessful) {
-        await Future.delayed(Duration(milliseconds: 100));
-        String? fcmToken = prefs.getString('fcm_token');
-        await Constants().sendTokenToBackend(fcmToken); // Ensure this is awaited
-        await Future.delayed(Duration(milliseconds: 100));
+        if (loginSuccessful) {
+          // Ensure token is retrieved
+          String? fcmToken = await pushNotificationService.getFCMTokenFromLocal();
+
+          if (fcmToken == null) {
+            // Force token regeneration if null
+            fcmToken = await FirebaseMessaging.instance.getToken();
+            if (fcmToken != null) {
+              await pushNotificationService.saveFCMTokenLocally(fcmToken);
+            }
+          }
+
+          if (fcmToken != null) {
+            await Constants().sendTokenToBackend(fcmToken);
+          } else {
+            print('Could not retrieve FCM token');
+          }
         int? role = prefs.getInt('role'); // Retrieve the stored role
 
         // Once the token is sent, check for role and navigate

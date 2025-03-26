@@ -21,50 +21,36 @@ class PushNotificationService {
 
   Future<void> init() async {
     // Request permission for notifications
-    NotificationSettings settings = await _firebaseMessaging.requestPermission();
-
-    if (settings.authorizationStatus != AuthorizationStatus.authorized) {
-      print("User denied notification permission");
-      return; // Exit if permission is not granted
-    }
-
-    print("Push notification permission granted: ${settings.authorizationStatus == AuthorizationStatus.authorized}");
-
-    // Initialize the Flutter Local Notifications Plugin
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-    const DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings();
-
-    final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
+    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+        provisional: false
     );
 
-    await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse response) {
-        if (response.notificationResponseType ==
-            NotificationResponseType.selectedNotification) {
-          onSelectNotification(response.payload);
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      // For iOS, explicitly wait for APNS token
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        String? apnsToken = await _firebaseMessaging.getAPNSToken();
+        while (apnsToken == null) {
+          // Wait a bit and retry
+          await Future.delayed(Duration(seconds: 1));
+          apnsToken = await _firebaseMessaging.getAPNSToken();
         }
-      },
-    );
+      }
 
-    // Get or refresh FCM token only if permission is granted
-    await handleFCMToken();
+      // Get FCM token
+      String? token = await _firebaseMessaging.getToken();
 
-    // Listen for token refresh
-    _firebaseMessaging.onTokenRefresh.listen((newToken) async {
-      print('FCM Token refreshed: $newToken');
-      await saveFCMTokenLocally(newToken);
-      await Constants().sendTokenToBackend(newToken);
-    });
-
-    // Handle foreground messages
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      notificationHandler(message);
-    });
+      if (token != null) {
+        await saveFCMTokenLocally(token);
+        print('FCM Token for iOS: $token');
+      } else {
+        print('Failed to get FCM token for iOS');
+      }
+    } else {
+      print('Notification permissions not granted');
+    }
   }
 
   Future<void> handleFCMToken() async {
