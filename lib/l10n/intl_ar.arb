@@ -125,5 +125,13 @@
   "expireIn":"تنتهي مدت العرض",
   "selledItem":"الغرض المعروض",
   "done":"تم",
-  "NoListingYet": "يبدو أنك لم تنشر أي شيء للبيع بعد. \nقم بإدراج عنصر الآن وابدأ البيع!"
+  "NoListingYet": "يبدو أنك لم تنشر أي شيء للبيع بعد. \nقم بإدراج عنصر الآن وابدأ البيع!",
+  "deleteAccount":"حذف الحساب",
+  "deleteAccountConfirmation":"هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.",
+  "accountDeletedSuccessfully":"تم حذف الحساب بنجاح",
+  "errorDeletingAccount": "خطأ في حذف الحساب. يرجى المحاولة مرة أخرى",
+  "passwordRequired": "كلمة المرور مطلوبة",
+  "IncorrectPassword": "كلمة المرور غير صحيحة",
+  "errorVerifyingPassword": "خطأ في التحقق من كلمة المرور",
+  "Delete": "حذف"
 }

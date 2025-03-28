@@ -111,13 +111,13 @@ class _TraderHomePageState extends State<TraderHomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (isError)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Text(
-                    'Using default data due to error',
-                    style: TextStyle(color: Colors.red, fontSize: 16),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 16.0),
+                //   child: Text(
+                //     'Using default data due to error',
+                //     style: TextStyle(color: Colors.red, fontSize: 16),
+                //   ),
+                // ),
               buildInfoRow(
                 icon: Icons.workspace_premium,
                 label: 'Metal',

@@ -77,4 +77,26 @@ class AuthProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> verifyPassword(password) async{
+    try{
+      bool verified=await AuthService().verifyPassword(password);
+      return verified;
+    }
+    catch (e){
+      print(e);
+      return false;
+    }
+  }
+
+ Future<bool> deleteAccount() async{
+    try{
+      bool deleted = await AuthService().deleteUser();
+      return deleted;
+    }
+        catch(e){
+      print(e);
+      return false;
+        }
+ }
 }

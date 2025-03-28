@@ -51,7 +51,6 @@ class Constants {
 
   Future<bool> sendTokenToBackend(notificationToken) async {
 
-      final prefs = await SharedPreferences.getInstance();
       print('send token to backedn');
       var url = '$baseUrl/saveNotificationToken';
 

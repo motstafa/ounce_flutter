@@ -22,185 +22,233 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "address": MessageLookupByLibrary.simpleMessage("Address Info"),
-        "agreeProcessingText": MessageLookupByLibrary.simpleMessage(
-            "I agree to the processing of"),
-        "agreeToMoveToCompletedText":
-            MessageLookupByLibrary.simpleMessage("Agree to move to completed"),
-        "allowRetail":
-            MessageLookupByLibrary.simpleMessage("Allow retail puchase?"),
-        "buildingLabel": MessageLookupByLibrary.simpleMessage("Building"),
-        "busy": MessageLookupByLibrary.simpleMessage(
-            "All deliveries are currently busy."),
-        "buyButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
-        "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
-        "buyPageTitle": MessageLookupByLibrary.simpleMessage("Buy Page"),
-        "buyerLocation": MessageLookupByLibrary.simpleMessage("Buyer Location"),
-        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-        "city": MessageLookupByLibrary.simpleMessage("City Or Town"),
-        "completedTab": MessageLookupByLibrary.simpleMessage("Completed"),
-        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
-        "dateOfOperationLabel":
-            MessageLookupByLibrary.simpleMessage("Date of Operation"),
-        "delayed": MessageLookupByLibrary.simpleMessage(
-            "Your order may take an additional 20 minutes."),
-        "deliveryDetailsTitle":
-            MessageLookupByLibrary.simpleMessage("Delivery Details"),
-        "dontHaveAccount":
-            MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
-        "email": MessageLookupByLibrary.simpleMessage("Email"),
-        "emailValidator":
-            MessageLookupByLibrary.simpleMessage("Please Enter Email"),
-        "enterBuilding": MessageLookupByLibrary.simpleMessage("Enter Building"),
-        "enterCity": MessageLookupByLibrary.simpleMessage("Enter City Or Town"),
-        "enterEmail": MessageLookupByLibrary.simpleMessage("Enter Email"),
-        "enterFirstName":
-            MessageLookupByLibrary.simpleMessage("Enter First Name"),
-        "enterFloor": MessageLookupByLibrary.simpleMessage("Enter Floor"),
-        "enterFullName":
-            MessageLookupByLibrary.simpleMessage("Enter Full Name"),
-        "enterLastName":
-            MessageLookupByLibrary.simpleMessage("Enter Last Name"),
-        "enterPassword": MessageLookupByLibrary.simpleMessage("Enter Password"),
-        "enterPhone":
-            MessageLookupByLibrary.simpleMessage("Enter Phone Number"),
-        "enterPrefecture":
-            MessageLookupByLibrary.simpleMessage("Enter Prefecture"),
-        "enterStoreName":
-            MessageLookupByLibrary.simpleMessage("Enter Store Name"),
-        "enterStreetAddress":
-            MessageLookupByLibrary.simpleMessage("Enter Street Address"),
-        "enterWard": MessageLookupByLibrary.simpleMessage("Enter Ward"),
-        "error": MessageLookupByLibrary.simpleMessage("Error"),
-        "estimatedTimeToBuyerHint": MessageLookupByLibrary.simpleMessage(
-            "estimated time to buyer per minutes"),
-        "estimatedTimeToSellerHint": MessageLookupByLibrary.simpleMessage(
-            "estimated time to seller per minutes"),
-        "falseLabel": MessageLookupByLibrary.simpleMessage("False"),
-        "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
-        "floorLabel": MessageLookupByLibrary.simpleMessage("Floor"),
-        "forgetPassword":
-            MessageLookupByLibrary.simpleMessage("Forget Password?"),
-        "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
-        "homeLabel": MessageLookupByLibrary.simpleMessage("Home"),
-        "inProgressTab": MessageLookupByLibrary.simpleMessage("In-progress"),
-        "insufficientBalanceMessage": MessageLookupByLibrary.simpleMessage(
-            "You do not have enough balance to sell items."),
-        "insufficientBalanceTitle":
-            MessageLookupByLibrary.simpleMessage("Insufficient Balance"),
-        "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
-        "locationInformation":
-            MessageLookupByLibrary.simpleMessage("Store location information"),
-        "loginError":
-            MessageLookupByLibrary.simpleMessage("wrong username or password"),
-        "moveToCompletedButton":
-            MessageLookupByLibrary.simpleMessage("Move to Completed"),
-        "moveToInProgressButton":
-            MessageLookupByLibrary.simpleMessage("Move to In-progress"),
-        "name": MessageLookupByLibrary.simpleMessage("Name"),
-        "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
-        "next": MessageLookupByLibrary.simpleMessage("Next"),
-        "noDelay": MessageLookupByLibrary.simpleMessage(
-            "Your order may take from 5 to 10 minutes."),
-        "notEnoughBalanceMessage": MessageLookupByLibrary.simpleMessage(
-            "You do not have enough balance to sell items."),
-        "notification": MessageLookupByLibrary.simpleMessage("Notifications"),
-        "numberOfOuncesDialogLabel":
-            MessageLookupByLibrary.simpleMessage("number of ounces"),
-        "numberOfOuncesLabel":
-            MessageLookupByLibrary.simpleMessage("Number Of Ounces"),
-        "numberOfUnits":
-            MessageLookupByLibrary.simpleMessage("Number Of Units"),
-        "numberOfUnitsLabel":
-            MessageLookupByLibrary.simpleMessage("Number of Units"),
-        "okButtonLabel": MessageLookupByLibrary.simpleMessage("OK"),
-        "operationCanceled": MessageLookupByLibrary.simpleMessage("Canceled"),
-        "operationDone": MessageLookupByLibrary.simpleMessage("Done"),
-        "operationFailed": MessageLookupByLibrary.simpleMessage("Failed"),
-        "operationInProgress":
-            MessageLookupByLibrary.simpleMessage("In Progress"),
-        "operationNumberLabel":
-            MessageLookupByLibrary.simpleMessage("Operation Number"),
-        "operationPaused": MessageLookupByLibrary.simpleMessage("Paused"),
-        "operationPending": MessageLookupByLibrary.simpleMessage("Pending"),
-        "operationsProgressPageTitle":
-            MessageLookupByLibrary.simpleMessage("Operations Progress"),
-        "password": MessageLookupByLibrary.simpleMessage("Password"),
-        "pendingTab": MessageLookupByLibrary.simpleMessage("Pending"),
-        "personalDataText":
-            MessageLookupByLibrary.simpleMessage("Personal data"),
-        "personalInfo": MessageLookupByLibrary.simpleMessage("Personal Info"),
-        "phone": MessageLookupByLibrary.simpleMessage("Phone Number"),
-        "pleaseAgree": MessageLookupByLibrary.simpleMessage(
-            "Please agree to the processing of personal data"),
-        "pleaseBuilding":
-            MessageLookupByLibrary.simpleMessage("Please enter Building"),
-        "pleaseCity":
-            MessageLookupByLibrary.simpleMessage("Please enter City Or Town"),
-        "pleaseEnterEmail":
-            MessageLookupByLibrary.simpleMessage("Please enter Email"),
-        "pleaseEnterEstimatedTimeToBuyer": MessageLookupByLibrary.simpleMessage(
-            "Please enter estimated time to buyer"),
-        "pleaseEnterEstimatedTimeToSeller":
-            MessageLookupByLibrary.simpleMessage(
-                "Please enter estimated time to seller"),
-        "pleaseFirstName":
-            MessageLookupByLibrary.simpleMessage("Please enter First Name"),
-        "pleaseFloor":
-            MessageLookupByLibrary.simpleMessage("Please enter Floor"),
-        "pleaseFullName":
-            MessageLookupByLibrary.simpleMessage("Please enter Full Name"),
-        "pleaseLastName":
-            MessageLookupByLibrary.simpleMessage("Please enter Last Name"),
-        "pleasePass":
-            MessageLookupByLibrary.simpleMessage("Please Enter Password"),
-        "pleasePrefecture":
-            MessageLookupByLibrary.simpleMessage("Please enter Prefecture"),
-        "pleaseStoreName":
-            MessageLookupByLibrary.simpleMessage("Please enter Store Name"),
-        "pleaseStreetAddress":
-            MessageLookupByLibrary.simpleMessage("Please enter Street Address"),
-        "pleaseWard": MessageLookupByLibrary.simpleMessage("Please enter Ward"),
-        "prefecture": MessageLookupByLibrary.simpleMessage("Prefecture"),
-        "processing": MessageLookupByLibrary.simpleMessage("Processing Data"),
-        "profile": MessageLookupByLibrary.simpleMessage("Profile"),
-        "profileLabel": MessageLookupByLibrary.simpleMessage("Profile"),
-        "purchaseFailed":
-            MessageLookupByLibrary.simpleMessage("Purchase Failed"),
-        "purchaseFailedText": MessageLookupByLibrary.simpleMessage(
-            "You do not have enough balance to complete the purchase."),
-        "rememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
-        "retailLabel": MessageLookupByLibrary.simpleMessage("Retail Purchase"),
-        "selectZone": MessageLookupByLibrary.simpleMessage("Select Zone"),
-        "sellLabel": MessageLookupByLibrary.simpleMessage("Sell"),
-        "sellPageTitle": MessageLookupByLibrary.simpleMessage("Sell Page"),
-        "sellerLocation":
-            MessageLookupByLibrary.simpleMessage("Seller Location"),
-        "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
-        "signUpWith": MessageLookupByLibrary.simpleMessage("Sign Up With"),
-        "signin": MessageLookupByLibrary.simpleMessage("Sign In"),
-        "storeName": MessageLookupByLibrary.simpleMessage("Store Name"),
-        "storePic":
-            MessageLookupByLibrary.simpleMessage("Upload Store Picture"),
-        "streetAddressLabel":
-            MessageLookupByLibrary.simpleMessage("Street Address"),
-        "submitButtonLabel": MessageLookupByLibrary.simpleMessage("Submit"),
-        "total": MessageLookupByLibrary.simpleMessage("Total"),
-        "totalPriceLabel": MessageLookupByLibrary.simpleMessage("Total Price"),
-        "trueLabel": MessageLookupByLibrary.simpleMessage("True"),
-        "typeOfOuncesLabel": MessageLookupByLibrary.simpleMessage("Type"),
-        "unitPriceLabel": MessageLookupByLibrary.simpleMessage("Unit Price"),
-        "unitTypeLabel": MessageLookupByLibrary.simpleMessage("Unit Type"),
-        "uploadOncePictureLabel":
-            MessageLookupByLibrary.simpleMessage("Upload Once\'s Picture"),
-        "uploadProfile":
-            MessageLookupByLibrary.simpleMessage("Upload Profile Picture"),
-        "username": MessageLookupByLibrary.simpleMessage("Username"),
-        "wardLabel": MessageLookupByLibrary.simpleMessage("Ward"),
-        "welcome": MessageLookupByLibrary.simpleMessage("Welcome Back"),
-        "yourBalance": MessageLookupByLibrary.simpleMessage("Your Balance:"),
-        "zone": MessageLookupByLibrary.simpleMessage("Zone"),
-        "zone1": MessageLookupByLibrary.simpleMessage("Jnaah"),
-        "zone2": MessageLookupByLibrary.simpleMessage("Bir AL Abed")
-      };
+    "NoListingYet": MessageLookupByLibrary.simpleMessage(
+      "It looks like you haven\'t posted anything for sale yet.\nList an item now and start selling!",
+    ),
+    "accountDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Account deleted successfully",
+    ),
+    "address": MessageLookupByLibrary.simpleMessage("Address Info"),
+    "agreeProcessingText": MessageLookupByLibrary.simpleMessage(
+      "I agree to the processing of",
+    ),
+    "agreeToMoveToCompletedText": MessageLookupByLibrary.simpleMessage(
+      "Agree to move to completed",
+    ),
+    "allowRetail": MessageLookupByLibrary.simpleMessage(
+      "Allow retail puchase?",
+    ),
+    "buildingLabel": MessageLookupByLibrary.simpleMessage("Building"),
+    "busy": MessageLookupByLibrary.simpleMessage(
+      "All deliveries are currently busy.",
+    ),
+    "buyButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
+    "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
+    "buyPageTitle": MessageLookupByLibrary.simpleMessage("Buy Page"),
+    "buyerLocation": MessageLookupByLibrary.simpleMessage("Buyer Location"),
+    "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "city": MessageLookupByLibrary.simpleMessage("City Or Town"),
+    "completedTab": MessageLookupByLibrary.simpleMessage("Completed"),
+    "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+    "dateOfOperationLabel": MessageLookupByLibrary.simpleMessage(
+      "Date of Operation",
+    ),
+    "delayed": MessageLookupByLibrary.simpleMessage(
+      "Your order may take an additional 20 minutes.",
+    ),
+    "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
+    "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete your account? This action cannot be undone.",
+    ),
+    "deliveryDetailsTitle": MessageLookupByLibrary.simpleMessage(
+      "Delivery Details",
+    ),
+    "done": MessageLookupByLibrary.simpleMessage("Done"),
+    "dontHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "Don\'t have an account?",
+    ),
+    "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailValidator": MessageLookupByLibrary.simpleMessage(
+      "Please Enter Email",
+    ),
+    "enterBuilding": MessageLookupByLibrary.simpleMessage("Enter Building"),
+    "enterCity": MessageLookupByLibrary.simpleMessage("Enter City Or Town"),
+    "enterEmail": MessageLookupByLibrary.simpleMessage("Enter Email"),
+    "enterFirstName": MessageLookupByLibrary.simpleMessage("Enter First Name"),
+    "enterFloor": MessageLookupByLibrary.simpleMessage("Enter Floor"),
+    "enterFullName": MessageLookupByLibrary.simpleMessage("Enter Full Name"),
+    "enterLastName": MessageLookupByLibrary.simpleMessage("Enter Last Name"),
+    "enterPassword": MessageLookupByLibrary.simpleMessage("Enter Password"),
+    "enterPhone": MessageLookupByLibrary.simpleMessage("Enter Phone Number"),
+    "enterPrefecture": MessageLookupByLibrary.simpleMessage("Enter Prefecture"),
+    "enterStoreName": MessageLookupByLibrary.simpleMessage("Enter Store Name"),
+    "enterStreetAddress": MessageLookupByLibrary.simpleMessage(
+      "Enter Street Address",
+    ),
+    "enterWard": MessageLookupByLibrary.simpleMessage("Enter Ward"),
+    "error": MessageLookupByLibrary.simpleMessage("Error"),
+    "errorDeletingAccount": MessageLookupByLibrary.simpleMessage(
+      "Error deleting account. Please try again.",
+    ),
+    "errorVerifyingPassword": MessageLookupByLibrary.simpleMessage(
+      "Error verifying password",
+    ),
+    "estimatedTimeToBuyerHint": MessageLookupByLibrary.simpleMessage(
+      "estimated time to buyer per minutes",
+    ),
+    "estimatedTimeToSellerHint": MessageLookupByLibrary.simpleMessage(
+      "estimated time to seller per minutes",
+    ),
+    "expireIn": MessageLookupByLibrary.simpleMessage("ٍSelling Expires In"),
+    "falseLabel": MessageLookupByLibrary.simpleMessage("False"),
+    "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
+    "floorLabel": MessageLookupByLibrary.simpleMessage("Floor"),
+    "forgetPassword": MessageLookupByLibrary.simpleMessage("Forget Password?"),
+    "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
+    "homeLabel": MessageLookupByLibrary.simpleMessage("Home"),
+    "inProgressTab": MessageLookupByLibrary.simpleMessage("In-progress"),
+    "insufficientBalanceMessage": MessageLookupByLibrary.simpleMessage(
+      "You do not have enough balance to sell items.",
+    ),
+    "insufficientBalanceTitle": MessageLookupByLibrary.simpleMessage(
+      "Insufficient Balance",
+    ),
+    "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
+    "locationInformation": MessageLookupByLibrary.simpleMessage(
+      "Store location information",
+    ),
+    "loginError": MessageLookupByLibrary.simpleMessage(
+      "wrong username or password",
+    ),
+    "moveToCompletedButton": MessageLookupByLibrary.simpleMessage(
+      "Move to Completed",
+    ),
+    "moveToInProgressButton": MessageLookupByLibrary.simpleMessage(
+      "Move to In-progress",
+    ),
+    "name": MessageLookupByLibrary.simpleMessage("Name"),
+    "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+    "next": MessageLookupByLibrary.simpleMessage("Next"),
+    "noDelay": MessageLookupByLibrary.simpleMessage(
+      "Your order may take from 5 to 10 minutes.",
+    ),
+    "notEnoughBalanceMessage": MessageLookupByLibrary.simpleMessage(
+      "You do not have enough balance to sell items.",
+    ),
+    "notification": MessageLookupByLibrary.simpleMessage("Notifications"),
+    "numberOfOuncesDialogLabel": MessageLookupByLibrary.simpleMessage(
+      "number of ounces",
+    ),
+    "numberOfOuncesLabel": MessageLookupByLibrary.simpleMessage(
+      "Number Of Ounces",
+    ),
+    "numberOfUnits": MessageLookupByLibrary.simpleMessage("Number Of Units"),
+    "numberOfUnitsLabel": MessageLookupByLibrary.simpleMessage(
+      "Number of Units",
+    ),
+    "okButtonLabel": MessageLookupByLibrary.simpleMessage("OK"),
+    "operationCanceled": MessageLookupByLibrary.simpleMessage("Canceled"),
+    "operationDone": MessageLookupByLibrary.simpleMessage("Done"),
+    "operationFailed": MessageLookupByLibrary.simpleMessage("Failed"),
+    "operationInProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
+    "operationNumberLabel": MessageLookupByLibrary.simpleMessage(
+      "Operation Number",
+    ),
+    "operationPaused": MessageLookupByLibrary.simpleMessage("Paused"),
+    "operationPending": MessageLookupByLibrary.simpleMessage("Pending"),
+    "operationsProgressPageTitle": MessageLookupByLibrary.simpleMessage(
+      "Operations Progress",
+    ),
+    "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordRequired": MessageLookupByLibrary.simpleMessage(
+      "Password is required",
+    ),
+    "pendingTab": MessageLookupByLibrary.simpleMessage("Pending"),
+    "personalDataText": MessageLookupByLibrary.simpleMessage("Personal data"),
+    "personalInfo": MessageLookupByLibrary.simpleMessage("Personal Info"),
+    "phone": MessageLookupByLibrary.simpleMessage("Phone Number"),
+    "pleaseAgree": MessageLookupByLibrary.simpleMessage(
+      "Please agree to the processing of personal data",
+    ),
+    "pleaseBuilding": MessageLookupByLibrary.simpleMessage(
+      "Please enter Building",
+    ),
+    "pleaseCity": MessageLookupByLibrary.simpleMessage(
+      "Please enter City Or Town",
+    ),
+    "pleaseEnterEmail": MessageLookupByLibrary.simpleMessage(
+      "Please enter Email",
+    ),
+    "pleaseEnterEstimatedTimeToBuyer": MessageLookupByLibrary.simpleMessage(
+      "Please enter estimated time to buyer",
+    ),
+    "pleaseEnterEstimatedTimeToSeller": MessageLookupByLibrary.simpleMessage(
+      "Please enter estimated time to seller",
+    ),
+    "pleaseFirstName": MessageLookupByLibrary.simpleMessage(
+      "Please enter First Name",
+    ),
+    "pleaseFloor": MessageLookupByLibrary.simpleMessage("Please enter Floor"),
+    "pleaseFullName": MessageLookupByLibrary.simpleMessage(
+      "Please enter Full Name",
+    ),
+    "pleaseLastName": MessageLookupByLibrary.simpleMessage(
+      "Please enter Last Name",
+    ),
+    "pleasePass": MessageLookupByLibrary.simpleMessage("Please Enter Password"),
+    "pleasePrefecture": MessageLookupByLibrary.simpleMessage(
+      "Please enter Prefecture",
+    ),
+    "pleaseStoreName": MessageLookupByLibrary.simpleMessage(
+      "Please enter Store Name",
+    ),
+    "pleaseStreetAddress": MessageLookupByLibrary.simpleMessage(
+      "Please enter Street Address",
+    ),
+    "pleaseWard": MessageLookupByLibrary.simpleMessage("Please enter Ward"),
+    "prefecture": MessageLookupByLibrary.simpleMessage("Prefecture"),
+    "processing": MessageLookupByLibrary.simpleMessage("Processing Data"),
+    "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "profileLabel": MessageLookupByLibrary.simpleMessage("Profile"),
+    "purchaseFailed": MessageLookupByLibrary.simpleMessage("Purchase Failed"),
+    "purchaseFailedText": MessageLookupByLibrary.simpleMessage(
+      "You do not have enough balance to complete the purchase.",
+    ),
+    "rememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
+    "retailLabel": MessageLookupByLibrary.simpleMessage("Retail Purchase"),
+    "selectZone": MessageLookupByLibrary.simpleMessage("Select Zone"),
+    "sellLabel": MessageLookupByLibrary.simpleMessage("Sell"),
+    "sellPageTitle": MessageLookupByLibrary.simpleMessage("Sell Page"),
+    "selledItem": MessageLookupByLibrary.simpleMessage("the displayed item"),
+    "sellerLocation": MessageLookupByLibrary.simpleMessage("Seller Location"),
+    "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "signUpWith": MessageLookupByLibrary.simpleMessage("Sign Up With"),
+    "signin": MessageLookupByLibrary.simpleMessage("Sign In"),
+    "storeName": MessageLookupByLibrary.simpleMessage("Store Name"),
+    "storePic": MessageLookupByLibrary.simpleMessage("Upload Store Picture"),
+    "streetAddressLabel": MessageLookupByLibrary.simpleMessage(
+      "Street Address",
+    ),
+    "submitButtonLabel": MessageLookupByLibrary.simpleMessage("Submit"),
+    "total": MessageLookupByLibrary.simpleMessage("Total"),
+    "totalPriceLabel": MessageLookupByLibrary.simpleMessage("Total Price"),
+    "trueLabel": MessageLookupByLibrary.simpleMessage("True"),
+    "typeOfOuncesLabel": MessageLookupByLibrary.simpleMessage("Type"),
+    "unitPriceLabel": MessageLookupByLibrary.simpleMessage("Unit Price"),
+    "unitTypeLabel": MessageLookupByLibrary.simpleMessage("Unit Type"),
+    "uploadOncePictureLabel": MessageLookupByLibrary.simpleMessage(
+      "Upload Once\'s Picture",
+    ),
+    "uploadProfile": MessageLookupByLibrary.simpleMessage(
+      "Upload Profile Picture",
+    ),
+    "username": MessageLookupByLibrary.simpleMessage("Username"),
+    "wardLabel": MessageLookupByLibrary.simpleMessage("Ward"),
+    "welcome": MessageLookupByLibrary.simpleMessage("Welcome Back"),
+    "yourBalance": MessageLookupByLibrary.simpleMessage("Your Balance:"),
+    "zone": MessageLookupByLibrary.simpleMessage("Zone"),
+    "zone1": MessageLookupByLibrary.simpleMessage("Jnaah"),
+    "zone2": MessageLookupByLibrary.simpleMessage("Bir AL Abed"),
+  };
 }

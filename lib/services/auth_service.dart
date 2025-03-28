@@ -124,7 +124,7 @@ class AuthService {
       storeToken(data['token'], data['role']);
       return user;
     } else {
-      throw Exception('Gagal Login');
+      throw Exception('Invalid username or password');
     }
   }
 
@@ -143,6 +143,36 @@ class AuthService {
     if (response.statusCode == 200) {
       return true;
     } else {
+      return false;
+    }
+  }
+
+  Future<bool> verifyPassword(String password) async {
+
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+    var url = '$baseUrl/verify-password';
+    var headers = {'Content-Type': 'application/json'
+    ,'Authorization': 'Bearer $token',};
+
+    var body = jsonEncode({
+      'password': password,
+      });
+    var response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      try {
+        var decodedResponse = jsonDecode(response.body);
+        bool? isVerified = decodedResponse['verified'] as bool?;
+        return isVerified ?? false;
+      } catch (e) {
+        print('Error decoding response: $e');
+        return false;
+      }
+    } else {
+      print('Error: ${response.statusCode} - ${response.body}');
       return false;
     }
   }
@@ -171,4 +201,30 @@ class AuthService {
       throw Exception('Failed to load operations');
     }
   }
+
+
+  Future<bool> deleteUser() async {
+
+    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+    var url = '$baseUrl/deleteUser';
+    var headers = {'Content-Type': 'application/json'
+      ,'Authorization': 'Bearer $token',};
+
+    final response = await http.delete(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      print("User deleted successfully");
+      var decodedResponse=jsonDecode(response.body);
+      bool? deleted= decodedResponse['status'] as bool?;
+      print(deleted);
+      return deleted ?? false;
+    } else {
+      print("Error: ${response.body}");
+      return false;
+    }
+  }
+
 }

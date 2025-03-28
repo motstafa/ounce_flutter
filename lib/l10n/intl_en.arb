@@ -125,6 +125,14 @@
   "expireIn":"ٍSelling Expires In",
   "selledItem":"the displayed item",
   "done":"Done",
-  "NoListingYet":"It looks like you haven't posted anything for sale yet.\nList an item now and start selling!"
+  "NoListingYet":"It looks like you haven't posted anything for sale yet.\nList an item now and start selling!",
+  "deleteAccount":"Delete Account",
+  "deleteAccountConfirmation":"Are you sure you want to delete your account? This action cannot be undone.",
+  "accountDeletedSuccessfully":"Account deleted successfully",
+  "errorDeletingAccount": "Error deleting account. Please try again.",
+  "passwordRequired": "Password is required",
+  "incorrectPassword ": "Incorrect password",
+  "errorVerifyingPassword":"Error verifying password",
+  "delete": "Delete"
 }
     
