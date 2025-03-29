@@ -131,7 +131,9 @@
   "accountDeletedSuccessfully":"تم حذف الحساب بنجاح",
   "errorDeletingAccount": "خطأ في حذف الحساب. يرجى المحاولة مرة أخرى",
   "passwordRequired": "كلمة المرور مطلوبة",
-  "IncorrectPassword": "كلمة المرور غير صحيحة",
   "errorVerifyingPassword": "خطأ في التحقق من كلمة المرور",
-  "Delete": "حذف"
+  "Delete": "حذف",
+  "buyBalance": "رصيد الشراء",
+  "sellBalance": "رصيد البيع",
+  "incorrectPassword": "كلمة المرور غير صحيحة"
 }

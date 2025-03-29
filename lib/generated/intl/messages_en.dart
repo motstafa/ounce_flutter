@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "busy": MessageLookupByLibrary.simpleMessage(
       "All deliveries are currently busy.",
     ),
+    "buyBalance": MessageLookupByLibrary.simpleMessage("Buy Balance"),
     "buyButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
     "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
     "buyPageTitle": MessageLookupByLibrary.simpleMessage("Buy Page"),
@@ -108,6 +109,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
     "homeLabel": MessageLookupByLibrary.simpleMessage("Home"),
     "inProgressTab": MessageLookupByLibrary.simpleMessage("In-progress"),
+    "incorrectPassword": MessageLookupByLibrary.simpleMessage(
+      "Incorrect password",
+    ),
     "insufficientBalanceMessage": MessageLookupByLibrary.simpleMessage(
       "You do not have enough balance to sell items.",
     ),
@@ -218,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
     "retailLabel": MessageLookupByLibrary.simpleMessage("Retail Purchase"),
     "selectZone": MessageLookupByLibrary.simpleMessage("Select Zone"),
+    "sellBalance": MessageLookupByLibrary.simpleMessage("Sell Balance"),
     "sellLabel": MessageLookupByLibrary.simpleMessage("Sell"),
     "sellPageTitle": MessageLookupByLibrary.simpleMessage("Sell Page"),
     "selledItem": MessageLookupByLibrary.simpleMessage("the displayed item"),

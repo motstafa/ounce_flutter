@@ -95,8 +95,8 @@ class displayBalance extends StatelessWidget{
         } else {
           Balance = (snapshot.data)?.toInt() ?? 0; // Default to 0.0 if data is null
           return Text(
-            '${S.of(context).yourBalance} $Balance',
-            style: TextStyle(color: buttonAccentColor,fontWeight:FontWeight.w600,fontSize: 17),
+            '${balanceType == 'sell' ? S.of(context).sellBalance : S.of(context).buyBalance} $Balance',
+            style: TextStyle(color: buttonAccentColor, fontWeight: FontWeight.w600, fontSize: 17),
             textAlign: TextAlign.center,
           );
         }

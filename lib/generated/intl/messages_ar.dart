@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "busy": MessageLookupByLibrary.simpleMessage(
       "كل خدمات التوصيل مشغولة حالياً.",
     ),
+    "buyBalance": MessageLookupByLibrary.simpleMessage("رصيد الشراء"),
     "buyButtonText": MessageLookupByLibrary.simpleMessage("شراء"),
     "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("شراء"),
     "buyPageTitle": MessageLookupByLibrary.simpleMessage("صفحة الشراء"),
@@ -107,6 +108,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
     "homeLabel": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "inProgressTab": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
+    "incorrectPassword": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور غير صحيحة",
+    ),
     "insufficientBalanceMessage": MessageLookupByLibrary.simpleMessage(
       "ليس لديك رصيد كافٍ لبيع العناصر.",
     ),
@@ -211,6 +215,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rememberMe": MessageLookupByLibrary.simpleMessage("تذكرني"),
     "retailLabel": MessageLookupByLibrary.simpleMessage("شراء بالتجزئة"),
     "selectZone": MessageLookupByLibrary.simpleMessage("حدد المنطقة"),
+    "sellBalance": MessageLookupByLibrary.simpleMessage("رصيد البيع"),
     "sellLabel": MessageLookupByLibrary.simpleMessage("بيع"),
     "sellPageTitle": MessageLookupByLibrary.simpleMessage("صفحة البيع"),
     "selledItem": MessageLookupByLibrary.simpleMessage("الغرض المعروض"),

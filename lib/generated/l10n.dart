@@ -1115,8 +1115,6 @@ class S {
     );
   }
 
-  // skipped getter for the 'incorrectPassword ' key
-
   /// `Error verifying password`
   String get errorVerifyingPassword {
     return Intl.message(
@@ -1132,8 +1130,23 @@ class S {
     return Intl.message('Delete', name: 'delete', desc: '', args: []);
   }
 
+  /// `Buy Balance`
+  String get buyBalance {
+    return Intl.message('Buy Balance', name: 'buyBalance', desc: '', args: []);
+  }
+
+  /// `Sell Balance`
+  String get sellBalance {
+    return Intl.message(
+      'Sell Balance',
+      name: 'sellBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Incorrect password`
-  String? get incorrectPassword {
+  String get incorrectPassword {
     return Intl.message(
       'Incorrect password',
       name: 'incorrectPassword',
@@ -1141,7 +1154,6 @@ class S {
       args: [],
     );
   }
-
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

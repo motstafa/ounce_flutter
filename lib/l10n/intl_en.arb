@@ -131,8 +131,10 @@
   "accountDeletedSuccessfully":"Account deleted successfully",
   "errorDeletingAccount": "Error deleting account. Please try again.",
   "passwordRequired": "Password is required",
-  "incorrectPassword ": "Incorrect password",
   "errorVerifyingPassword":"Error verifying password",
-  "delete": "Delete"
+  "delete": "Delete",
+  "buyBalance": "Buy Balance",
+  "sellBalance": "Sell Balance",
+  "incorrectPassword": "Incorrect password"
 }
     
