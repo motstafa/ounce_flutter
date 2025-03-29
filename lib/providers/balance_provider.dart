@@ -5,26 +5,30 @@ import 'package:ounce/theme/theme.dart';
 import '../generated/l10n.dart';
 
 class BalanceProvider with ChangeNotifier {
-  late int _sellingBalance;
-  late int _buyingBalance;
+  int _sellingBalance = 0;
+  int _buyingBalance = 0;
 
-
-
-  // Method to fetch the selling balance asynchronously
   Future<int> fetchBalance(String balanceType) async {
     try {
-      // Simulate a network request with a delay
-      await Future.delayed(Duration(seconds: 1));
-      // Return the fetched balance
-      if(balanceType=='buy')
-        return _buyingBalance;
+      if (balanceType == 'buy') return _buyingBalance;
       return _sellingBalance;
     } catch (e) {
-      // Handle any errors here
       throw e;
     }
   }
 
+  callToGetBalance() async {
+    try {
+      Map<String, int> balance = await AuthService().getTraderBalance();
+
+      _sellingBalance = balance['sell_balance'] as int;
+      _buyingBalance = balance['buy_balance'] as int;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      return {};
+    }
+  }
 
   int get sellingBalance => _sellingBalance;
 
@@ -40,18 +44,6 @@ class BalanceProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  callToGetBalance() async {
-    try {
-      Map<String, int> balance = await AuthService().getTraderBalance();
-
-      _sellingBalance = balance['sell_balance'] as int;
-      _buyingBalance = balance['buy_balance'] as int;
-      // notifyListeners();
-      return true;
-    } catch (e) {
-      return {};
-    }
-  }
 }
 
 // Usage in a widget
@@ -68,38 +60,47 @@ class BalanceDisplay extends StatelessWidget {
   }
 }
 
-class displayBalance extends StatelessWidget{
+class displayBalance extends StatelessWidget {
+  final String balanceType;
 
-  String balanceType;
-  int? Balance;
   displayBalance({required this.balanceType});
 
   @override
   Widget build(BuildContext context) {
-    final balanceProvider = Provider.of<BalanceProvider>(context,listen: false);
-    return FutureBuilder<int>(
-      future: balanceProvider.fetchBalance(balanceType), // Assuming this returns a Future<double>
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text(
-            'Your Balance: Loading...', // Show a loading message while fetching data
-            style: TextStyle(color: buttonAccentColor),
-            textAlign: TextAlign.center,
-          );
-        } else if (snapshot.hasError) {
-          return Text(
-            'Error fetching balance', // Handle error case
-            style: TextStyle(color: buttonAccentColor),
-            textAlign: TextAlign.center,
-          );
-        } else {
-          Balance = (snapshot.data)?.toInt() ?? 0; // Default to 0.0 if data is null
-          return Text(
-            '${balanceType == 'sell' ? S.of(context).sellBalance : S.of(context).buyBalance} $Balance',
-            style: TextStyle(color: buttonAccentColor, fontWeight: FontWeight.w600, fontSize: 17),
-            textAlign: TextAlign.center,
-          );
-        }
+    // Remove listen: false to properly listen to changes
+    final balanceProvider = Provider.of<BalanceProvider>(context);
+
+    return Consumer<BalanceProvider>(
+      builder: (context, balanceProvider, child) {
+        return FutureBuilder<int>(
+          future: balanceProvider.fetchBalance(balanceType),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text(
+                'Your Balance: Loading...',
+                style: TextStyle(color: buttonAccentColor),
+                textAlign: TextAlign.center,
+              );
+            } else if (snapshot.hasError) {
+              return Text(
+                'Error fetching balance',
+                style: TextStyle(color: buttonAccentColor),
+                textAlign: TextAlign.center,
+              );
+            } else {
+              final balance = snapshot.data ?? 0;
+              return Text(
+                '${balanceType == 'sell' ? S.of(context).sellBalance : S.of(context).buyBalance} $balance',
+                style: TextStyle(
+                    color: buttonAccentColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 17
+                ),
+                textAlign: TextAlign.center,
+              );
+            }
+          },
+        );
       },
     );
   }

@@ -14,17 +14,17 @@ import '../../generated/l10n.dart';
 class BuyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Get the provider and call loadOperations if not already loaded
-    final operationProvider =
-    Provider.of<OperationProvider>(context, listen: false);
-    final BalanceProvider balanceProvider =
-    Provider.of<BalanceProvider>(context, listen: false);
+    final operationProvider = Provider.of<OperationProvider>(context, listen: false);
+    final balanceProvider = Provider.of<BalanceProvider>(context, listen: false);
 
-    operationProvider.startPollingUpdatedOperations();
-
-    if (operationProvider.operations.isEmpty) {
-      operationProvider.loadOperations();
-    }
+    // Load initial data
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      operationProvider.startPollingUpdatedOperations();
+      if (operationProvider.operations.isEmpty) {
+        operationProvider.loadOperations();
+      }
+      balanceProvider.callToGetBalance();
+    });
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -32,11 +32,11 @@ class BuyPage extends StatelessWidget {
           pageName: S
               .of(context)
               .buyPageTitle, balanceType: 'buy'),
-      body: Consumer<OperationProvider>(
-        builder: (context, provider, child) {
+      body: Consumer2<OperationProvider, BalanceProvider>(
+        builder: (context, operationProvider, balanceProvider, child) {
           // Use a FutureBuilder to wait for the loadOperations future to complete
           return FutureBuilder(
-            future: provider.loadOperations(),
+            future: operationProvider.loadOperations(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -48,9 +48,9 @@ class BuyPage extends StatelessWidget {
               } else {
                 // Once the future is complete, build the ListView
                 return ListView.builder(
-                  itemCount: provider.operations.length,
+                  itemCount: operationProvider.operations.length,
                   itemBuilder: (context, index) {
-                    final operation = provider.operations[index];
+                    final operation = operationProvider.operations[index];
                     return OperationItem(operation);
                   },
                 );
@@ -189,7 +189,8 @@ class _PurchaseDialogState extends State<PurchaseDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var buyBalance = displayBalance(balanceType: 'buy');
+    var displayBuyBalance = displayBalance(balanceType: 'buy');
+    var buyBalance = widget.balanceProvider?.buyingBalance;
     return AlertDialog(
       title: Text(_isConfirming ? 'Confirm Delivery' : 'Confirm Purchase'),
       content: SingleChildScrollView(
@@ -214,7 +215,7 @@ class _PurchaseDialogState extends State<PurchaseDialog> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buyBalance,
+                      displayBuyBalance,
                       SizedBox(height: 20),
                       // Adjust the space as needed
                     ],
@@ -366,7 +367,7 @@ class _PurchaseDialogState extends State<PurchaseDialog> {
                     .of(context)
                     .buyButtonText),
                 onPressed: () async {
-                  if ((buyBalance.Balance ?? 0) <
+                  if ((buyBalance ?? 0) <
                       widget.operation!.numberOfUnits) {
                     return showNotEnoughResourcesDialog(context);
                   }
@@ -399,14 +400,13 @@ class _PurchaseDialogState extends State<PurchaseDialog> {
                   .confirm),
               onPressed: () async {
                 // Handle the confirmation action
-                // Perform purchase action
-                final operationProvider =
-                Provider.of<OperationProvider>(context, listen: false);
-                bool result = await operationProvider.Buy(
-                    widget.operation!.id, selectedItems);
+                final operationProvider = Provider.of<OperationProvider>(context, listen: false);
+                final balanceProvider = Provider.of<BalanceProvider>(context, listen: false);
+
+                bool result = await operationProvider.Buy(widget.operation!.id, selectedItems);
                 if (result) {
                   await operationProvider.refreshPage();
-                  await widget.balanceProvider!.callToGetBalance();
+                  await balanceProvider.callToGetBalance(); // This should trigger notifyListeners()
                 }
                 Navigator.of(context).pop(); // Close the dialog
               },
