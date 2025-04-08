@@ -44,7 +44,7 @@ class OperationProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      print('Error fetching operations: $e');
+      // print('Error fetching operations: $e');
     }
   }
 
@@ -69,7 +69,7 @@ class OperationProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print('Error fetching operations: $e');
+      // print('Error fetching operations: $e');
       return false;
     }
   }
@@ -86,7 +86,7 @@ class OperationProvider with ChangeNotifier {
         return true;
       }
     } catch (e) {
-      print('Error fetching operations: $e');
+      // print('Error fetching operations: $e');
     }
     return false;
   }
@@ -97,7 +97,7 @@ class OperationProvider with ChangeNotifier {
         return true;
       }
     } catch (e) {
-      print('Error fetching operations: $e');
+      // print('Error fetching operations: $e');
     }
     return false;
   }
@@ -110,7 +110,7 @@ class OperationProvider with ChangeNotifier {
       print('after service');
       return result;
     } catch (e) {
-      print('Error fetching operations: ${e.toString()}');
+      // print('Error fetching operations: ${e.toString()}');
       // Consider logging the stack trace for more detailed debugging information
     }
     return false;
