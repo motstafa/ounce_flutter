@@ -6,7 +6,6 @@ import 'package:ounce/screens/home/sell_page.dart';
 import 'package:ounce/theme/theme.dart';
 
 import '../../generated/l10n.dart';
-import '../../providers/notification_provider.dart';
 
 class TraderPage extends StatefulWidget {
   final int initialIndex;

@@ -122,7 +122,7 @@
   "buyerLocation":"Buyer Location",
   "sellerLocation":"Seller Location",
   "numberOfUnits":"Number Of Units",
-  "expireIn":"ٍSelling Expires In",
+  "expireIn":"Selling Expires In",
   "selledItem":"the displayed item",
   "done":"Done",
   "NoListingYet":"It looks like you haven't posted anything for sale yet.\nList an item now and start selling!",
@@ -135,6 +135,10 @@
   "delete": "Delete",
   "buyBalance": "Buy Balance",
   "sellBalance": "Sell Balance",
-  "incorrectPassword": "Incorrect password"
+  "incorrectPassword": "Incorrect password",
+  "amount": "Amount",
+  "requiredField": "This field is required",
+  "imageRequired": "Product image is required",
+  "selectQuantity": "Select Quantity"
 }
     

@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "allowRetail": MessageLookupByLibrary.simpleMessage(
       "السماح بالشراء بالقطعة",
     ),
+    "amount": MessageLookupByLibrary.simpleMessage("السعر"),
     "buildingLabel": MessageLookupByLibrary.simpleMessage("المبنى"),
     "busy": MessageLookupByLibrary.simpleMessage(
       "كل خدمات التوصيل مشغولة حالياً.",
@@ -107,6 +108,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "forgetPassword": MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
     "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
     "homeLabel": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+    "imageRequired": MessageLookupByLibrary.simpleMessage("صورة المنتج مطلوبة"),
     "inProgressTab": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
     "incorrectPassword": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور غير صحيحة",
@@ -213,7 +215,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "ليس لديك الرصيد الكافي للإجراء هذه العملية",
     ),
     "rememberMe": MessageLookupByLibrary.simpleMessage("تذكرني"),
+    "requiredField": MessageLookupByLibrary.simpleMessage("هذا الحقل مطلوب"),
     "retailLabel": MessageLookupByLibrary.simpleMessage("شراء بالتجزئة"),
+    "selectQuantity": MessageLookupByLibrary.simpleMessage("اختر الكمية"),
     "selectZone": MessageLookupByLibrary.simpleMessage("حدد المنطقة"),
     "sellBalance": MessageLookupByLibrary.simpleMessage("رصيد البيع"),
     "sellLabel": MessageLookupByLibrary.simpleMessage("بيع"),

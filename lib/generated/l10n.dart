@@ -1030,10 +1030,10 @@ class S {
     );
   }
 
-  /// `ٍSelling Expires In`
+  /// `Selling Expires In`
   String get expireIn {
     return Intl.message(
-      'ٍSelling Expires In',
+      'Selling Expires In',
       name: 'expireIn',
       desc: '',
       args: [],
@@ -1150,6 +1150,41 @@ class S {
     return Intl.message(
       'Incorrect password',
       name: 'incorrectPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get amount {
+    return Intl.message('Amount', name: 'amount', desc: '', args: []);
+  }
+
+  /// `This field is required`
+  String get requiredField {
+    return Intl.message(
+      'This field is required',
+      name: 'requiredField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product image is required`
+  String get imageRequired {
+    return Intl.message(
+      'Product image is required',
+      name: 'imageRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Quantity`
+  String get selectQuantity {
+    return Intl.message(
+      'Select Quantity',
+      name: 'selectQuantity',
       desc: '',
       args: [],
     );

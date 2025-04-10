@@ -40,7 +40,7 @@ class _OperationDetailsState extends State<OperationDetails> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SectionHeader(numberOfUnits: widget.item.numberOfUnits),
+            SectionHeader(numberOfUnits: widget.item.numberOfUnits, amount: widget.item.amount),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
@@ -65,27 +65,49 @@ class _OperationDetailsState extends State<OperationDetails> {
 
 class SectionHeader extends StatelessWidget {
   final int numberOfUnits;
+  final int amount;
 
-  const SectionHeader({Key? key, required this.numberOfUnits})
+  const SectionHeader({Key? key, required this.numberOfUnits, required this.amount})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        text: "${S.of(context).numberOfUnitsLabel} ",
-        style: Theme.of(context)
-            .textTheme
-            .headlineMedium
-            ?.copyWith(fontWeight: FontWeight.bold), // Default style
-        children: [
-          TextSpan(
-            text: "${numberOfUnits}",
-            style: TextStyle(
-                color: Colors.red, fontSize: 45), // Red color for the number
+    return Column(
+      children: [
+        RichText(
+          text: TextSpan(
+            text: "${S.of(context).numberOfUnitsLabel} ",
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
+            children: [
+              TextSpan(
+                text: "$numberOfUnits",
+                style: TextStyle(
+                    color: Colors.red, fontSize: 45),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 8),
+        RichText(
+          text: TextSpan(
+            text: "${S.of(context).amount} ",
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
+            children: [
+              TextSpan(
+                text: "\$$amount",
+                style: TextStyle(
+                    color: Colors.green, fontSize: 45),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

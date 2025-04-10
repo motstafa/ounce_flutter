@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "allowRetail": MessageLookupByLibrary.simpleMessage(
       "Allow retail puchase?",
     ),
+    "amount": MessageLookupByLibrary.simpleMessage("Amount"),
     "buildingLabel": MessageLookupByLibrary.simpleMessage("Building"),
     "busy": MessageLookupByLibrary.simpleMessage(
       "All deliveries are currently busy.",
@@ -101,13 +102,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "estimatedTimeToSellerHint": MessageLookupByLibrary.simpleMessage(
       "estimated time to seller per minutes",
     ),
-    "expireIn": MessageLookupByLibrary.simpleMessage("ٍSelling Expires In"),
+    "expireIn": MessageLookupByLibrary.simpleMessage("Selling Expires In"),
     "falseLabel": MessageLookupByLibrary.simpleMessage("False"),
     "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
     "floorLabel": MessageLookupByLibrary.simpleMessage("Floor"),
     "forgetPassword": MessageLookupByLibrary.simpleMessage("Forget Password?"),
     "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
     "homeLabel": MessageLookupByLibrary.simpleMessage("Home"),
+    "imageRequired": MessageLookupByLibrary.simpleMessage(
+      "Product image is required",
+    ),
     "inProgressTab": MessageLookupByLibrary.simpleMessage("In-progress"),
     "incorrectPassword": MessageLookupByLibrary.simpleMessage(
       "Incorrect password",
@@ -220,7 +224,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "You do not have enough balance to complete the purchase.",
     ),
     "rememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
+    "requiredField": MessageLookupByLibrary.simpleMessage(
+      "This field is required",
+    ),
     "retailLabel": MessageLookupByLibrary.simpleMessage("Retail Purchase"),
+    "selectQuantity": MessageLookupByLibrary.simpleMessage("Select Quantity"),
     "selectZone": MessageLookupByLibrary.simpleMessage("Select Zone"),
     "sellBalance": MessageLookupByLibrary.simpleMessage("Sell Balance"),
     "sellLabel": MessageLookupByLibrary.simpleMessage("Sell"),

@@ -135,5 +135,9 @@
   "Delete": "حذف",
   "buyBalance": "رصيد الشراء",
   "sellBalance": "رصيد البيع",
-  "incorrectPassword": "كلمة المرور غير صحيحة"
+  "incorrectPassword": "كلمة المرور غير صحيحة",
+  "amount": "السعر",
+  "requiredField": "هذا الحقل مطلوب",
+  "imageRequired": "صورة المنتج مطلوبة",
+  "selectQuantity": "اختر الكمية"
 }

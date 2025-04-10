@@ -4,6 +4,7 @@ class PendingOperation {
   final int id;
   final int operationId;
   final int numberOfUnits;
+  final int amount;
   final int zoneId;
   final String operationStatus;
   final Address buyerAddress;
@@ -13,10 +14,11 @@ class PendingOperation {
     required this.id,
     required this.operationId,
     required this.numberOfUnits,
+    required this.amount,
     required this.zoneId,
     required this.operationStatus,
     required this.buyerAddress,
-    required this.sellerAddress
+    required this.sellerAddress,
   });
 
   factory PendingOperation.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class PendingOperation {
       id: json['id'],
       operationId: json['operation_id'],
       numberOfUnits: json['number_of_units'],
+      amount: json['amount'],
       zoneId: json['zone_id'],
       operationStatus: json['operation_status'],
       buyerAddress:  Address(

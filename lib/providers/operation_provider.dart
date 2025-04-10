@@ -102,11 +102,11 @@ class OperationProvider with ChangeNotifier {
     return false;
   }
 
-  Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber,
+  Future<bool> sell(unitPrice, XFile? img, unitsNumber,
       expiresIn, retail) async {
     try {
       bool result = await operationservice.sell(
-          unitPrice, unitType, img, unitsNumber, expiresIn, retail.toString());
+          unitPrice, img, unitsNumber, expiresIn, retail.toString());
       print('after service');
       return result;
     } catch (e) {

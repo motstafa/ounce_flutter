@@ -76,13 +76,13 @@ class OperationService {
     }
   }
 
-  Future<bool> sell(unitPrice, String unitType, XFile? img, unitsNumber,expiresIn,retail) async {
+  Future<bool> sell(unitPrice, XFile? img, unitsNumber,expiresIn,retail) async {
     String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
     var url = '$baseUrl/operation';
     // Create a multipart request
     var request = http.MultipartRequest('POST', Uri.parse(url))
       ..fields['unit_price'] = unitPrice
-      ..fields['unit_type'] = unitType
+      // ..fields['unit_type'] = unitType
       ..fields['number_of_units'] = unitsNumber
       ..fields['retail']=retail
       ..fields['expiry']=expiresIn
