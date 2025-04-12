@@ -140,6 +140,9 @@
   "requiredField": "This field is required",
   "imageRequired": "Product image is required",
   "selectQuantity": "Select Quantity",
-  "sizeWarning": "Image size must be less than 2MB"
+  "sizeWarning": "Image size must be less than 2MB",
+  "chooseFromGallery": "Choose from gallery",
+  "selectImageSource": "Select image source",
+  "takePhoto": "Take a photo"
 }
     

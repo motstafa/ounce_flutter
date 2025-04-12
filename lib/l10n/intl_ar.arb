@@ -140,5 +140,8 @@
   "requiredField": "هذا الحقل مطلوب",
   "imageRequired": "صورة المنتج مطلوبة",
   "selectQuantity": "اختر الكمية",
-  "sizeWarning": "يجب أن يكون حجم الصورة أقل من 2 ميجا بايت"
+  "sizeWarning": "يجب أن يكون حجم الصورة أقل من 2 ميجا بايت",
+  "chooseFromGallery": "اختر من المعرض",
+  "selectImageSource": "اختر مصدر الصورة",
+  "takePhoto": "التقط صورة"
 }

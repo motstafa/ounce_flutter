@@ -1199,6 +1199,37 @@ class S {
       args: [],
     );
   }
+
+  /// `Choose from gallery`
+  String get chooseFromGallery {
+    return Intl.message(
+      'Choose from gallery',
+      name: 'chooseFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select image source`
+  String get selectImageSource {
+    return Intl.message(
+      'Select image source',
+      name: 'selectImageSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take a photo`
+  String get takePhoto {
+    return Intl.message(
+      'Take a photo',
+      name: 'takePhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

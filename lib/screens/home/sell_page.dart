@@ -1,4 +1,4 @@
-import 'dart:io'; // Import this for File class
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ounce/providers/operation_provider.dart';
@@ -17,59 +17,86 @@ class SellPage extends StatefulWidget {
 class _SellPageState extends State<SellPage> {
   XFile? _imageFile;
   final _formKey = GlobalKey<FormState>();
+  bool _isImageTooLarge = false;
 
-
-  // Function to delete the selected image
   void _deleteImage() {
     Navigator.of(context).pop();
     setState(() {
       _imageFile = null;
+      _isImageTooLarge = false;
     });
   }
 
-  // Make the SwitchButton stateful within this class
   late SwitchButton switcher;
-
   TextEditingController priceController = TextEditingController();
   String? unitTypeController;
   TextEditingController numberOfUnitsController = TextEditingController();
   TextEditingController expiresInController = TextEditingController();
-
-  // Add a state variable to track the selected expiration time
   int _selectedExpirationTime = 1;
-
   final List<String> unitTypes = ['swiss', 'italy', 'england'];
-
-  bool isProcessing = false; // Track whether the button is being processed
+  bool isProcessing = false;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the switcher in initState
     switcher = SwitchButton();
   }
 
-  Future<void> _selectImage() async {
-    final image = await ImageService.pickAndCompressImage(context, ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _imageFile = image;
-      });
-    }
-
-
-// In your submit function:
-  if (_imageFile != null) {
-  final imageFile = File(_imageFile!.path);
-  final fileSize = await imageFile.length();
-
-  if (fileSize > 2048 * 1024) {
-  ScaffoldMessenger.of(context).showSnackBar(
-  SnackBar(content: Text(S.of(context).sizeWarning)),
-  );
-  return;
+  Future<void> _showImageSourceDialog() async {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        title: Text(S.of(context).selectImageSource),
+        actions: [
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+              _selectImage(ImageSource.camera);
+            },
+            child: Text(S.of(context).takePhoto),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+              _selectImage(ImageSource.gallery);
+            },
+            child: Text(S.of(context).chooseFromGallery),
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () => Navigator.pop(context),
+          child: Text(S.of(context).cancel),
+        ),
+      ),
+    );
   }
-  }}
+
+  Future<void> _selectImage(ImageSource source) async {
+    try {
+      final image = await ImageService.pickAndCompressImage(context, source);
+      if (image != null) {
+        final imageFile = File(image.path);
+        final fileSize = await imageFile.length();
+        final isTooLarge = fileSize > 2048 * 1024;
+
+        setState(() {
+          // Always set the image file, even if it's too large
+          _imageFile = image;
+          _isImageTooLarge = isTooLarge;
+        });
+
+        if (_isImageTooLarge) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(S.of(context).sizeWarning)),
+          );
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(S.of(context).sizeWarning)),
+      );
+    }
+  }
 
   void _showPicker(BuildContext context) {
     showModalBottomSheet(
@@ -78,13 +105,12 @@ class _SellPageState extends State<SellPage> {
         return Container(
           height: 200,
           child: ListView.builder(
-            itemCount: 60, // Example: Select minutes from 1 to 60
+            itemCount: 60,
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text('${index + 1} minutes'),
                 onTap: () {
                   setState(() {
-                    // Ensure UI updates
                     expiresInController.text = '${index + 1}';
                   });
                   Navigator.pop(context);
@@ -97,7 +123,6 @@ class _SellPageState extends State<SellPage> {
     );
   }
 
-  // Function to show image in a dialog
   void _showImagePreview() {
     if (_imageFile == null) return;
 
@@ -105,57 +130,128 @@ class _SellPageState extends State<SellPage> {
       context: context,
       builder: (context) {
         return Dialog(
-          child:  GestureDetector(
-            onTap: _imageFile == null ? _selectImage : _showImagePreview,
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: _imageFile == null
-                  ? Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Icon(Icons.add_a_photo, size: 40),
-                    Text(
-                      S.of(context).uploadOncePictureLabel,
-                      style: TextStyle(),
-                    ),
-                  ],
+          backgroundColor: Colors.black,
+          child: Stack(
+            children: [
+              InteractiveViewer(
+                panEnabled: true,
+                minScale: 0.5,
+                maxScale: 3.0,
+                child: Image.file(
+                  File(_imageFile!.path),
+                  fit: BoxFit.contain,
+                  width: double.infinity,
+                  height: double.infinity,
                 ),
-              )
-                  : Stack(
-                children: [
-                  Image.file(
-                    File(_imageFile!.path),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: 200,
-                  ),
-                  Positioned(
-                    bottom: 8,
-                    right: 8,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.fullscreen, color: Colors.white),
-                          onPressed: _showImagePreview,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete, color: Colors.white),
-                          onPressed:   _deleteImage,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
               ),
-            ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: IconButton(
+                  icon: Icon(Icons.close, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+              Positioned(
+                bottom: 8,
+                right: 8,
+                child: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.white),
+                  onPressed: _deleteImage,
+                ),
+              ),
+            ],
           ),
         );
       },
+    );
+  }
+
+  Widget _buildImagePickerWidget() {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: _imageFile == null ? _showImageSourceDialog : _showImagePreview,
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: _imageFile == null
+                ? Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Icon(Icons.add_a_photo, size: 40),
+                  Text(
+                    S.of(context).uploadOncePictureLabel,
+                    style: TextStyle(),
+                  ),
+                ],
+              ),
+            )
+                : Stack(
+              children: [
+                Image.file(
+                  File(_imageFile!.path),
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 200,
+                ),
+                Positioned(
+                  bottom: 8,
+                  right: 8,
+                  child: IconButton(
+                    icon: Icon(Icons.fullscreen, color: Colors.white),
+                    onPressed: _showImagePreview,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (_imageFile == null)
+          Padding(
+            padding: EdgeInsets.only(left: 8.0, top: 4.0),
+            child: Text(
+              S.of(context).requiredField,
+              style: TextStyle(color: Colors.red, fontSize: 12),
+            ),
+          ),
+        if (_isImageTooLarge)
+          Padding(
+            padding: EdgeInsets.only(left: 8.0, top: 4.0),
+            child: Text(
+              S.of(context).sizeWarning,
+              style: TextStyle(color: Colors.red, fontSize: 12),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildNumberInputField({
+    required TextEditingController controller,
+    required String label,
+    bool isDecimal = false,
+  }) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      keyboardType: isDecimal
+          ? TextInputType.numberWithOptions(decimal: true)
+          : TextInputType.number,
+      controller: controller,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return S.of(context).requiredField;
+        }
+        return null;
+      },
+      textInputAction: TextInputAction.next,
     );
   }
 
@@ -169,20 +265,10 @@ class _SellPageState extends State<SellPage> {
       future: balanceProvider.fetchBalance('sell'),
       builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Padding(
-            padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-              ],
-            ),
-          );
+          return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('${S.of(context).error}: ${snapshot.error}');
         } else {
-          print(snapshot.data);
           final sellBalance = snapshot.data ?? 0;
           if (sellBalance == 0) {
             return Scaffold(
@@ -209,70 +295,25 @@ class _SellPageState extends State<SellPage> {
               body: Form(
                 key: _formKey,
                 child: ListView(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(16.0),
                   children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: S.of(context).unitPriceLabel,
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                    _buildNumberInputField(
                       controller: priceController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return S.of(context).requiredField;
-                        }
-                        return null;
-                      },
+                      label: S.of(context).unitPriceLabel,
+                      isDecimal: true,
                     ),
-                    // SizedBox(height: 16.0),
-                    // DropdownButtonFormField<String>(
-                    //   value: unitTypeController,
-                    //   decoration: InputDecoration(
-                    //     labelText: S.of(context).unitTypeLabel,
-                    //     border: OutlineInputBorder(),
-                    //   ),
-                    //   items: unitTypes
-                    //       .map<DropdownMenuItem<String>>((String value) {
-                    //     return DropdownMenuItem<String>(
-                    //       value: value,
-                    //       child: Text(value),
-                    //     );
-                    //   }).toList(),
-                    //   onChanged: (String? newValue) {
-                    //     setState(() {
-                    //       unitTypeController = newValue;
-                    //     });
-                    //   },
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return S.of(context).requiredField;
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
                     SizedBox(height: 16.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: S.of(context).numberOfUnitsLabel,
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
+                    _buildNumberInputField(
                       controller: numberOfUnitsController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return S.of(context).requiredField;
-                        }
-                        return null;
-                      },
+                      label: S.of(context).numberOfUnitsLabel,
                     ),
                     SizedBox(height: 16.0),
                     CupertinoButton(
                       padding: EdgeInsets.zero,
                       onPressed: () => _showPicker(context),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 16),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(8),
@@ -293,58 +334,9 @@ class _SellPageState extends State<SellPage> {
                     ),
                     SizedBox(height: 16.0),
                     switcher,
-                    GestureDetector(
-                      onTap: _imageFile == null
-                          ? _selectImage
-                          : _showImagePreview,
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: _imageFile == null
-                            ? Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(Icons.add_a_photo, size: 40),
-                              Text(
-                                S.of(context).uploadOncePictureLabel,
-                                style: TextStyle(),
-                              ),
-                            ],
-                          ),
-                        )
-                            : Stack(
-                          children: [
-                            Image.file(
-                              File(_imageFile!.path),
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: 200,
-                            ),
-                            Positioned(
-                              bottom: 8,
-                              right: 8,
-                              child: IconButton(
-                                icon: Icon(Icons.fullscreen, color: Colors.white),
-                                onPressed: _showImagePreview,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (_imageFile == null)
-                      Padding(
-                        padding: EdgeInsets.only(left: 8.0, top: 4.0),
-                        child: Text(
-                          S.of(context).requiredField,
-                          style: TextStyle(color: Colors.red, fontSize: 12),
-                        ),
-                      ),
                     SizedBox(height: 16.0),
+                    _buildImagePickerWidget(),
+                    SizedBox(height: 24.0),
                     ElevatedButton(
                       onPressed: isProcessing
                           ? null
@@ -359,23 +351,17 @@ class _SellPageState extends State<SellPage> {
                             return;
                           }
 
-                          setState(() {
-                            isProcessing = true; // Disable the button
-                          });
-
-                          _formKey.currentState!.save();
-                          // In your submit button onPressed:
-                          if (_imageFile != null) {
-                            final imageFile = File(_imageFile!.path);
-                            final fileSize = await imageFile.length();
-
-                            if (fileSize > 2048 * 1024) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(S.of(context).sizeWarning)),
-                              );
-                              return;
-                            }
+                          if (_isImageTooLarge) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(S.of(context).sizeWarning)),
+                            );
+                            return;
                           }
+
+                          setState(() => isProcessing = true);
+                          _formKey.currentState!.save();
+
                           if (sellBalance == 0) {
                             showDialog(
                               context: context,
@@ -404,11 +390,6 @@ class _SellPageState extends State<SellPage> {
                             Provider.of<OperationProvider>(context,
                                 listen: false);
 
-                            double? price =
-                            double.tryParse(priceController.text);
-                            int? numberOfUnits = int.tryParse(
-                                numberOfUnitsController.text);
-
                             bool result = await operationProvider.sell(
                               priceController.text,
                               _imageFile,
@@ -417,10 +398,7 @@ class _SellPageState extends State<SellPage> {
                               switcher.getValue() ? 1 : 0,
                             );
 
-                            setState(() {
-                              isProcessing =
-                              false; // Enable the button after processing
-                            });
+                            setState(() => isProcessing = false);
 
                             if (result) {
                               setState(() {
@@ -429,31 +407,9 @@ class _SellPageState extends State<SellPage> {
                                 unitTypeController = null;
                                 expiresInController.clear();
                                 _imageFile = null;
+                                _isImageTooLarge = false;
                                 balanceProvider.callToGetBalance();
                               });
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(S
-                                        .of(context)
-                                        .insufficientBalanceTitle),
-                                    content: Text(S
-                                        .of(context)
-                                        .insufficientBalanceMessage),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text(
-                                            S.of(context).okButtonLabel),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
                             }
                           }
                         }
@@ -473,7 +429,6 @@ class _SellPageState extends State<SellPage> {
   }
 }
 
-// The SwitchButton class remains unchanged
 class SwitchButton extends StatefulWidget {
   bool? isRetail;
 
