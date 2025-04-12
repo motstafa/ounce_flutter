@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/providers/balance_provider.dart';
+import 'package:ounce/widgets/imageService.dart';
 import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 import '../../providers/notification_provider.dart';
@@ -49,15 +50,26 @@ class _SellPageState extends State<SellPage> {
   }
 
   Future<void> _selectImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? pickedImage =
-    await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
+    final image = await ImageService.pickAndCompressImage(context, ImageSource.gallery);
+    if (image != null) {
       setState(() {
-        _imageFile = pickedImage;
+        _imageFile = image;
       });
     }
+
+
+// In your submit function:
+  if (_imageFile != null) {
+  final imageFile = File(_imageFile!.path);
+  final fileSize = await imageFile.length();
+
+  if (fileSize > 2048 * 1024) {
+  ScaffoldMessenger.of(context).showSnackBar(
+  SnackBar(content: Text(S.of(context).sizeWarning)),
+  );
+  return;
   }
+  }}
 
   void _showPicker(BuildContext context) {
     showModalBottomSheet(
@@ -352,7 +364,18 @@ class _SellPageState extends State<SellPage> {
                           });
 
                           _formKey.currentState!.save();
+                          // In your submit button onPressed:
+                          if (_imageFile != null) {
+                            final imageFile = File(_imageFile!.path);
+                            final fileSize = await imageFile.length();
 
+                            if (fileSize > 2048 * 1024) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(S.of(context).sizeWarning)),
+                              );
+                              return;
+                            }
+                          }
                           if (sellBalance == 0) {
                             showDialog(
                               context: context,

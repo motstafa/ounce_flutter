@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
     return
-      MaterialApp(navigatorKey: navigatorKey,
+        MaterialApp(navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           locale:localeProvider.locale,
           localizationsDelegates:const[

@@ -1189,6 +1189,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Size Warning`
+  String get sizeWarning {
+    return Intl.message(
+      'Image size must be less than 2MB',
+      name: 'sizeWarning',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
