@@ -143,5 +143,13 @@
   "sizeWarning": "يجب أن يكون حجم الصورة أقل من 2 ميجا بايت",
   "chooseFromGallery": "اختر من المعرض",
   "selectImageSource": "اختر مصدر الصورة",
-  "takePhoto": "التقط صورة"
+  "takePhoto": "التقط صورة",
+  "deliveryStatusTitle": "حالة التوصيل",
+  "statusDelivered": "تم التوصيل",
+  "statusEnRouteToBuyer": "في الطريق إلى المشتري",
+  "statusPickedUp": "تم الاستلام",
+  "statusAtSeller": "عند البائع",
+  "statusEnRouteToSeller": "في الطريق إلى البائع",
+  "statusAccepted": "تم القبول",
+  "updateStatusBtn": "تحديث الحالة"
 }

@@ -143,6 +143,14 @@
   "sizeWarning": "Image size must be less than 2MB",
   "chooseFromGallery": "Choose from gallery",
   "selectImageSource": "Select image source",
-  "takePhoto": "Take a photo"
+  "takePhoto": "Take a photo",
+  "deliveryStatusTitle": "Delivery Status",
+  "statusDelivered": "Delivered",
+  "statusEnRouteToBuyer": "En route to buyer",
+  "statusPickedUp": "Picked up",
+  "statusAtSeller": "At seller",
+  "statusEnRouteToSeller": "En route to seller",
+  "statusAccepted": "Accepted",
+  "updateStatusBtn": "Update Status"
 }
     
