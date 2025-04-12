@@ -20,25 +20,6 @@ class PushNotificationService {
   BuildContext? get globalContext => navigatorKey.currentContext;
 
   Future<void> init() async {
-    // Initialize local notifications
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-    final DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings();
-    final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
-
-    await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse details) {
-        if (globalContext != null) {
-          Navigator.of(globalContext!).pushNamed('/notifications');
-        }
-      },
-    );
-
     // Request permission for notifications
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
         alert: true,
@@ -52,6 +33,7 @@ class PushNotificationService {
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         String? apnsToken = await _firebaseMessaging.getAPNSToken();
         while (apnsToken == null) {
+          // Wait a bit and retry
           await Future.delayed(Duration(seconds: 1));
           apnsToken = await _firebaseMessaging.getAPNSToken();
         }
@@ -62,10 +44,9 @@ class PushNotificationService {
 
       if (token != null) {
         await saveFCMTokenLocally(token);
-        await Constants().sendTokenToBackend(token);
-        print('FCM Token: $token');
+        print('FCM Token for iOS: $token');
       } else {
-        print('Failed to get FCM token');
+        print('Failed to get FCM token for iOS');
       }
     } else {
       print('Notification permissions not granted');

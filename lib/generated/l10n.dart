@@ -28,9 +28,10 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name =
+        (locale.countryCode?.isEmpty ?? false)
+            ? locale.languageCode
+            : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -1189,7 +1190,7 @@ class S {
     );
   }
 
-  /// `Size Warning`
+  /// `Image size must be less than 2MB`
   String get sizeWarning {
     return Intl.message(
       'Image size must be less than 2MB',
@@ -1221,12 +1222,7 @@ class S {
 
   /// `Take a photo`
   String get takePhoto {
-    return Intl.message(
-      'Take a photo',
-      name: 'takePhoto',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Take a photo', name: 'takePhoto', desc: '', args: []);
   }
 
   /// `Delivery Status`
@@ -1291,12 +1287,7 @@ class S {
 
   /// `Accepted`
   String get statusAccepted {
-    return Intl.message(
-      'Accepted',
-      name: 'statusAccepted',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Accepted', name: 'statusAccepted', desc: '', args: []);
   }
 
   /// `Update Status`
@@ -1322,10 +1313,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
-
   @override
   Future<S> load(Locale locale) => S.load(locale);
-
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

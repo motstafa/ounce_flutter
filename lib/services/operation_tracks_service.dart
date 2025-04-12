@@ -38,7 +38,6 @@ class OperationTracks {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token', // Add the token to the headers
     };
-
     final response = await http.get(Uri.parse('$baseUrl/inProgressOperations'),
         headers: headers);
     if (response.statusCode == 200) {
@@ -155,7 +154,9 @@ class OperationTracks {
           'status': newStatus,
         }),
       );
-
+      print(operationId);
+      print(newStatus);
+      print(Uri.parse('$baseUrl/operations/update-status'));
       if (response.statusCode == 200) {
         return true;
       } else {

@@ -49,6 +49,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "buyPageTitle": MessageLookupByLibrary.simpleMessage("Buy Page"),
     "buyerLocation": MessageLookupByLibrary.simpleMessage("Buyer Location"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "chooseFromGallery": MessageLookupByLibrary.simpleMessage(
+      "Choose from gallery",
+    ),
     "city": MessageLookupByLibrary.simpleMessage("City Or Town"),
     "completedTab": MessageLookupByLibrary.simpleMessage("Completed"),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -65,6 +68,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deliveryDetailsTitle": MessageLookupByLibrary.simpleMessage(
       "Delivery Details",
+    ),
+    "deliveryStatusTitle": MessageLookupByLibrary.simpleMessage(
+      "Delivery Status",
     ),
     "done": MessageLookupByLibrary.simpleMessage("Done"),
     "dontHaveAccount": MessageLookupByLibrary.simpleMessage(
@@ -228,6 +234,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "This field is required",
     ),
     "retailLabel": MessageLookupByLibrary.simpleMessage("Retail Purchase"),
+    "selectImageSource": MessageLookupByLibrary.simpleMessage(
+      "Select image source",
+    ),
     "selectQuantity": MessageLookupByLibrary.simpleMessage("Select Quantity"),
     "selectZone": MessageLookupByLibrary.simpleMessage("Select Zone"),
     "sellBalance": MessageLookupByLibrary.simpleMessage("Sell Balance"),
@@ -238,18 +247,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "signUpWith": MessageLookupByLibrary.simpleMessage("Sign Up With"),
     "signin": MessageLookupByLibrary.simpleMessage("Sign In"),
+    "sizeWarning": MessageLookupByLibrary.simpleMessage(
+      "Image size must be less than 2MB",
+    ),
+    "statusAccepted": MessageLookupByLibrary.simpleMessage("Accepted"),
+    "statusAtSeller": MessageLookupByLibrary.simpleMessage("At seller"),
+    "statusDelivered": MessageLookupByLibrary.simpleMessage("Delivered"),
+    "statusEnRouteToBuyer": MessageLookupByLibrary.simpleMessage(
+      "En route to buyer",
+    ),
+    "statusEnRouteToSeller": MessageLookupByLibrary.simpleMessage(
+      "En route to seller",
+    ),
+    "statusPickedUp": MessageLookupByLibrary.simpleMessage("Picked up"),
     "storeName": MessageLookupByLibrary.simpleMessage("Store Name"),
     "storePic": MessageLookupByLibrary.simpleMessage("Upload Store Picture"),
     "streetAddressLabel": MessageLookupByLibrary.simpleMessage(
       "Street Address",
     ),
     "submitButtonLabel": MessageLookupByLibrary.simpleMessage("Submit"),
+    "takePhoto": MessageLookupByLibrary.simpleMessage("Take a photo"),
     "total": MessageLookupByLibrary.simpleMessage("Total"),
     "totalPriceLabel": MessageLookupByLibrary.simpleMessage("Total Price"),
     "trueLabel": MessageLookupByLibrary.simpleMessage("True"),
     "typeOfOuncesLabel": MessageLookupByLibrary.simpleMessage("Type"),
     "unitPriceLabel": MessageLookupByLibrary.simpleMessage("Unit Price"),
     "unitTypeLabel": MessageLookupByLibrary.simpleMessage("Unit Type"),
+    "updateStatusBtn": MessageLookupByLibrary.simpleMessage("Update Status"),
     "uploadOncePictureLabel": MessageLookupByLibrary.simpleMessage(
       "Upload Once\'s Picture",
     ),

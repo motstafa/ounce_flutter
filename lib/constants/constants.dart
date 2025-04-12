@@ -51,7 +51,7 @@ class Constants {
 
   Future<bool> sendTokenToBackend(notificationToken) async {
 
-      print('send token to backedn');
+      print('send token to backend');
       var url = '$baseUrl/saveNotificationToken';
 
       String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
@@ -70,8 +70,6 @@ class Constants {
         headers: headers,
         body: body,
       );
-
-      print('essssend');
 
       if (response.statusCode == 200) {
         return true;
