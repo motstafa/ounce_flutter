@@ -5,46 +5,67 @@ import 'dart:async';
 
 class OperationTracksProvider with ChangeNotifier {
   List<PendingOperation> _pendingItems = [];
-
-  List<PendingOperation> get pendingItems => _pendingItems;
-
   List<PendingOperation> _inProgressItems = [];
-
-  List<PendingOperation> get inProgressItems => _inProgressItems;
-
   List<PendingOperation> _completedItems = [];
+  final Map<int, PendingOperation> _operationsMap = {};
 
+  // Getters
+  List<PendingOperation> get pendingItems => _pendingItems;
+  List<PendingOperation> get inProgressItems => _inProgressItems;
   List<PendingOperation> get completedItems => _completedItems;
 
+  // Initialize the operations map when fetching data
+  Future<void> _updateOperationsMap(List<PendingOperation> operations) async {
+    for (var operation in operations) {
+      _operationsMap[operation.operationId] = operation;
+    }
+    notifyListeners();
+  }
+
   Future<void> fetchPendingOperations() async {
-    // Your HTTP request logic to fetch pending items
-    // Parse the JSON data into a list of PendingItem models
     _pendingItems = await OperationTracks().getPendingOperations();
-    notifyListeners(); // Notify listeners to rebuild the UI
+    await _updateOperationsMap(_pendingItems);
   }
 
   Future<void> fetchInProgressOperations() async {
-    // Your HTTP request logic to fetch pending items
-    // Parse the JSON data into a list of PendingItem models
     _inProgressItems = await OperationTracks().getInProgressOperations();
-    notifyListeners(); // Notify listeners to rebuild the UI
-  }
-
-  void startPollingPendingOperations() {
-    Timer.periodic(Duration(seconds: 10), (timer) async {
-      await fetchPendingOperations(); // Fetch new data every 10 seconds
-    });
+    await _updateOperationsMap(_inProgressItems);
   }
 
   Future<void> fetchCompleteOperations() async {
-    // Your HTTP request logic to fetch pending items
-    // Parse the JSON data into a list of PendingItem models
     _completedItems = await OperationTracks().getCompleteOperations();
-    notifyListeners(); // Notify listeners to rebuild the UI
+    await _updateOperationsMap(_completedItems);
   }
 
-  Future acceptOrder(
-      operationId, estimatedTimeToSeller, estimatedTimeToBuyer) async {
+  PendingOperation? getOperationById(int operationId) {
+    return _operationsMap[operationId];
+  }
+
+  Future<bool> updateOperationStatus(int operationId, String newStatus) async {
+    bool success = await OperationTracks().updateOperationStatus(operationId, newStatus);
+
+    if (success) {
+      // Update the operation in the map
+      if (_operationsMap.containsKey(operationId)) {
+        _operationsMap[operationId] = _operationsMap[operationId]!.copyWith(
+            operationStatus: newStatus
+        );
+
+        // Refresh the appropriate lists
+        if (newStatus == 'delivered') {
+          await fetchCompleteOperations();
+          await fetchInProgressOperations();
+        } else {
+          await fetchInProgressOperations();
+        }
+      }
+    }
+
+    return success;
+  }
+
+  // Your other methods...
+  Future acceptOrder(operationId, estimatedTimeToSeller, estimatedTimeToBuyer) async {
     int? timeToSeller = int.tryParse(estimatedTimeToSeller);
     int? timeToBuyer = int.tryParse(estimatedTimeToBuyer);
     if (await OperationTracks()
@@ -60,23 +81,4 @@ class OperationTracksProvider with ChangeNotifier {
       await fetchCompleteOperations();
     }
   }
-
-  // Add this method to your OperationTracksProvider class
-  Future<bool> updateOperationStatus(int operationId, String newStatus) async {
-    bool success = await OperationTracks().updateOperationStatus(operationId, newStatus);
-
-    if (success) {
-      // Update the local state depending on new status
-      if (newStatus == 'delivered') {
-        await fetchCompleteOperations();
-        await fetchInProgressOperations();
-      } else {
-        await fetchInProgressOperations();
-      }
-    }
-
-    return success;
-  }
-
-
 }

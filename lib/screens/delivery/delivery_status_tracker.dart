@@ -5,17 +5,46 @@ import '../../models/pending_operation_model.dart';
 import '../../providers/operation_tracks_provider.dart';
 import '../../theme/theme.dart';
 
-class DeliveryStatusTracker extends StatefulWidget {
-  final PendingOperation operation;
+class DeliveryStatusTracker extends StatelessWidget {
+  final int operationId;
+  final String initialStatus;
 
-  const DeliveryStatusTracker({Key? key, required this.operation}) : super(key: key);
+  const DeliveryStatusTracker({
+    Key? key,
+    required this.operationId,
+    required this.initialStatus,
+  }) : super(key: key);
 
   @override
-  _DeliveryStatusTrackerState createState() => _DeliveryStatusTrackerState();
+  Widget build(BuildContext context) {
+    return Consumer<OperationTracksProvider>(
+      builder: (context, provider, child) {
+        // Get current status from provider or use initial if not found
+        final currentStatus = provider.getOperationById(operationId)?.operationStatus ?? initialStatus;
+
+        return _DeliveryStatusTrackerContent(
+          operationId: operationId,
+          currentStatus: currentStatus,
+        );
+      },
+    );
+  }
 }
 
-class _DeliveryStatusTrackerState extends State<DeliveryStatusTracker> {
-  // Define all possible statuses in order
+class _DeliveryStatusTrackerContent extends StatefulWidget {
+  final int operationId;
+  final String currentStatus;
+
+  const _DeliveryStatusTrackerContent({
+    required this.operationId,
+    required this.currentStatus,
+  });
+
+  @override
+  __DeliveryStatusTrackerContentState createState() => __DeliveryStatusTrackerContentState();
+}
+
+class __DeliveryStatusTrackerContentState extends State<_DeliveryStatusTrackerContent> {
   final List<String> _statusSteps = [
     'accepted',
     'en_route_to_seller',
@@ -25,54 +54,41 @@ class _DeliveryStatusTrackerState extends State<DeliveryStatusTracker> {
     'delivered'
   ];
 
-  // Translate status codes to display text
   String _getStatusText(String status) {
     switch (status) {
-      case 'accepted':
-        return S.of(context).statusAccepted;
-      case 'en_route_to_seller':
-        return S.of(context).statusEnRouteToSeller;
-      case 'at_seller':
-        return S.of(context).statusAtSeller;
-      case 'picked_up':
-        return S.of(context).statusPickedUp;
-      case 'en_route_to_buyer':
-        return S.of(context).statusEnRouteToBuyer;
-      case 'delivered':
-        return S.of(context).statusDelivered;
-      default:
-        return status;
+      case 'accepted': return S.of(context).statusAccepted;
+      case 'en_route_to_seller': return S.of(context).statusEnRouteToSeller;
+      case 'at_seller': return S.of(context).statusAtSeller;
+      case 'picked_up': return S.of(context).statusPickedUp;
+      case 'en_route_to_buyer': return S.of(context).statusEnRouteToBuyer;
+      case 'delivered': return S.of(context).statusDelivered;
+      default: return status;
     }
   }
 
-  // Get the current status index
   int _getCurrentStatusIndex() {
-    return _statusSteps.indexOf(widget.operation.operationStatus);
+    return _statusSteps.indexOf(widget.currentStatus);
   }
 
-  // Check if a particular status is active
   bool _isCurrentStatus(String status) {
-    return widget.operation.operationStatus == status;
+    return widget.currentStatus == status;
   }
 
-  // Check if a status is complete
   bool _isCompletedStatus(String status) {
     int currentIndex = _getCurrentStatusIndex();
     int statusIndex = _statusSteps.indexOf(status);
     return statusIndex < currentIndex;
   }
 
-  // Check if a status is next
   bool _isNextStatus(String status) {
     int currentIndex = _getCurrentStatusIndex();
     int statusIndex = _statusSteps.indexOf(status);
     return statusIndex == currentIndex + 1;
   }
 
-  // Update operation status
-  void _updateStatus(String newStatus) async {
+  Future<void> _updateStatus(String newStatus) async {
     final provider = Provider.of<OperationTracksProvider>(context, listen: false);
-    await provider.updateOperationStatus(widget.operation.operationId, newStatus);
+    await provider.updateOperationStatus(widget.operationId, newStatus);
   }
 
   @override
@@ -103,7 +119,6 @@ class _DeliveryStatusTrackerState extends State<DeliveryStatusTracker> {
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
         children: [
-          // Status indicator
           Container(
             width: 30,
             height: 30,
@@ -122,8 +137,6 @@ class _DeliveryStatusTrackerState extends State<DeliveryStatusTracker> {
                 : null,
           ),
           const SizedBox(width: 16),
-
-          // Status text
           Expanded(
             child: Text(
               _getStatusText(status),
@@ -135,8 +148,6 @@ class _DeliveryStatusTrackerState extends State<DeliveryStatusTracker> {
               ),
             ),
           ),
-
-          // Action button for next step
           if (isNext)
             ElevatedButton(
               onPressed: () => _updateStatus(status),

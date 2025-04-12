@@ -23,7 +23,7 @@ class _PendingTabState extends State<PendingTab> {
       Provider.of<OperationTracksProvider>(context, listen: false)
           .fetchPendingOperations();
       Provider.of<OperationTracksProvider>(context, listen: false)
-          .startPollingPendingOperations();
+          .fetchPendingOperations();
     });
   }
 

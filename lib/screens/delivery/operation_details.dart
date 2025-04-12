@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ounce/models/pending_operation_model.dart';
 import 'package:ounce/screens/delivery/delivery_status_tracker.dart';
 import 'package:ounce/theme/theme.dart';
+import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
+import '../../providers/operation_tracks_provider.dart';
 import '../../widgets/location_detail.dart';
 
 
@@ -31,40 +33,68 @@ class _OperationDetailsState extends State<OperationDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).deliveryDetailsTitle),
-        backgroundColor: BoxBackground,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SectionHeader(numberOfUnits: widget.item.numberOfUnits, amount: widget.item.amount),
+    return Consumer<OperationTracksProvider>(
+      builder: (context, provider, child) {
+        // Get the latest operation data from provider or use the initial item
+        final currentOperation = provider.getOperationById(widget.item.operationId) ?? widget.item;
 
-            // Delivery status tracker (show only for in-progress operations)
-            if (isInProgress(widget.item.operationStatus))
-              DeliveryStatusTracker(operation: widget.item),
-
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SizedBox(
-                height: 300, // Set a fixed height
-                child: PageView(
-                  children: [
-                    LocationDetail(
-                        Location: 'seller', address: widget.item.sellerAddress),
-                    LocationDetail(
-                        Location: 'buyer', address: widget.item.buyerAddress),
-                  ],
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(S.of(context).deliveryDetailsTitle),
+            backgroundColor: BoxBackground,
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SectionHeader(
+                    numberOfUnits: currentOperation.numberOfUnits,
+                    amount: currentOperation.amount
                 ),
-              ),
+
+                // Delivery status tracker (show only for in-progress operations)
+                if (_isInProgress(currentOperation.operationStatus))
+                  DeliveryStatusTracker(
+                    operationId: currentOperation.operationId,
+                    initialStatus: currentOperation.operationStatus,
+                  ),
+
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    height: 300,
+                    child: PageView(
+                      children: [
+                        LocationDetail(
+                            Location: 'seller',
+                            address: currentOperation.sellerAddress
+                        ),
+                        LocationDetail(
+                            Location: 'buyer',
+                            address: currentOperation.buyerAddress
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                widget.formSection,
+              ],
             ),
-            widget.formSection,
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
+  }
+
+  bool _isInProgress(String status) {
+    List<String> inProgressStatuses = [
+      'accepted',
+      'en_route_to_seller',
+      'at_seller',
+      'picked_up',
+      'en_route_to_buyer'
+    ];
+    return inProgressStatuses.contains(status);
   }
 
   // Helper method to check if an operation is in progress
