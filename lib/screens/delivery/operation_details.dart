@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ounce/models/pending_operation_model.dart';
+import 'package:ounce/screens/delivery/delivery_status_tracker.dart';
 import 'package:ounce/theme/theme.dart';
-import 'package:provider/provider.dart';
-import 'package:ounce/providers/operation_tracks_provider.dart';
 import '../../generated/l10n.dart';
 import '../../widgets/location_detail.dart';
+
 
 class OperationDetails extends StatefulWidget {
   final PendingOperation item;
@@ -41,6 +41,11 @@ class _OperationDetailsState extends State<OperationDetails> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SectionHeader(numberOfUnits: widget.item.numberOfUnits, amount: widget.item.amount),
+
+            // Delivery status tracker (show only for in-progress operations)
+            if (isInProgress(widget.item.operationStatus))
+              DeliveryStatusTracker(operation: widget.item),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
@@ -60,6 +65,19 @@ class _OperationDetailsState extends State<OperationDetails> {
         ),
       ),
     );
+  }
+
+  // Helper method to check if an operation is in progress
+  bool isInProgress(String status) {
+    List<String> inProgressStatuses = [
+      'accepted',
+      'en_route_to_seller',
+      'at_seller',
+      'picked_up',
+      'en_route_to_buyer'
+    ];
+
+    return inProgressStatuses.contains(status);
   }
 }
 

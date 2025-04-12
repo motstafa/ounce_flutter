@@ -7,27 +7,56 @@ import '../models/notification_model.dart';
 import '../services/backend_notifications.dart';
 
 class NotificationProvider with ChangeNotifier {
-  int notificationCount=0;
+  int notificationCount = 0;
   List<NotificationItem> _notifications = [];
 
   List<NotificationItem> get notifications => _notifications;
 
   Future<void> getNotifications() async {
-    _notifications = await backendNotificationService().getNotifications();
-    notificationCount= _notifications.where((notification)=>notification.read==0).length;
-    notifyListeners();
+    try {
+      _notifications = await backendNotificationService().getNotifications();
+      notificationCount = _notifications.where((notification) => notification.read == 0).length;
+      notifyListeners();
+    } catch (e) {
+      print("Error fetching notifications: $e");
+      // Handle error gracefully
+    }
   }
 
   Future<void> markAsRead(int Id) async {
-    notificationCount--;
-    if (await backendNotificationService().markAsRead(Id)) getNotifications();
+    try {
+      if (await backendNotificationService().markAsRead(Id)) {
+        // Update the local notification list to mark as read
+        final index = _notifications.indexWhere((notification) => notification.id == Id);
+        if (index != -1) {
+          _notifications[index] = _notifications[index].copyWith(read: 1);
+          notificationCount = _notifications.where((notification) => notification.read == 0).length;
+          notifyListeners();
+        }
+      }
+    } catch (e) {
+      print("Error marking notification as read: $e");
+    }
   }
 
   void addNotification(NotificationItem notification) {
-    _notifications.insert(0,notification);
-    notificationCount++;
+    // Check if notification already exists to avoid duplicates
+    final existingIndex = _notifications.indexWhere((n) => n.id == notification.id);
+    if (existingIndex >= 0) {
+      return; // Skip if notification already exists
+    }
+
+    _notifications.insert(0, notification);
+    notificationCount = _notifications.where((n) => n.read == 0).length;
     notifyListeners();
   }
+
+  void clearNotifications() {
+    _notifications = [];
+    notificationCount = 0;
+    notifyListeners();
+  }
+
 }
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {

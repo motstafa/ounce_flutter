@@ -60,4 +60,23 @@ class OperationTracksProvider with ChangeNotifier {
       await fetchCompleteOperations();
     }
   }
+
+  // Add this method to your OperationTracksProvider class
+  Future<bool> updateOperationStatus(int operationId, String newStatus) async {
+    bool success = await OperationTracks().updateOperationStatus(operationId, newStatus);
+
+    if (success) {
+      // Update the local state depending on new status
+      if (newStatus == 'delivered') {
+        await fetchCompleteOperations();
+        await fetchInProgressOperations();
+      } else {
+        await fetchInProgressOperations();
+      }
+    }
+
+    return success;
+  }
+
+
 }

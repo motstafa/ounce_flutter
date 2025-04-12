@@ -30,10 +30,20 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // handle notification permission
+
+  // Initialize notification service
   await pushNotificationService.init();
+
+  // Background message handler
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // When app is opened from a notification
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    pushNotificationService.notificationHandler(message);
+  });
+
+  // Add this: Handle foreground messages
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     pushNotificationService.notificationHandler(message);
   });
 
@@ -67,7 +77,7 @@ class MyApp extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
     return
-      MaterialApp(navigatorKey: navigatorKey,
+        MaterialApp(navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           locale:localeProvider.locale,
           localizationsDelegates:const[

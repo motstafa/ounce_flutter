@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -1189,6 +1188,126 @@ class S {
       args: [],
     );
   }
+
+  /// `Size Warning`
+  String get sizeWarning {
+    return Intl.message(
+      'Image size must be less than 2MB',
+      name: 'sizeWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose from gallery`
+  String get chooseFromGallery {
+    return Intl.message(
+      'Choose from gallery',
+      name: 'chooseFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select image source`
+  String get selectImageSource {
+    return Intl.message(
+      'Select image source',
+      name: 'selectImageSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take a photo`
+  String get takePhoto {
+    return Intl.message(
+      'Take a photo',
+      name: 'takePhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery Status`
+  String get deliveryStatusTitle {
+    return Intl.message(
+      'Delivery Status',
+      name: 'deliveryStatusTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivered`
+  String get statusDelivered {
+    return Intl.message(
+      'Delivered',
+      name: 'statusDelivered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `En route to buyer`
+  String get statusEnRouteToBuyer {
+    return Intl.message(
+      'En route to buyer',
+      name: 'statusEnRouteToBuyer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Picked up`
+  String get statusPickedUp {
+    return Intl.message(
+      'Picked up',
+      name: 'statusPickedUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At seller`
+  String get statusAtSeller {
+    return Intl.message(
+      'At seller',
+      name: 'statusAtSeller',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `En route to seller`
+  String get statusEnRouteToSeller {
+    return Intl.message(
+      'En route to seller',
+      name: 'statusEnRouteToSeller',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accepted`
+  String get statusAccepted {
+    return Intl.message(
+      'Accepted',
+      name: 'statusAccepted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Status`
+  String get updateStatusBtn {
+    return Intl.message(
+      'Update Status',
+      name: 'updateStatusBtn',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -1203,8 +1322,10 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
+
   @override
   Future<S> load(Locale locale) => S.load(locale);
+
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

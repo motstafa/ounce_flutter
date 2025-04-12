@@ -140,4 +140,32 @@ class OperationTracks {
       throw Exception('operation buying failed: $e');
     }
   }
+
+  Future<bool> updateOperationStatus(int operationId, String newStatus) async {
+    try {
+      String? token = await Constants().getTokenFromSecureStorage(); // Secure token
+      final response = await http.post(
+        Uri.parse('$baseUrl/operations/update-status'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'operation_id': operationId,
+          'status': newStatus,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Failed to update status: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error in updateOperationStatus: $e');
+      return false;
+    }
+  }
+
 }

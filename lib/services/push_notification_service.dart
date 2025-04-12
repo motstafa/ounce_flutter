@@ -20,6 +20,25 @@ class PushNotificationService {
   BuildContext? get globalContext => navigatorKey.currentContext;
 
   Future<void> init() async {
+    // Initialize local notifications
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
+    final DarwinInitializationSettings initializationSettingsIOS =
+    DarwinInitializationSettings();
+    final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
+
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse details) {
+        if (globalContext != null) {
+          Navigator.of(globalContext!).pushNamed('/notifications');
+        }
+      },
+    );
+
     // Request permission for notifications
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
         alert: true,
@@ -33,7 +52,6 @@ class PushNotificationService {
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         String? apnsToken = await _firebaseMessaging.getAPNSToken();
         while (apnsToken == null) {
-          // Wait a bit and retry
           await Future.delayed(Duration(seconds: 1));
           apnsToken = await _firebaseMessaging.getAPNSToken();
         }
@@ -44,36 +62,67 @@ class PushNotificationService {
 
       if (token != null) {
         await saveFCMTokenLocally(token);
-        print('FCM Token for iOS: $token');
+        await Constants().sendTokenToBackend(token);
+        print('FCM Token: $token');
       } else {
-        print('Failed to get FCM token for iOS');
+        print('Failed to get FCM token');
       }
     } else {
       print('Notification permissions not granted');
     }
   }
 
-  Future<void> handleFCMToken() async {
-    // Ensure we wait for the APNs token (iOS only)
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      String? apnsToken = await _firebaseMessaging.getAPNSToken();
-      if (apnsToken == null) {
-        print("[Error] APNs token not available. FCM token cannot be retrieved yet.");
-        return;
-      }
+  void notificationHandler(RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+
+    // Show local notification
+    if (notification != null) {
+      _flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            'high_importance_channel',
+            'High Importance Notifications',
+            channelDescription: 'This channel is used for important notifications',
+            importance: Importance.high,
+            priority: Priority.high,
+            icon: android?.smallIcon,
+          ),
+          iOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
+        ),
+      );
     }
 
-    String? localToken = await getFCMTokenFromLocal();
+    // Update notification provider
+    if (globalContext != null) {
+      try {
+        NotificationItem newNotification = NotificationItem(
+          id: message.messageId.hashCode,
+          title: notification?.title ?? message.data['title'] ?? '',
+          text: notification?.body ?? message.data['body'] ?? '',
+          titleAr: message.data['title_ar'] ?? '',
+          textAr: message.data['body_ar'] ?? '',
+          read: 0,
+          route: message.data['route'] ?? '',
+        );
 
-    if (localToken == null || localToken.isEmpty) {
-      String? newToken = await _firebaseMessaging.getToken();
-      if (newToken != null) {
-        await saveFCMTokenLocally(newToken);
-        String? authToken = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
-
-        if (authToken != null) {
-          await Constants().sendTokenToBackend(newToken);
-        }
+        // Update notification count in UI
+        Future.microtask(() {
+          final provider = Provider.of<NotificationProvider>(
+            globalContext!,
+            listen: false,
+          );
+          provider.addNotification(newNotification);
+        });
+      } catch (e) {
+        print("Error updating notification UI: $e");
       }
     }
   }
@@ -86,65 +135,5 @@ class PushNotificationService {
   Future<String?> getFCMTokenFromLocal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('fcm_token');
-  }
-
-  Future<void> saveNotificationPermissionStatus(bool status) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('notification_permission', status);
-  }
-
-  Future<bool?> getNotificationPermissionStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('notification_permission');
-  }
-
-  void notificationHandler(RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
-    if (notification != null && android != null) {
-      _flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            'channel ID',
-            'channel Name',
-            channelDescription: 'channel description',
-            icon: android.smallIcon,
-          ),
-        ),
-      );
-    }
-
-    String? route = message.data['route'];
-    print('Message Data: ${message.data}');
-
-    if (message.data.containsKey('route')) {
-      print('Route: $route');
-    } else {
-      print('Route key not found in data');
-    }
-
-    NotificationItem newNotification = NotificationItem(
-        id: notification.hashCode,
-        title: notification?.title ?? '',
-        text: notification?.body ?? '',
-        titleAr: message.data['title_ar'] ?? '',
-        textAr: message.data['body_ar'] ?? '',
-        read: 0,
-        route: route ?? '');
-
-    NotificationProvider provider = Provider.of<NotificationProvider>(
-      globalContext!,
-      listen: false,
-    );
-    provider.addNotification(newNotification);
-  }
-
-  Future onSelectNotification(String? payload) async {
-    if (globalContext != null) {
-      Navigator.of(globalContext!).pushNamed('/notifications');
-    }
   }
 }

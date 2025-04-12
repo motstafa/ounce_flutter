@@ -24,12 +24,34 @@ class NotificationItem {
 
   factory NotificationItem.fromJson(Map<String, dynamic> json) {
     return NotificationItem(
-        id: json['id'],
-        title: json['title'],
-        text: json['text'],
-        titleAr: json['title_ar'],
-        textAr: json['text_ar'],
-        read: json['read'],
-        route: json['route']);
+      id: json['id'],
+      title: json['title'] ?? '',
+      text: json['text'] ?? '',
+      titleAr: json['title_ar'] ?? '',
+      textAr: json['text_ar'] ?? '',
+      read: json['read'] ?? 0,
+      route: json['route'] ?? '',
+    );
+  }
+
+  // Add this method
+  NotificationItem copyWith({
+    int? id,
+    String? title,
+    String? text,
+    String? titleAr,
+    String? textAr,
+    int? read,
+    String? route,
+  }) {
+    return NotificationItem(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      text: text ?? this.text,
+      titleAr: titleAr ?? this.titleAr,
+      textAr: textAr ?? this.textAr,
+      read: read ?? this.read,
+      route: route ?? this.route,
+    );
   }
 }
