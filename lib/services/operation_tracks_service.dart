@@ -154,9 +154,6 @@ class OperationTracks {
           'status': newStatus,
         }),
       );
-      print(operationId);
-      print(newStatus);
-      print(Uri.parse('$baseUrl/operations/update-status'));
       if (response.statusCode == 200) {
         return true;
       } else {
