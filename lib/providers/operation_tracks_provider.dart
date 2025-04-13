@@ -23,8 +23,22 @@ class OperationTracksProvider with ChangeNotifier {
   }
 
   Future<void> fetchPendingOperations() async {
-    _pendingItems = await OperationTracks().getPendingOperations();
+    final operations = await OperationTracks().getPendingOperations();
+
+    // Use a Set to track IDs we've already processed
+    final Set<int> processedIds = {};
+    _pendingItems = [];
+
+    for (var operation in operations) {
+      // Only add if we haven't seen this ID before
+      if (!processedIds.contains(operation.operationId)) {
+        _pendingItems.add(operation);
+        processedIds.add(operation.operationId);
+      }
+    }
+
     await _updateOperationsMap(_pendingItems);
+    notifyListeners();
   }
 
   Future<void> fetchInProgressOperations() async {

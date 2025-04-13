@@ -65,7 +65,7 @@ class PushNotificationService {
             'high_importance_channel',
             'High Importance Notifications',
             channelDescription:
-                'This channel is used for important notifications',
+            'This channel is used for important notifications',
             importance: Importance.high,
             priority: Priority.high,
             icon: android?.smallIcon,
@@ -79,7 +79,14 @@ class PushNotificationService {
       );
     }
 
-    // Update notification provider
+    // Process notification data regardless of context availability
+    if (message.data['type'] == 'new_operation_assigned') {
+      // Use a separate method to handle operation updates to ensure it works regardless of context
+      print(message.data['type']);
+      _handleNewOperationAssigned();
+    }
+
+    // Update notification provider if context is available
     if (globalContext != null) {
       try {
         NotificationItem newNotification = NotificationItem(
@@ -91,11 +98,6 @@ class PushNotificationService {
           read: 0,
           route: message.data['route'] ?? '',
         );
-        if (message.data['type'] == 'new_operation_assigned') {
-          // Refresh the pending operations list
-          Provider.of<OperationTracksProvider>(globalContext!, listen: false)
-              .fetchPendingOperations();
-        }
 
         // Update notification count in UI
         Future.microtask(() {
@@ -109,6 +111,16 @@ class PushNotificationService {
         print("Error updating notification UI: $e");
       }
     }
+  }
+
+// New method to handle operation updates
+  void _handleNewOperationAssigned() {
+        try {
+          Provider.of<OperationTracksProvider>(globalContext!, listen: false)
+              .fetchPendingOperations();
+        } catch (e) {
+          print("Error updating operations after notification: $e");
+        }
   }
 
   Future<void> saveFCMTokenLocally(String token) async {

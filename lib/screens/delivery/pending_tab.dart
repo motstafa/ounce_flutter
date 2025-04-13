@@ -19,8 +19,6 @@ class _PendingTabState extends State<PendingTab> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<OperationTracksProvider>(context, listen: false)
           .fetchPendingOperations();
-      Provider.of<OperationTracksProvider>(context, listen: false)
-          .fetchPendingOperations();
     });
   }
 
