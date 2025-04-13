@@ -151,5 +151,11 @@
   "statusAtSeller": "عند البائع",
   "statusEnRouteToSeller": "في الطريق إلى البائع",
   "statusAccepted": "تم القبول",
-  "updateStatusBtn": "تحديث الحالة"
+  "updateStatusBtn": "تحديث الحالة",
+  "enterTimeInMinutes": "أدخل الوقت بالدقائق",
+  "invalidTimeValue": "قيمة الوقت غير صالحة",
+  "pleaseEnterTime": "يرجى إدخال الوقت",
+  "estimatedTimeToSeller": "الوقت المقدر للوصول إلى البائع",
+  "estimatedTimeToBuyer": "الوقت المقدر للوصول إلى المشتري",
+  "acceptOrderDescription": "بقبول هذا الطلب، فإنك توافق على متابعة عملية التوصيل."
 }

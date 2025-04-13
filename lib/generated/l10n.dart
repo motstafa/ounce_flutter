@@ -1299,6 +1299,67 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter time in minutes`
+  String get enterTimeInMinutes {
+    return Intl.message(
+      'Enter time in minutes',
+      name: 'enterTimeInMinutes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid time value`
+  String get invalidTimeValue {
+    return Intl.message(
+      'Invalid time value',
+      name: 'invalidTimeValue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter time`
+  String get pleaseEnterTime {
+    return Intl.message(
+      'Please enter time',
+      name: 'pleaseEnterTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Estimated time to seller`
+  String get estimatedTimeToSeller {
+    return Intl.message(
+      'Estimated time to seller',
+      name: 'estimatedTimeToSeller',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Estimated time to buyer`
+  String get estimatedTimeToBuyer {
+    return Intl.message(
+      'Estimated time to buyer',
+      name: 'estimatedTimeToBuyer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By accepting this order, you agree to proceed with the delivery process.`
+  String get acceptOrderDescription {
+    return Intl.message(
+      'By accepting this order, you agree to proceed with the delivery process.',
+      name: 'acceptOrderDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

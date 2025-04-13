@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ounce/models/pending_operation_model.dart';
 import 'package:ounce/screens/delivery/operation_details.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
 import '../../constants/constants.dart';
 import '../../generated/l10n.dart';
-import '../../widgets/location_detail.dart';
 
 class PendingTab extends StatefulWidget {
   @override
@@ -81,15 +78,6 @@ class FormSection extends StatefulWidget {
 
 class _FormSectionState extends State<FormSection> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController timeToSellerController = TextEditingController();
-  final TextEditingController timeToBuyerController = TextEditingController();
-
-  @override
-  void dispose() {
-    timeToSellerController.dispose();
-    timeToBuyerController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,65 +85,27 @@ class _FormSectionState extends State<FormSection> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
+          const SizedBox(height: 20),
+          Text(
+            S.of(context).acceptOrderDescription,
             textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-            controller: timeToSellerController,
-            decoration: InputDecoration(
-              hintText: S
-                  .of(context)
-                  .estimatedTimeToSellerHint,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return S
-                    .of(context)
-                    .pleaseEnterEstimatedTimeToSeller;
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 10),
-          TextFormField(
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-            controller: timeToBuyerController,
-            decoration: InputDecoration(
-              hintText: S
-                  .of(context)
-                  .estimatedTimeToBuyerHint,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return S
-                    .of(context)
-                    .pleaseEnterEstimatedTimeToSeller;
-              }
-              return null;
-            },
+            style: TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                var pendingProvider = Provider.of<OperationTracksProvider>(
-                    context,
-                    listen: false);
+              var pendingProvider = Provider.of<OperationTracksProvider>(
+                context,
+                listen: false,
+              );
 
-                await pendingProvider.acceptOrder(
-                  widget.item.operationId,
-                  timeToSellerController.text,
-                  timeToBuyerController.text,
-                );
+              await pendingProvider.acceptOrder(widget.item.operationId);
 
-                if (mounted) {
-                  Navigator.of(context).pop();
-                }
+              if (mounted) {
+                Navigator.of(context).pop();
               }
             },
-            child: Text(S
-                .of(context)
-                .moveToInProgressButton),
+            child: Text(S.of(context).moveToInProgressButton),
           ),
         ],
       ),

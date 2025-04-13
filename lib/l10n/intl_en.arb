@@ -151,6 +151,12 @@
   "statusAtSeller": "At seller",
   "statusEnRouteToSeller": "En route to seller",
   "statusAccepted": "Accepted",
-  "updateStatusBtn": "Update Status"
+  "updateStatusBtn": "Update Status",
+  "enterTimeInMinutes": "Enter time in minutes",
+  "invalidTimeValue": "Invalid time value",
+  "pleaseEnterTime": "Please enter time",
+  "estimatedTimeToSeller": "Estimated time to seller",
+  "estimatedTimeToBuyer": "Estimated time to buyer",
+  "acceptOrderDescription": "By accepting this order, you agree to proceed with the delivery process."
 }
     

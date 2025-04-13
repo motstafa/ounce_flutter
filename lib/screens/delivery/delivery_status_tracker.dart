@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
-import '../../models/pending_operation_model.dart';
 import '../../providers/operation_tracks_provider.dart';
 import '../../theme/theme.dart';
 
@@ -54,6 +53,16 @@ class __DeliveryStatusTrackerContentState extends State<_DeliveryStatusTrackerCo
     'delivered'
   ];
 
+  final TextEditingController _timeController = TextEditingController();
+  bool _showTimeField = false;
+  String _nextStatusForTimeInput = '';
+
+  @override
+  void dispose() {
+    _timeController.dispose();
+    super.dispose();
+  }
+
   String _getStatusText(String status) {
     switch (status) {
       case 'accepted': return S.of(context).statusAccepted;
@@ -86,9 +95,74 @@ class __DeliveryStatusTrackerContentState extends State<_DeliveryStatusTrackerCo
     return statusIndex == currentIndex + 1;
   }
 
+  bool _requiresTimeInput(String currentStatus, String nextStatus) {
+    return (currentStatus == 'accepted' && nextStatus == 'en_route_to_seller') ||
+        (currentStatus == 'picked_up' && nextStatus == 'en_route_to_buyer');
+  }
+
+  String _getTimeInputLabel(String nextStatus) {
+    if (nextStatus == 'en_route_to_seller') {
+      return S.of(context).estimatedTimeToSeller;
+    } else if (nextStatus == 'en_route_to_buyer') {
+      return S.of(context).estimatedTimeToBuyer;
+    }
+    return '';
+  }
+
+  void _showTimeInputField(String nextStatus) {
+    setState(() {
+      _showTimeField = true;
+      _nextStatusForTimeInput = nextStatus;
+      _timeController.clear();
+    });
+  }
+
   Future<void> _updateStatus(String newStatus) async {
+    if (_requiresTimeInput(widget.currentStatus, newStatus)) {
+      _showTimeInputField(newStatus);
+      return;
+    }
+
     final provider = Provider.of<OperationTracksProvider>(context, listen: false);
     await provider.updateOperationStatus(widget.operationId, newStatus);
+  }
+
+  Future<void> _updateStatusWithTime() async {
+    if (_timeController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(S.of(context).pleaseEnterTime))
+      );
+      return;
+    }
+
+    int estimatedTime = int.tryParse(_timeController.text) ?? 0;
+    if (estimatedTime <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(S.of(context).invalidTimeValue))
+      );
+      return;
+    }
+
+    final provider = Provider.of<OperationTracksProvider>(context, listen: false);
+
+    if (_nextStatusForTimeInput == 'en_route_to_seller') {
+      await provider.updateOperationStatusWithTimeToSeller(
+          widget.operationId,
+          _nextStatusForTimeInput,
+          estimatedTime
+      );
+    } else if (_nextStatusForTimeInput == 'en_route_to_buyer') {
+      await provider.updateOperationStatusWithTimeToBuyer(
+          widget.operationId,
+          _nextStatusForTimeInput,
+          estimatedTime
+      );
+    }
+
+    setState(() {
+      _showTimeField = false;
+      _nextStatusForTimeInput = '';
+    });
   }
 
   @override
@@ -106,7 +180,62 @@ class __DeliveryStatusTrackerContentState extends State<_DeliveryStatusTrackerCo
         ),
         for (String status in _statusSteps)
           _buildStatusStep(status),
+        if (_showTimeField)
+          _buildTimeInputField(),
       ],
+    );
+  }
+
+  Widget _buildTimeInputField() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            _getTimeInputLabel(_nextStatusForTimeInput),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _timeController,
+            decoration: InputDecoration(
+              hintText: S.of(context).enterTimeInMinutes,
+              border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white.withOpacity(0.1),
+            ),
+            keyboardType: TextInputType.number,
+            style: TextStyle(color: Colors.white),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _showTimeField = false;
+                    _nextStatusForTimeInput = '';
+                  });
+                },
+                child: Text(S.of(context).cancel),
+              ),
+              const SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: _updateStatusWithTime,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: GoldInBetween,
+                ),
+                child: Text(S.of(context).confirm),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -148,7 +277,7 @@ class __DeliveryStatusTrackerContentState extends State<_DeliveryStatusTrackerCo
               ),
             ),
           ),
-          if (isNext)
+          if (isNext && !_showTimeField)
             ElevatedButton(
               onPressed: () => _updateStatus(status),
               style: ElevatedButton.styleFrom(

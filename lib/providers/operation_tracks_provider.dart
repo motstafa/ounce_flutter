@@ -64,15 +64,53 @@ class OperationTracksProvider with ChangeNotifier {
     return success;
   }
 
-  // Your other methods...
-  Future acceptOrder(operationId, estimatedTimeToSeller, estimatedTimeToBuyer) async {
-    int? timeToSeller = int.tryParse(estimatedTimeToSeller);
-    int? timeToBuyer = int.tryParse(estimatedTimeToBuyer);
-    if (await OperationTracks()
-        .deliveryAcceptOperation(operationId, timeToSeller, timeToBuyer)) {
+
+
+  // Add these methods to your OperationTracksProvider class
+
+  Future<bool> updateOperationStatusWithTimeToSeller(int operationId, String newStatus, int estimatedTime) async {
+    bool success = await OperationTracks().updateOperationStatusWithTimeToSeller(operationId, newStatus, estimatedTime);
+
+    if (success) {
+      // Update the operation in the map
+      if (_operationsMap.containsKey(operationId)) {
+        _operationsMap[operationId] = _operationsMap[operationId]!.copyWith(
+            operationStatus: newStatus
+        );
+        // Refresh the appropriate lists
+        await fetchInProgressOperations();
+      }
+    }
+
+    return success;
+  }
+
+  Future<bool> updateOperationStatusWithTimeToBuyer(int operationId, String newStatus, int estimatedTime) async {
+    bool success = await OperationTracks().updateOperationStatusWithTimeToBuyer(operationId, newStatus, estimatedTime);
+
+    if (success) {
+      // Update the operation in the map
+      if (_operationsMap.containsKey(operationId)) {
+        _operationsMap[operationId] = _operationsMap[operationId]!.copyWith(
+            operationStatus: newStatus
+        );
+        // Refresh the appropriate lists
+        await fetchInProgressOperations();
+      }
+    }
+
+    return success;
+  }
+
+
+// Updated acceptOrder method
+  Future<bool> acceptOrder(int operationId) async {
+    if (await OperationTracks().deliveryAcceptOperation(operationId)) {
       await fetchPendingOperations();
       await fetchInProgressOperations();
+      return true;
     }
+    return false;
   }
 
   Future moveToComplete(operationId) async {
