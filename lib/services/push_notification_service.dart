@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ounce/models/notification_model.dart';
+import 'package:ounce/providers/operation_tracks_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,18 +16,14 @@ class PushNotificationService {
   String baseUrl = Constants.apiUri;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   BuildContext? get globalContext => navigatorKey.currentContext;
 
   Future<void> init() async {
     // Request permission for notifications
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
-        alert: true,
-        badge: true,
-        sound: true,
-        provisional: false
-    );
+        alert: true, badge: true, sound: true, provisional: false);
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       // For iOS, explicitly wait for APNS token
@@ -67,7 +64,8 @@ class PushNotificationService {
           android: AndroidNotificationDetails(
             'high_importance_channel',
             'High Importance Notifications',
-            channelDescription: 'This channel is used for important notifications',
+            channelDescription:
+                'This channel is used for important notifications',
             importance: Importance.high,
             priority: Priority.high,
             icon: android?.smallIcon,
@@ -93,6 +91,11 @@ class PushNotificationService {
           read: 0,
           route: message.data['route'] ?? '',
         );
+        if (message.data['type'] == 'new_operation_assigned') {
+          // Refresh the pending operations list
+          Provider.of<OperationTracksProvider>(globalContext!, listen: false)
+              .fetchPendingOperations();
+        }
 
         // Update notification count in UI
         Future.microtask(() {
