@@ -79,7 +79,7 @@ class _OperationDetailsState extends State<OperationDetails> {
                     ),
                   ),
                 ),
-                if(currentOperation.operationStatus=='delivered')
+                if(currentOperation.operationStatus=='delivered'||currentOperation.operationStatus=='pending')
                 widget.formSection,
               ],
             ),
