@@ -1360,6 +1360,25 @@ class S {
     );
   }
 
+  /// `Seller Amount`
+  String get sellerAmount {
+    return Intl.message(
+      'Seller Amount',
+      name: 'sellerAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buyer Amount`
+  String get buyerAmount {
+    return Intl.message(
+      'Buyer Amount',
+      name: 'buyerAmount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

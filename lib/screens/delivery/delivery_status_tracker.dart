@@ -16,18 +16,22 @@ class DeliveryStatusTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OperationTracksProvider>(
-      builder: (context, provider, child) {
-        // Get current status from provider or use initial if not found
-        final currentStatus = provider.getOperationById(operationId)?.operationStatus ?? initialStatus;
+    return Container(
+      color: Colors.black, // This sets the background to black
+      child: Consumer<OperationTracksProvider>(
+        builder: (context, provider, child) {
+          // Get current status from provider or use initial if not found
+          final currentStatus = provider.getOperationById(operationId)?.operationStatus ?? initialStatus;
 
-        return _DeliveryStatusTrackerContent(
-          operationId: operationId,
-          currentStatus: currentStatus,
-        );
-      },
+          return _DeliveryStatusTrackerContent(
+            operationId: operationId,
+            currentStatus: currentStatus,
+          );
+        },
+      ),
     );
   }
+
 }
 
 class _DeliveryStatusTrackerContent extends StatefulWidget {

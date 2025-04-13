@@ -25,6 +25,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "NoListingYet": MessageLookupByLibrary.simpleMessage(
       "يبدو أنك لم تنشر أي شيء للبيع بعد. \nقم بإدراج عنصر الآن وابدأ البيع!",
     ),
+    "acceptOrderDescription": MessageLookupByLibrary.simpleMessage(
+      "بقبول هذا الطلب، فإنك توافق على متابعة عملية التوصيل.",
+    ),
     "accountDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم حذف الحساب بنجاح",
     ),
@@ -47,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "buyButtonText": MessageLookupByLibrary.simpleMessage("شراء"),
     "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("شراء"),
     "buyPageTitle": MessageLookupByLibrary.simpleMessage("صفحة الشراء"),
+    "buyerAmount": MessageLookupByLibrary.simpleMessage("مبلغ المشتري"),
     "buyerLocation": MessageLookupByLibrary.simpleMessage("موقع المشتري"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "chooseFromGallery": MessageLookupByLibrary.simpleMessage("اختر من المعرض"),
@@ -89,6 +93,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterStreetAddress": MessageLookupByLibrary.simpleMessage(
       "أدخل عنوان الشارع",
     ),
+    "enterTimeInMinutes": MessageLookupByLibrary.simpleMessage(
+      "أدخل الوقت بالدقائق",
+    ),
     "enterWard": MessageLookupByLibrary.simpleMessage("أدخل الحي"),
     "error": MessageLookupByLibrary.simpleMessage("خطأ"),
     "errorDeletingAccount": MessageLookupByLibrary.simpleMessage(
@@ -97,8 +104,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorVerifyingPassword": MessageLookupByLibrary.simpleMessage(
       "خطأ في التحقق من كلمة المرور",
     ),
+    "estimatedTimeToBuyer": MessageLookupByLibrary.simpleMessage(
+      "الوقت المقدر للوصول إلى المشتري",
+    ),
     "estimatedTimeToBuyerHint": MessageLookupByLibrary.simpleMessage(
       "الوقت المقدر للمشتري بالدقائق",
+    ),
+    "estimatedTimeToSeller": MessageLookupByLibrary.simpleMessage(
+      "الوقت المقدر للوصول إلى البائع",
     ),
     "estimatedTimeToSellerHint": MessageLookupByLibrary.simpleMessage(
       "الوقت المقدر للبائع بالدقائق",
@@ -120,6 +133,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "insufficientBalanceTitle": MessageLookupByLibrary.simpleMessage(
       "رصيد غير كافٍ",
+    ),
+    "invalidTimeValue": MessageLookupByLibrary.simpleMessage(
+      "قيمة الوقت غير صالحة",
     ),
     "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
     "locationInformation": MessageLookupByLibrary.simpleMessage(
@@ -185,6 +201,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseEnterEstimatedTimeToSeller": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال الوقت المقدر للبائع",
     ),
+    "pleaseEnterTime": MessageLookupByLibrary.simpleMessage("يرجى إدخال الوقت"),
     "pleaseFirstName": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال الاسم الأول",
     ),
@@ -228,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellLabel": MessageLookupByLibrary.simpleMessage("بيع"),
     "sellPageTitle": MessageLookupByLibrary.simpleMessage("صفحة البيع"),
     "selledItem": MessageLookupByLibrary.simpleMessage("الغرض المعروض"),
+    "sellerAmount": MessageLookupByLibrary.simpleMessage("مبلغ البائع"),
     "sellerLocation": MessageLookupByLibrary.simpleMessage("موقع البائع"),
     "signUp": MessageLookupByLibrary.simpleMessage("اشتراك"),
     "signUpWith": MessageLookupByLibrary.simpleMessage("سجل عن طريق"),

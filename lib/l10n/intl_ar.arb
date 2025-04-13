@@ -157,5 +157,7 @@
   "pleaseEnterTime": "يرجى إدخال الوقت",
   "estimatedTimeToSeller": "الوقت المقدر للوصول إلى البائع",
   "estimatedTimeToBuyer": "الوقت المقدر للوصول إلى المشتري",
-  "acceptOrderDescription": "بقبول هذا الطلب، فإنك توافق على متابعة عملية التوصيل."
+  "acceptOrderDescription": "بقبول هذا الطلب، فإنك توافق على متابعة عملية التوصيل.",
+  "sellerAmount": "مبلغ البائع",
+  "buyerAmount": "مبلغ المشتري"
 }

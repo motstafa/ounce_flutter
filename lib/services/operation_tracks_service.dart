@@ -38,6 +38,8 @@ class OperationTracks {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token', // Add the token to the headers
     };
+    print(Uri.parse('$baseUrl/inProgressOperation'));
+    print(token);
     final response = await http.get(Uri.parse('$baseUrl/inProgressOperations'),
         headers: headers);
     if (response.statusCode == 200) {

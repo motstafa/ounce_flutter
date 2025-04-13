@@ -25,6 +25,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "NoListingYet": MessageLookupByLibrary.simpleMessage(
       "It looks like you haven\'t posted anything for sale yet.\nList an item now and start selling!",
     ),
+    "acceptOrderDescription": MessageLookupByLibrary.simpleMessage(
+      "By accepting this order, you agree to proceed with the delivery process.",
+    ),
     "accountDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Account deleted successfully",
     ),
@@ -47,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "buyButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
     "buyDialogButtonText": MessageLookupByLibrary.simpleMessage("Buy"),
     "buyPageTitle": MessageLookupByLibrary.simpleMessage("Buy Page"),
+    "buyerAmount": MessageLookupByLibrary.simpleMessage("Buyer Amount"),
     "buyerLocation": MessageLookupByLibrary.simpleMessage("Buyer Location"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "chooseFromGallery": MessageLookupByLibrary.simpleMessage(
@@ -94,6 +98,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterStreetAddress": MessageLookupByLibrary.simpleMessage(
       "Enter Street Address",
     ),
+    "enterTimeInMinutes": MessageLookupByLibrary.simpleMessage(
+      "Enter time in minutes",
+    ),
     "enterWard": MessageLookupByLibrary.simpleMessage("Enter Ward"),
     "error": MessageLookupByLibrary.simpleMessage("Error"),
     "errorDeletingAccount": MessageLookupByLibrary.simpleMessage(
@@ -102,8 +109,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorVerifyingPassword": MessageLookupByLibrary.simpleMessage(
       "Error verifying password",
     ),
+    "estimatedTimeToBuyer": MessageLookupByLibrary.simpleMessage(
+      "Estimated time to buyer",
+    ),
     "estimatedTimeToBuyerHint": MessageLookupByLibrary.simpleMessage(
       "estimated time to buyer per minutes",
+    ),
+    "estimatedTimeToSeller": MessageLookupByLibrary.simpleMessage(
+      "Estimated time to seller",
     ),
     "estimatedTimeToSellerHint": MessageLookupByLibrary.simpleMessage(
       "estimated time to seller per minutes",
@@ -127,6 +140,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "insufficientBalanceTitle": MessageLookupByLibrary.simpleMessage(
       "Insufficient Balance",
+    ),
+    "invalidTimeValue": MessageLookupByLibrary.simpleMessage(
+      "Invalid time value",
     ),
     "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
     "locationInformation": MessageLookupByLibrary.simpleMessage(
@@ -200,6 +216,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseEnterEstimatedTimeToSeller": MessageLookupByLibrary.simpleMessage(
       "Please enter estimated time to seller",
     ),
+    "pleaseEnterTime": MessageLookupByLibrary.simpleMessage(
+      "Please enter time",
+    ),
     "pleaseFirstName": MessageLookupByLibrary.simpleMessage(
       "Please enter First Name",
     ),
@@ -243,6 +262,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sellLabel": MessageLookupByLibrary.simpleMessage("Sell"),
     "sellPageTitle": MessageLookupByLibrary.simpleMessage("Sell Page"),
     "selledItem": MessageLookupByLibrary.simpleMessage("the displayed item"),
+    "sellerAmount": MessageLookupByLibrary.simpleMessage("Seller Amount"),
     "sellerLocation": MessageLookupByLibrary.simpleMessage("Seller Location"),
     "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "signUpWith": MessageLookupByLibrary.simpleMessage("Sign Up With"),

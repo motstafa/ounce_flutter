@@ -5,7 +5,8 @@ class PendingOperation {
   final int id;
   final int operationId;
   final int numberOfUnits;
-  final int amount;
+  final int buyerAmount;
+  final int sellerAmount;
   final int zoneId;
   final String operationStatus;
   final Address buyerAddress;
@@ -15,7 +16,8 @@ class PendingOperation {
     required this.id,
     required this.operationId,
     required this.numberOfUnits,
-    required this.amount,
+    required this.buyerAmount,
+    required this.sellerAmount,
     required this.zoneId,
     required this.operationStatus,
     required this.buyerAddress,
@@ -27,7 +29,8 @@ class PendingOperation {
     int? id,
     int? operationId,
     int? numberOfUnits,
-    int? amount,
+    int? buyerAmount,
+    int? sellerAmount,
     int? zoneId,
     String? operationStatus,
     Address? buyerAddress,
@@ -37,7 +40,8 @@ class PendingOperation {
       id: id ?? this.id,
       operationId: operationId ?? this.operationId,
       numberOfUnits: numberOfUnits ?? this.numberOfUnits,
-      amount: amount ?? this.amount,
+      buyerAmount: buyerAmount ?? this.buyerAmount,
+      sellerAmount: sellerAmount ?? this.sellerAmount,
       zoneId: zoneId ?? this.zoneId,
       operationStatus: operationStatus ?? this.operationStatus,
       buyerAddress: buyerAddress ?? this.buyerAddress,
@@ -50,7 +54,8 @@ class PendingOperation {
         id: json['id'],
         operationId: json['operation_id'],
         numberOfUnits: json['number_of_units'],
-        amount: json['amount'],
+        buyerAmount: json['buyer_amount'],
+        sellerAmount: json['seller_amount'],
         zoneId: json['zone_id'],
         operationStatus: json['operation_status'],
         buyerAddress: Address(

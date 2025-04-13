@@ -157,6 +157,8 @@
   "pleaseEnterTime": "Please enter time",
   "estimatedTimeToSeller": "Estimated time to seller",
   "estimatedTimeToBuyer": "Estimated time to buyer",
-  "acceptOrderDescription": "By accepting this order, you agree to proceed with the delivery process."
+  "acceptOrderDescription": "By accepting this order, you agree to proceed with the delivery process.",
+  "sellerAmount": "Seller Amount",
+  "buyerAmount": "Buyer Amount"
 }
     

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ounce/models/pending_operation_model.dart';
 import 'package:ounce/screens/delivery/delivery_status_tracker.dart';
-import 'package:ounce/theme/theme.dart';
 import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 import '../../providers/operation_tracks_provider.dart';
@@ -39,17 +38,20 @@ class _OperationDetailsState extends State<OperationDetails> {
         final currentOperation = provider.getOperationById(widget.item.operationId) ?? widget.item;
 
         return Scaffold(
+          backgroundColor: Colors.black, // This makes the entire scaffold background black
           appBar: AppBar(
             title: Text(S.of(context).deliveryDetailsTitle),
-            backgroundColor: BoxBackground,
+            backgroundColor: Colors.black,
           ),
           body: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SectionHeader(
-                    numberOfUnits: currentOperation.numberOfUnits,
-                    amount: currentOperation.amount
+                  numberOfUnits: currentOperation.numberOfUnits,
+                  sellerAmount: currentOperation.sellerAmount,
+                  buyerAmount: currentOperation.buyerAmount,
+                  operationStatus: currentOperation.operationStatus,
                 ),
 
                 // Delivery status tracker (show only for in-progress operations)
@@ -66,17 +68,18 @@ class _OperationDetailsState extends State<OperationDetails> {
                     child: PageView(
                       children: [
                         LocationDetail(
-                            Location: 'seller',
-                            address: currentOperation.sellerAddress
+                          Location: 'seller',
+                          address: currentOperation.sellerAddress,
                         ),
                         LocationDetail(
-                            Location: 'buyer',
-                            address: currentOperation.buyerAddress
+                          Location: 'buyer',
+                          address: currentOperation.buyerAddress,
                         ),
                       ],
                     ),
                   ),
                 ),
+                if(currentOperation.operationStatus=='delivered')
                 widget.formSection,
               ],
             ),
@@ -113,13 +116,27 @@ class _OperationDetailsState extends State<OperationDetails> {
 
 class SectionHeader extends StatelessWidget {
   final int numberOfUnits;
-  final int amount;
+  final int sellerAmount;
+  final int buyerAmount;
+  final String operationStatus;
 
-  const SectionHeader({Key? key, required this.numberOfUnits, required this.amount})
-      : super(key: key);
+  const SectionHeader({
+    Key? key,
+    required this.numberOfUnits,
+    required this.sellerAmount,
+    required this.buyerAmount,
+    required this.operationStatus,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Determine which amount to show based on operation status
+    final bool showSellerAmount = _shouldShowSellerAmount(operationStatus);
+    final int amountToShow = showSellerAmount ? sellerAmount : buyerAmount;
+    final String amountLabel = showSellerAmount
+        ? S.of(context).sellerAmount
+        : S.of(context).buyerAmount;
+
     return Column(
       children: [
         RichText(
@@ -141,14 +158,14 @@ class SectionHeader extends StatelessWidget {
         SizedBox(height: 8),
         RichText(
           text: TextSpan(
-            text: "${S.of(context).amount} ",
+            text: "$amountLabel ",
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium
                 ?.copyWith(fontWeight: FontWeight.bold),
             children: [
               TextSpan(
-                text: "\$$amount",
+                text: "\$$amountToShow",
                 style: TextStyle(
                     color: Colors.green, fontSize: 45),
               ),
@@ -157,5 +174,18 @@ class SectionHeader extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  // Helper method to determine if we should show seller amount or buyer amount
+  bool _shouldShowSellerAmount(String status) {
+    List<String> sellerAmountStatuses = [
+      'pending',
+      'accepted',
+      'en_route_to_seller',
+      'at_seller',
+      'picked_up',
+    ];
+
+    return sellerAmountStatuses.contains(status);
   }
 }
