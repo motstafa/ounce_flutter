@@ -82,7 +82,7 @@ class _FormSectionState extends State<FormSection> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,    
+      key: _formKey,
       child: Column(
         children: [
           const SizedBox(height: 20),
