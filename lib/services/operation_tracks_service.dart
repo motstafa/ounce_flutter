@@ -9,8 +9,8 @@ class OperationTracks {
   String baseUrl = Constants.apiUri;
 
   Future<List<PendingOperation>> getPendingOperations() async {
-    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
-
+    String? token = await Constants()
+        .getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',
@@ -31,8 +31,8 @@ class OperationTracks {
   }
 
   Future<List<PendingOperation>> getInProgressOperations() async {
-    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
-
+    String? token = await Constants()
+        .getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',
@@ -52,8 +52,8 @@ class OperationTracks {
   }
 
   Future<List<PendingOperation>> getCompleteOperations() async {
-    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
-
+    String? token = await Constants()
+        .getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
     final headers = {
       'Content-Type': 'application/json',
@@ -74,21 +74,18 @@ class OperationTracks {
     }
   }
 
-  Future deliveryAcceptOperation(
-      operationId, estimatedTimeToSeller, estimatedTimeToBuyer) async {
+  Future<bool> deliveryAcceptOperation(int operationId) async {
     try {
       var url = '$baseUrl/delivery/accept';
-      String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
-
+      String? token = await Constants().getTokenFromSecureStorage();
 
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token'
       };
+
       var body = jsonEncode({
         'operation_id': operationId,
-        'estimated_time_to_seller': estimatedTimeToSeller,
-        'estimated_time_to_buyer': estimatedTimeToBuyer
       });
 
       var response = await http.post(
@@ -96,8 +93,9 @@ class OperationTracks {
         headers: headers,
         body: body,
       );
+
       if (response.statusCode == 200) {
-        print('sucess ${operationId}');
+        print('success ${operationId}');
         return true;
       } else {
         print(token);
@@ -105,16 +103,15 @@ class OperationTracks {
         return false;
       }
     } catch (e) {
-      throw Exception('operation buying failed: $e');
+      throw Exception('operation acceptance failed: $e');
     }
   }
-
 
   Future deliveryCompleteOperation(operationId) async {
     try {
       var url = '$baseUrl/delivery/finish';
-      String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
-
+      String? token = await Constants()
+          .getTokenFromSecureStorage(); // Retrieve token from shared preferences
 
       var headers = {
         'Content-Type': 'application/json',
@@ -142,7 +139,8 @@ class OperationTracks {
 
   Future<bool> updateOperationStatus(int operationId, String newStatus) async {
     try {
-      String? token = await Constants().getTokenFromSecureStorage(); // Secure token
+      String? token =
+          await Constants().getTokenFromSecureStorage(); // Secure token
       final response = await http.post(
         Uri.parse('$baseUrl/operations/update-status'),
         headers: {
@@ -166,4 +164,65 @@ class OperationTracks {
     }
   }
 
+  // Add these methods to your OperationTracks service class
+
+  Future<bool> updateOperationStatusWithTimeToSeller(
+      int operationId, String newStatus, int estimatedTime) async {
+    try {
+      String? token =
+          await Constants().getTokenFromSecureStorage(); // Secure token
+      final response = await http.post(
+        Uri.parse('$baseUrl/operations/update-status-with-time'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'operation_id': operationId,
+          'status': newStatus,
+          'estimated_time_to_seller': estimatedTime,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print(
+            'Failed to update status with time to seller: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error in updateOperationStatusWithTimeToSeller: $e');
+      return false;
+    }
+  }
+
+  Future<bool> updateOperationStatusWithTimeToBuyer(
+      int operationId, String newStatus, int estimatedTime) async {
+    try {
+      String? token =
+          await Constants().getTokenFromSecureStorage(); // Secure token
+      final response = await http.post(
+        Uri.parse('$baseUrl/operations/update-status-with-time'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'operation_id': operationId,
+          'status': newStatus,
+          'estimated_time_to_buyer': estimatedTime,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print(
+            'Failed to update status with time to buyer: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error in updateOperationStatusWithTimeToBuyer: $e');
+      return false;
+    }
+  }
 }
