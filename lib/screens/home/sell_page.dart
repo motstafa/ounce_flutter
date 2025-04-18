@@ -19,6 +19,11 @@ class _SellPageState extends State<SellPage> {
   final _formKey = GlobalKey<FormState>();
   bool _isImageTooLarge = false;
 
+  // Add focus nodes
+  final FocusNode _priceFocusNode = FocusNode();
+  final FocusNode _unitsFocusNode = FocusNode();
+  final FocusNode _expirationFocusNode = FocusNode();
+
   void _deleteImage() {
     Navigator.of(context).pop();
     setState(() {
@@ -40,6 +45,15 @@ class _SellPageState extends State<SellPage> {
   void initState() {
     super.initState();
     switcher = SwitchButton();
+  }
+
+  @override
+  void dispose() {
+    // Dispose focus nodes when the state is disposed
+    _priceFocusNode.dispose();
+    _unitsFocusNode.dispose();
+    _expirationFocusNode.dispose();
+    super.dispose();
   }
 
   Future<void> _showImageSourceDialog() async {
@@ -235,6 +249,9 @@ class _SellPageState extends State<SellPage> {
     required TextEditingController controller,
     required String label,
     bool isDecimal = false,
+    TextInputAction inputAction = TextInputAction.next,
+    FocusNode? focusNode,
+    FocusNode? nextFocus,
   }) {
     return TextFormField(
       decoration: InputDecoration(
@@ -242,8 +259,8 @@ class _SellPageState extends State<SellPage> {
         border: OutlineInputBorder(),
       ),
       keyboardType: isDecimal
-          ? TextInputType.numberWithOptions(decimal: true)
-          : TextInputType.number,
+          ? const TextInputType.numberWithOptions(decimal: true)
+          : const TextInputType.numberWithOptions(decimal: false),
       controller: controller,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -251,7 +268,13 @@ class _SellPageState extends State<SellPage> {
         }
         return null;
       },
-      textInputAction: TextInputAction.next,
+      textInputAction: inputAction,
+      focusNode: focusNode,
+      onFieldSubmitted: (term) {
+        if (nextFocus != null) {
+          FocusScope.of(context).requestFocus(nextFocus);
+        }
+      },
     );
   }
 
@@ -301,11 +324,15 @@ class _SellPageState extends State<SellPage> {
                       controller: priceController,
                       label: S.of(context).unitPriceLabel,
                       isDecimal: true,
+                      focusNode: _priceFocusNode,
+                      nextFocus: _unitsFocusNode,
                     ),
                     SizedBox(height: 16.0),
                     _buildNumberInputField(
                       controller: numberOfUnitsController,
                       label: S.of(context).numberOfUnitsLabel,
+                      focusNode: _unitsFocusNode,
+                      inputAction: TextInputAction.done, // Last field in sequence
                     ),
                     SizedBox(height: 16.0),
                     CupertinoButton(

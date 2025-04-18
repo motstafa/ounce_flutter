@@ -39,7 +39,7 @@
 		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>http://ounce-laravel-env.eba-nmpjzgug.eu-west-1.elasticbeanstalk.com</key> <!-- Replace with your actual API domain -->
+			<key>http://ounce-laravel-env.eba-nmpjzgug.eu-west-1.elasticbeanstalk.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
@@ -86,8 +86,14 @@
 	<key>NSUserNotificationUsageDescription</key>
 	<string>We need permission to send you important notifications about your Ounce app.</string>
 	<key>FirebaseAnalyticsDebugEnabled</key>
-	<false/> <!-- Disabled in production -->
+	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
 	<true/>
+
+	<!-- 🆕 Camera & Photo Permissions -->
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to your camera to take profile or verification photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to allow you to upload photos.</string>
 </dict>
 </plist>
