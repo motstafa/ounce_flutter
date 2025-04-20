@@ -1,0 +1,2 @@
+C:/Android/flutterproject/ounce/android/app/.cxx/RelWithDebInfo/2o4c3o1y/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Android/flutterproject/ounce/android/app/.cxx/RelWithDebInfo/2o4c3o1y/arm64-v8a/CMakeFiles/rebuild_cache.dir
