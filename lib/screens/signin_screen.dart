@@ -54,23 +54,23 @@ class _SignInScreenState extends State<SignInScreen> {
         password: passwordController.text,
       );
 
-        if (loginSuccessful) {
-          // Ensure token is retrieved
-          String? fcmToken = await pushNotificationService.getFCMTokenFromLocal();
+      if (loginSuccessful) {
+        // Use our improved method to safely get the FCM token
+        String? fcmToken = await pushNotificationService.getValidFCMToken();
 
-          if (fcmToken == null) {
-            // Force token regeneration if null
-            fcmToken = await FirebaseMessaging.instance.getToken();
-            if (fcmToken != null) {
-              await pushNotificationService.saveFCMTokenLocally(fcmToken);
-            }
-          }
-
-          if (fcmToken != null) {
+        if (fcmToken != null) {
+          try {
             await Constants().sendTokenToBackend(fcmToken);
-          } else {
-            print('Could not retrieve FCM token');
+            print('Successfully sent FCM token to backend');
+          } catch (e) {
+            print('Error sending token to backend: $e');
+            // Continue with login process even if token sending fails
           }
+        } else {
+          print('Could not retrieve FCM token, continuing without it');
+          // Continue with login process without FCM token
+        }
+
         int? role = prefs.getInt('role'); // Retrieve the stored role
 
         // Once the token is sent, check for role and navigate
