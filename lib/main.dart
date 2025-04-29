@@ -29,8 +29,14 @@ final pushNotificationService = PushNotificationService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  try {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  } on FirebaseException catch (e) {
+    if (e.code != 'duplicate-app') {
+      rethrow; // Only ignore duplicate-app errors
+    }
+  }
   // Initialize notification service
   await pushNotificationService.init();
 
