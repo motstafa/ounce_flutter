@@ -208,26 +208,7 @@ class _SellPageState extends State<SellPage> {
     ) ?? false; // Default to false if dialog is dismissed
   }
 
-  // New method to show internet error dialog
-  void _showInternetErrorDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(S.of(context).error),
-          content: Text("A network error occurred. Please check your internet connection and try again."),
-          actions: <Widget>[
-            TextButton(
-              child: Text(S.of(context).okButtonLabel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Remove this method as we've implemented a more detailed version directly in the catch block
 
   Widget _buildImagePickerWidget() {
     return Column(
@@ -484,6 +465,7 @@ class _SellPageState extends State<SellPage> {
                               setState(() => isProcessing = false);
 
                               if (result) {
+                                // Clear the form
                                 setState(() {
                                   priceController.clear();
                                   numberOfUnitsController.clear();
@@ -491,21 +473,98 @@ class _SellPageState extends State<SellPage> {
                                   expiresInController.clear();
                                   _imageFile = null;
                                   _isImageTooLarge = false;
+                                  switcher.isRetail = false;
                                 });
+
+                                // Refresh the balance
                                 balanceProvider.callToGetBalance();
 
-                                // Show success message
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Item posted successfully!"),
-                                    backgroundColor: Colors.green,
-                                  ),
+                                // Show success message dialog instead of snackbar
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Row(
+                                        children: [
+                                          Icon(Icons.check_circle, color: Colors.green),
+                                          SizedBox(width: 10),
+                                          Text("Success"),
+                                        ],
+                                      ),
+                                      content: Text("Your item has been posted successfully!"),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text(S.of(context).okButtonLabel),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                // Show failure message if operation returned false
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Row(
+                                        children: [
+                                          Icon(Icons.error, color: Colors.red),
+                                          SizedBox(width: 10),
+                                          Text(S.of(context).error),
+                                        ],
+                                      ),
+                                      content: Text("Failed to post your item. Please try again."),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text(S.of(context).okButtonLabel),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
                               }
                             } catch (e) {
                               setState(() => isProcessing = false);
-                              // Show internet error dialog
-                              _showInternetErrorDialog();
+                              // Show internet error dialog with more details
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Row(
+                                      children: [
+                                        Icon(Icons.signal_wifi_off, color: Colors.red),
+                                        SizedBox(width: 10),
+                                        Text("Connection Error"),
+                                      ],
+                                    ),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("A network error occurred while posting your item:"),
+                                        SizedBox(height: 10),
+                                        Text("• Check your internet connection"),
+                                        Text("• Make sure you have a stable connection"),
+                                        Text("• Try again when your connection is restored"),
+                                      ],
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text("Try Again"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             }
                           }
                         }
