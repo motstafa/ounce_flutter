@@ -304,7 +304,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               S.of(context).signUp,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: buttonAccentColor,
+                                color: buttonFocusedColor,
                               ),
                             ),
                           ),

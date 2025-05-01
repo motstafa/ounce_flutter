@@ -3,6 +3,7 @@ import 'package:ounce/constants/constants.dart';
 import 'package:ounce/services/auth_service.dart';
 import 'package:provider/provider.dart';
 import '../../providers/balance_provider.dart';
+import '../../theme/theme.dart';
 
 class InitialLoadingScreen extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _InitialLoadingScreenState extends State<InitialLoadingScreen> {
     super.initState();
     // Schedule the _checkToken function to be called after the build method.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-     await _checkToken();
+      await _checkToken();
     });
   }
 
@@ -39,16 +40,20 @@ class _InitialLoadingScreenState extends State<InitialLoadingScreen> {
               _isSystemStopped = true;
             });
           } else {
+            // Valid token - Redirect to home page directly
             Navigator.pushReplacementNamed(context, '/trader');
           }
         } else {
+          // Valid token - Redirect to delivery page directly
           Navigator.pushReplacementNamed(context, '/delivery');
         }
       } else {
-        Navigator.pushReplacementNamed(context, '/sign-in');
+        // Invalid token - Redirect to welcome screen
+        Navigator.pushReplacementNamed(context, '/welcome');
       }
     } else {
-      Navigator.pushReplacementNamed(context, '/sign-in');
+      // No token - Redirect to welcome screen
+      Navigator.pushReplacementNamed(context, '/welcome');
     }
   }
 
@@ -86,7 +91,39 @@ class _InitialLoadingScreenState extends State<InitialLoadingScreen> {
             ),
           ],
         )
-            : CircularProgressIndicator(), // Show progress indicator by default
+            : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // App logo
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: BoxBackground,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: GoldInBetween,
+                  width: 2.0,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  "OUNCE",
+                  style: TextStyle(
+                    color: GoldInBetween,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
+            // Loading indicator
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(GoldInBetween),
+            ),
+          ],
+        ),
       ),
     );
   }

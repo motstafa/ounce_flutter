@@ -181,6 +181,54 @@ class _SellPageState extends State<SellPage> {
     );
   }
 
+  // New method to show confirmation dialog
+  Future<bool> _showConfirmationDialog() async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(S.of(context).confirm),
+          content: Text("Are you sure you want to post this item for sale?"),
+          actions: <Widget>[
+            TextButton(
+              child: Text(S.of(context).cancel),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text(S.of(context).confirm),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ) ?? false; // Default to false if dialog is dismissed
+  }
+
+  // New method to show internet error dialog
+  void _showInternetErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(S.of(context).error),
+          content: Text("A network error occurred. Please check your internet connection and try again."),
+          actions: <Widget>[
+            TextButton(
+              child: Text(S.of(context).okButtonLabel),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildImagePickerWidget() {
     return Column(
       children: [
@@ -386,6 +434,12 @@ class _SellPageState extends State<SellPage> {
                             return;
                           }
 
+                          // Show confirmation dialog
+                          bool confirmed = await _showConfirmationDialog();
+                          if (!confirmed) {
+                            return;
+                          }
+
                           setState(() => isProcessing = true);
                           _formKey.currentState!.save();
 
@@ -412,31 +466,46 @@ class _SellPageState extends State<SellPage> {
                                 );
                               },
                             );
+                            setState(() => isProcessing = false);
                           } else {
                             final operationProvider =
                             Provider.of<OperationProvider>(context,
                                 listen: false);
 
-                            bool result = await operationProvider.sell(
-                              priceController.text,
-                              _imageFile,
-                              numberOfUnitsController.text,
-                              expiresInController.text,
-                              switcher.getValue() ? 1 : 0,
-                            );
+                            try {
+                              bool result = await operationProvider.sell(
+                                priceController.text,
+                                _imageFile,
+                                numberOfUnitsController.text,
+                                expiresInController.text,
+                                switcher.getValue() ? 1 : 0,
+                              );
 
-                            setState(() => isProcessing = false);
+                              setState(() => isProcessing = false);
 
-                            if (result) {
-                              setState(() {
-                                priceController.clear();
-                                numberOfUnitsController.clear();
-                                unitTypeController = null;
-                                expiresInController.clear();
-                                _imageFile = null;
-                                _isImageTooLarge = false;
+                              if (result) {
+                                setState(() {
+                                  priceController.clear();
+                                  numberOfUnitsController.clear();
+                                  unitTypeController = null;
+                                  expiresInController.clear();
+                                  _imageFile = null;
+                                  _isImageTooLarge = false;
+                                });
                                 balanceProvider.callToGetBalance();
-                              });
+
+                                // Show success message
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Item posted successfully!"),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                              }
+                            } catch (e) {
+                              setState(() => isProcessing = false);
+                              // Show internet error dialog
+                              _showInternetErrorDialog();
                             }
                           }
                         }

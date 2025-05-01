@@ -122,8 +122,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "floorLabel": MessageLookupByLibrary.simpleMessage("الطابق"),
     "forgetPassword": MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
     "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
+    "governmentIdRequired": MessageLookupByLibrary.simpleMessage(
+      "بطاقة الهوية أو جواز السفر مطلوب",
+    ),
+    "governmentIdSizeWarning": MessageLookupByLibrary.simpleMessage(
+      "يجب أن يكون حجم الصورة أقل من 2 ميجابايت",
+    ),
     "homeLabel": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "imageRequired": MessageLookupByLibrary.simpleMessage("صورة المنتج مطلوبة"),
+    "imageSizeLimit": MessageLookupByLibrary.simpleMessage(
+      "حجم الصورة يجب أن يكون أقل من 2 ميجابايت",
+    ),
     "inProgressTab": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
     "incorrectPassword": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور غير صحيحة",
@@ -134,14 +143,37 @@ class MessageLookup extends MessageLookupByLibrary {
     "insufficientBalanceTitle": MessageLookupByLibrary.simpleMessage(
       "رصيد غير كافٍ",
     ),
+    "invalidEmail": MessageLookupByLibrary.simpleMessage(
+      "الرجاء إدخال بريد إلكتروني صحيح",
+    ),
+    "invalidPasswordLength": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+    ),
+    "invalidPasswordLowercase": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل",
+    ),
+    "invalidPasswordNumber": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل",
+    ),
+    "invalidPasswordSpecial": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل",
+    ),
+    "invalidPasswordUppercase": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل",
+    ),
     "invalidTimeValue": MessageLookupByLibrary.simpleMessage(
       "قيمة الوقت غير صالحة",
     ),
+    "languageSwitchLabel": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
     "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
     "locationInformation": MessageLookupByLibrary.simpleMessage(
       "تخزين معلومات الموقع",
     ),
     "loginError": MessageLookupByLibrary.simpleMessage("خطئ في ادخال البيانات"),
+    "lowerCase": MessageLookupByLibrary.simpleMessage(
+      "حرف صغير واحد على الأقل",
+    ),
+    "minChars": MessageLookupByLibrary.simpleMessage("8 حروف على الأقل"),
     "moveToCompletedButton": MessageLookupByLibrary.simpleMessage(
       "الانتقال إلى المكتمل",
     ),
@@ -164,6 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "numberOfOuncesLabel": MessageLookupByLibrary.simpleMessage("عدد الأوقيات"),
     "numberOfUnits": MessageLookupByLibrary.simpleMessage("عدد الوحدات"),
     "numberOfUnitsLabel": MessageLookupByLibrary.simpleMessage("عدد الوحدات"),
+    "numberReq": MessageLookupByLibrary.simpleMessage("رقم واحد على الأقل"),
     "okButtonLabel": MessageLookupByLibrary.simpleMessage("موافق"),
     "operationCanceled": MessageLookupByLibrary.simpleMessage("ملغي"),
     "operationDone": MessageLookupByLibrary.simpleMessage("تم"),
@@ -179,12 +212,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordRequired": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور مطلوبة",
     ),
+    "passwordRequirements": MessageLookupByLibrary.simpleMessage(
+      "متطلبات كلمة المرور:",
+    ),
     "pendingTab": MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
     "personalDataText": MessageLookupByLibrary.simpleMessage(
       "البيانات الشخصية",
     ),
     "personalInfo": MessageLookupByLibrary.simpleMessage("معلومات شخصية"),
     "phone": MessageLookupByLibrary.simpleMessage("رقم التليفون"),
+    "phoneRequired": MessageLookupByLibrary.simpleMessage("رقم الهاتف مطلوب"),
     "pleaseAgree": MessageLookupByLibrary.simpleMessage(
       "يرجى الموافقة على معالجة البيانات الشخصية",
     ),
@@ -253,6 +290,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sizeWarning": MessageLookupByLibrary.simpleMessage(
       "يجب أن يكون حجم الصورة أقل من 2 ميجا بايت",
     ),
+    "specialChar": MessageLookupByLibrary.simpleMessage(
+      "رمز خاص واحد على الأقل",
+    ),
     "statusAccepted": MessageLookupByLibrary.simpleMessage("تم القبول"),
     "statusAtSeller": MessageLookupByLibrary.simpleMessage("عند البائع"),
     "statusDelivered": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
@@ -275,18 +315,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "unitPriceLabel": MessageLookupByLibrary.simpleMessage("سعر الوحدة"),
     "unitTypeLabel": MessageLookupByLibrary.simpleMessage("نوع الوحدة"),
     "updateStatusBtn": MessageLookupByLibrary.simpleMessage("تحديث الحالة"),
+    "uploadGovernmentId": MessageLookupByLibrary.simpleMessage(
+      "تحميل بطاقة الهوية أو جواز السفر",
+    ),
     "uploadOncePictureLabel": MessageLookupByLibrary.simpleMessage(
       "تحميل صورة الأوقية",
     ),
     "uploadProfile": MessageLookupByLibrary.simpleMessage(
       "تحميل الصورة الشخصية",
     ),
+    "upperCase": MessageLookupByLibrary.simpleMessage(
+      "حرف كبير واحد على الأقل",
+    ),
     "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
     "wardLabel": MessageLookupByLibrary.simpleMessage("الحي"),
     "welcome": MessageLookupByLibrary.simpleMessage("اهلا بك مجددا"),
+    "welcomePlatformDesc": MessageLookupByLibrary.simpleMessage(
+      "منصتك المتخصصة للتداول الآمن والسريع",
+    ),
+    "welcomeSubtitle": MessageLookupByLibrary.simpleMessage(
+      "أدخل التفاصيل الشخصية لحساب الموظف الخاص بك",
+    ),
+    "welcomeToOunce": MessageLookupByLibrary.simpleMessage("أهلاً بك في أونس"),
     "yourBalance": MessageLookupByLibrary.simpleMessage("رصيدك:"),
     "zone": MessageLookupByLibrary.simpleMessage("منطقة"),
     "zone1": MessageLookupByLibrary.simpleMessage("جناج"),
     "zone2": MessageLookupByLibrary.simpleMessage("بير العبد"),
+    "zoneRequired": MessageLookupByLibrary.simpleMessage("المنطقة مطلوبة"),
   };
 }

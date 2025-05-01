@@ -6,6 +6,7 @@ import 'package:ounce/providers/local_provider.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
 import 'package:ounce/screens/home/initial_loading_screen.dart';
+import 'package:ounce/screens/welcome_screen.dart';
 import 'package:ounce/theme/theme.dart';
 import 'firebase_options.dart';
 import 'screens/home/delivery_page.dart';
@@ -82,72 +83,61 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
-    return
-        MaterialApp(navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: false,
-          locale:localeProvider.locale,
-          localizationsDelegates:const[
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          routes: {
-            '/': (context) => InitialLoadingScreen(),
-            '/sign-in': (context) => SignInScreen(),
-            '/sign-up': (context) => SignUpScreen(),
-            '/trader': (context) => TraderPage(),
-            '/delivery': (context) => DeliveryPage(),
-            '/notifications':(context)=>NotificationCenterScreen(),
-          },
-          theme: ThemeData(
-            colorScheme: ColorScheme(
-              primary: buttonAccentColor,
-              // Your custom color
-              secondary: Colors.blue,
-              // Choose a secondary color
-              surface: Colors.white,
-              background: Colors.white,
-              error: Colors.red,
-              onPrimary: Colors.white,
-              // Text color on top of the primary color
-              onSecondary: Colors.white,
-              // Text color on top of the secondary color
-              onSurface: buttonAccentColor,
-              onError: Colors.white,
-              brightness: Brightness
-                  .light, // Choose Brightness.light or Brightness.dark
-            ),
-            textTheme: TextTheme(
-              bodyLarge: TextStyle(
-                color: buttonAccentColor, // Set the default text color
-              ),
-              // Add other text styles if needed
-            ),
-            outlinedButtonTheme: OutlinedButtonThemeData(
-              style: OutlinedButton.styleFrom(
-                backgroundColor: buttonAccentColor,
-                // Change text color of the button
-                side:
-                    BorderSide(color: buttonAccentColor), // Change border color
-              ),
-            ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: buttonAccentColor,
-                // Change background color of the button
-                foregroundColor:
-                    Colors.white, // Change text color of the button
-              ),
-            ),
-            // Add other theme properties if needed
+    return MaterialApp(
+      navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
+      locale: localeProvider.locale,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      // Keep initial route as '/' which maps to InitialLoadingScreen
+      routes: {
+        '/': (context) => InitialLoadingScreen(), // Starting point for checking token
+        '/welcome': (context) => const WelcomeScreen(), // Welcome screen comes after InitialLoadingScreen if no token
+        '/sign-in': (context) => SignInScreen(),
+        '/sign-up': (context) => const SignUpScreen(),
+        '/trader': (context) => TraderPage(),
+        '/delivery': (context) => DeliveryPage(),
+        '/notifications': (context) => NotificationCenterScreen(),
+      },
+      theme: ThemeData(
+        colorScheme: ColorScheme(
+          primary: buttonAccentColor,
+          secondary: Colors.blue,
+          surface: Colors.white,
+          background: Colors.white,
+          error: Colors.red,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: buttonAccentColor,
+          onError: Colors.white,
+          brightness: Brightness.light,
+        ),
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(
+            color: buttonAccentColor,
           ),
-        );
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            backgroundColor: buttonAccentColor,
+            side: BorderSide(color: buttonAccentColor),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: buttonAccentColor,
+            foregroundColor: Colors.white,
+          ),
+        ),
+      ),
+    );
   }
-
 }
-
 
 // Define a top-level named handler which background/terminated messages will call.
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -159,5 +149,3 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 bool isArabic() {
   return Intl.getCurrentLocale() == 'ar';
 }
-
-

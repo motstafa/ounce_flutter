@@ -127,9 +127,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "floorLabel": MessageLookupByLibrary.simpleMessage("Floor"),
     "forgetPassword": MessageLookupByLibrary.simpleMessage("Forget Password?"),
     "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
+    "governmentIdRequired": MessageLookupByLibrary.simpleMessage(
+      "Government ID or Passport is required",
+    ),
+    "governmentIdSizeWarning": MessageLookupByLibrary.simpleMessage(
+      "Image size must be less than 2MB",
+    ),
     "homeLabel": MessageLookupByLibrary.simpleMessage("Home"),
     "imageRequired": MessageLookupByLibrary.simpleMessage(
       "Product image is required",
+    ),
+    "imageSizeLimit": MessageLookupByLibrary.simpleMessage(
+      "Image size must be less than 2MB",
     ),
     "inProgressTab": MessageLookupByLibrary.simpleMessage("In-progress"),
     "incorrectPassword": MessageLookupByLibrary.simpleMessage(
@@ -141,8 +150,29 @@ class MessageLookup extends MessageLookupByLibrary {
     "insufficientBalanceTitle": MessageLookupByLibrary.simpleMessage(
       "Insufficient Balance",
     ),
+    "invalidEmail": MessageLookupByLibrary.simpleMessage(
+      "Please enter a valid email address",
+    ),
+    "invalidPasswordLength": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 8 characters",
+    ),
+    "invalidPasswordLowercase": MessageLookupByLibrary.simpleMessage(
+      "Password must contain at least 1 lowercase letter",
+    ),
+    "invalidPasswordNumber": MessageLookupByLibrary.simpleMessage(
+      "Password must contain at least 1 number",
+    ),
+    "invalidPasswordSpecial": MessageLookupByLibrary.simpleMessage(
+      "Password must contain at least 1 special character",
+    ),
+    "invalidPasswordUppercase": MessageLookupByLibrary.simpleMessage(
+      "Password must contain at least 1 uppercase letter",
+    ),
     "invalidTimeValue": MessageLookupByLibrary.simpleMessage(
       "Invalid time value",
+    ),
+    "languageSwitchLabel": MessageLookupByLibrary.simpleMessage(
+      "Change Language",
     ),
     "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
     "locationInformation": MessageLookupByLibrary.simpleMessage(
@@ -151,6 +181,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginError": MessageLookupByLibrary.simpleMessage(
       "wrong username or password",
     ),
+    "lowerCase": MessageLookupByLibrary.simpleMessage(
+      "At least one lowercase letter",
+    ),
+    "minChars": MessageLookupByLibrary.simpleMessage("At least 8 characters"),
     "moveToCompletedButton": MessageLookupByLibrary.simpleMessage(
       "Move to Completed",
     ),
@@ -177,6 +211,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "numberOfUnitsLabel": MessageLookupByLibrary.simpleMessage(
       "Number of Units",
     ),
+    "numberReq": MessageLookupByLibrary.simpleMessage("At least one number"),
     "okButtonLabel": MessageLookupByLibrary.simpleMessage("OK"),
     "operationCanceled": MessageLookupByLibrary.simpleMessage("Canceled"),
     "operationDone": MessageLookupByLibrary.simpleMessage("Done"),
@@ -194,10 +229,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordRequired": MessageLookupByLibrary.simpleMessage(
       "Password is required",
     ),
+    "passwordRequirements": MessageLookupByLibrary.simpleMessage(
+      "Password requirements:",
+    ),
     "pendingTab": MessageLookupByLibrary.simpleMessage("Pending"),
     "personalDataText": MessageLookupByLibrary.simpleMessage("Personal data"),
     "personalInfo": MessageLookupByLibrary.simpleMessage("Personal Info"),
     "phone": MessageLookupByLibrary.simpleMessage("Phone Number"),
+    "phoneRequired": MessageLookupByLibrary.simpleMessage(
+      "Phone number is required",
+    ),
     "pleaseAgree": MessageLookupByLibrary.simpleMessage(
       "Please agree to the processing of personal data",
     ),
@@ -270,6 +311,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sizeWarning": MessageLookupByLibrary.simpleMessage(
       "Image size must be less than 2MB",
     ),
+    "specialChar": MessageLookupByLibrary.simpleMessage(
+      "At least one special character",
+    ),
     "statusAccepted": MessageLookupByLibrary.simpleMessage("Accepted"),
     "statusAtSeller": MessageLookupByLibrary.simpleMessage("At seller"),
     "statusDelivered": MessageLookupByLibrary.simpleMessage("Delivered"),
@@ -294,18 +338,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "unitPriceLabel": MessageLookupByLibrary.simpleMessage("Unit Price"),
     "unitTypeLabel": MessageLookupByLibrary.simpleMessage("Unit Type"),
     "updateStatusBtn": MessageLookupByLibrary.simpleMessage("Update Status"),
+    "uploadGovernmentId": MessageLookupByLibrary.simpleMessage(
+      "Upload Government ID or Passport",
+    ),
     "uploadOncePictureLabel": MessageLookupByLibrary.simpleMessage(
       "Upload Once\'s Picture",
     ),
     "uploadProfile": MessageLookupByLibrary.simpleMessage(
       "Upload Profile Picture",
     ),
+    "upperCase": MessageLookupByLibrary.simpleMessage(
+      "At least one uppercase letter",
+    ),
     "username": MessageLookupByLibrary.simpleMessage("Username"),
     "wardLabel": MessageLookupByLibrary.simpleMessage("Ward"),
     "welcome": MessageLookupByLibrary.simpleMessage("Welcome Back"),
+    "welcomePlatformDesc": MessageLookupByLibrary.simpleMessage(
+      "Your platform for safe and quick trading",
+    ),
+    "welcomeSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Enter personal details to your employee account",
+    ),
+    "welcomeToOunce": MessageLookupByLibrary.simpleMessage("Welcome to Ounce"),
     "yourBalance": MessageLookupByLibrary.simpleMessage("Your Balance:"),
     "zone": MessageLookupByLibrary.simpleMessage("Zone"),
     "zone1": MessageLookupByLibrary.simpleMessage("Jnaah"),
     "zone2": MessageLookupByLibrary.simpleMessage("Bir AL Abed"),
+    "zoneRequired": MessageLookupByLibrary.simpleMessage("Zone is required"),
   };
 }

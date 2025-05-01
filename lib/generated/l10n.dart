@@ -1379,6 +1379,226 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter personal details to your employee account`
+  String get welcomeSubtitle {
+    return Intl.message(
+      'Enter personal details to your employee account',
+      name: 'welcomeSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Government ID or Passport`
+  String get uploadGovernmentId {
+    return Intl.message(
+      'Upload Government ID or Passport',
+      name: 'uploadGovernmentId',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Government ID or Passport is required`
+  String get governmentIdRequired {
+    return Intl.message(
+      'Government ID or Passport is required',
+      name: 'governmentIdRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image size must be less than 2MB`
+  String get imageSizeLimit {
+    return Intl.message(
+      'Image size must be less than 2MB',
+      name: 'imageSizeLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number is required`
+  String get phoneRequired {
+    return Intl.message(
+      'Phone number is required',
+      name: 'phoneRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zone is required`
+  String get zoneRequired {
+    return Intl.message(
+      'Zone is required',
+      name: 'zoneRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password requirements:`
+  String get passwordRequirements {
+    return Intl.message(
+      'Password requirements:',
+      name: 'passwordRequirements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least 8 characters`
+  String get minChars {
+    return Intl.message(
+      'At least 8 characters',
+      name: 'minChars',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least one uppercase letter`
+  String get upperCase {
+    return Intl.message(
+      'At least one uppercase letter',
+      name: 'upperCase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least one lowercase letter`
+  String get lowerCase {
+    return Intl.message(
+      'At least one lowercase letter',
+      name: 'lowerCase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least one number`
+  String get numberReq {
+    return Intl.message(
+      'At least one number',
+      name: 'numberReq',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least one special character`
+  String get specialChar {
+    return Intl.message(
+      'At least one special character',
+      name: 'specialChar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email address`
+  String get invalidEmail {
+    return Intl.message(
+      'Please enter a valid email address',
+      name: 'invalidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Language`
+  String get languageSwitchLabel {
+    return Intl.message(
+      'Change Language',
+      name: 'languageSwitchLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 8 characters`
+  String get invalidPasswordLength {
+    return Intl.message(
+      'Password must be at least 8 characters',
+      name: 'invalidPasswordLength',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least 1 uppercase letter`
+  String get invalidPasswordUppercase {
+    return Intl.message(
+      'Password must contain at least 1 uppercase letter',
+      name: 'invalidPasswordUppercase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least 1 lowercase letter`
+  String get invalidPasswordLowercase {
+    return Intl.message(
+      'Password must contain at least 1 lowercase letter',
+      name: 'invalidPasswordLowercase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least 1 number`
+  String get invalidPasswordNumber {
+    return Intl.message(
+      'Password must contain at least 1 number',
+      name: 'invalidPasswordNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least 1 special character`
+  String get invalidPasswordSpecial {
+    return Intl.message(
+      'Password must contain at least 1 special character',
+      name: 'invalidPasswordSpecial',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image size must be less than 2MB`
+  String get governmentIdSizeWarning {
+    return Intl.message(
+      'Image size must be less than 2MB',
+      name: 'governmentIdSizeWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to Ounce`
+  String get welcomeToOunce {
+    return Intl.message(
+      'Welcome to Ounce',
+      name: 'welcomeToOunce',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your platform for safe and quick trading`
+  String get welcomePlatformDesc {
+    return Intl.message(
+      'Your platform for safe and quick trading',
+      name: 'welcomePlatformDesc',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
