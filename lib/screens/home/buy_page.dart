@@ -114,20 +114,6 @@ class _BuyPageState extends State<BuyPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: buttonAccentColor,
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      ),
-                      onPressed: () async {
-                        await balanceProvider.callToGetBalance();
-                      },
-                      child: Text(
-                        "Refresh Balance",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    )
                   ],
                 ),
               ),
