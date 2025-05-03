@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 import '../../providers/notification_provider.dart';
 import 'package:flutter/cupertino.dart';
+import '../../theme/theme.dart';
 
 class SellPage extends StatefulWidget {
   @override
@@ -30,6 +31,10 @@ class _SellPageState extends State<SellPage> {
       _imageFile = null;
       _isImageTooLarge = false;
     });
+  }
+
+  bool _validateItemQuantity(int sellBalance, int requestedUnits) {
+    return requestedUnits <= sellBalance;
   }
 
   late SwitchButton switcher;
@@ -216,38 +221,72 @@ class _SellPageState extends State<SellPage> {
         GestureDetector(
           onTap: _imageFile == null ? _showImageSourceDialog : _showImagePreview,
           child: Container(
+            height: 200,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              border: Border.all(),
+              border: Border.all(color: buttonAccentColor, width: 2),
               borderRadius: BorderRadius.circular(10),
+              color: BoxBackground.withOpacity(0.5),
             ),
             child: _imageFile == null
-                ? Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Icon(Icons.add_a_photo, size: 40),
-                  Text(
-                    S.of(context).uploadOncePictureLabel,
-                    style: TextStyle(),
+                ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: buttonAccentColor,
+                    shape: BoxShape.circle,
                   ),
-                ],
-              ),
+                  child: Icon(
+                      Icons.add_a_photo,
+                      size: 40,
+                      color: Colors.white
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: buttonAccentColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    S.of(context).uploadOncePictureLabel,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
             )
                 : Stack(
               children: [
-                Image.file(
-                  File(_imageFile!.path),
-                  fit: BoxFit.cover,
+                Container(
                   width: double.infinity,
                   height: 200,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(
+                      File(_imageFile!.path),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 Positioned(
                   bottom: 8,
                   right: 8,
-                  child: IconButton(
-                    icon: Icon(Icons.fullscreen, color: Colors.white),
-                    onPressed: _showImagePreview,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: buttonAccentColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.fullscreen, color: Colors.white),
+                      onPressed: _showImagePreview,
+                    ),
                   ),
                 ),
               ],
@@ -411,6 +450,37 @@ class _SellPageState extends State<SellPage> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content: Text(S.of(context).sizeWarning)),
+                            );
+                            return;
+                          }
+
+                          // Check if requested units exceed available balance
+                          int requestedUnits = int.tryParse(numberOfUnitsController.text) ?? 0;
+                          if (requestedUnits > sellBalance) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Row(
+                                    children: [
+                                      Icon(Icons.warning_amber_rounded, color: Colors.amber),
+                                      SizedBox(width: 10),
+                                      Text(S.of(context).insufficientBalanceTitle),
+                                    ],
+                                  ),
+                                  content: Text(
+                                    "You're trying to sell $requestedUnits units, but your available sell balance is only $sellBalance units. Please reduce the quantity.",
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text(S.of(context).okButtonLabel),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                             return;
                           }

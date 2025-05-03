@@ -30,7 +30,7 @@ class _BuyPageState extends State<BuyPage> {
       balanceProvider.callToGetBalance();
 
       // Start a timer to refresh data every 10 seconds
-      _refreshTimer = Timer.periodic(Duration(seconds: 10), (_) {
+      _refreshTimer = Timer.periodic(Duration(seconds: 5), (_) {
         if (!_isRefreshing) {
           _refreshData();
         }
@@ -74,13 +74,72 @@ class _BuyPageState extends State<BuyPage> {
         pageName: S.of(context).buyPageTitle,
         balanceType: 'buy',
       ),
-      body: RefreshIndicator(
-        onRefresh: _refreshData,
-        color: buttonAccentColor,
-        backgroundColor: Colors.black45,
-        child: Consumer2<OperationProvider, BalanceProvider>(
-          builder: (context, operationProvider, balanceProvider, child) {
-            return Stack(
+      body: Consumer<BalanceProvider>(
+        builder: (context, balanceProvider, child) {
+          // Check if balance is insufficient
+          if (balanceProvider.buyingBalance <= 0) {
+            return Center(
+              child: Container(
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: buttonAccentColor, width: 2),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.account_balance_wallet_outlined,
+                      color: Colors.red,
+                      size: 60,
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      S.of(context).insufficientBalanceTitle,
+                      style: TextStyle(
+                        color: buttonAccentColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      S.of(context).purchaseFailedText,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: buttonAccentColor,
+                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      ),
+                      onPressed: () async {
+                        await balanceProvider.callToGetBalance();
+                      },
+                      child: Text(
+                        "Refresh Balance",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }
+
+          // Regular content when balance is sufficient
+          return RefreshIndicator(
+            onRefresh: _refreshData,
+            color: buttonAccentColor,
+            backgroundColor: Colors.black45,
+            child: Stack(
               children: [
                 FutureBuilder(
                   future: operationProvider.loadOperations(),
@@ -122,9 +181,9 @@ class _BuyPageState extends State<BuyPage> {
                     ),
                   ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -448,7 +507,12 @@ class _PurchasePageState extends State<PurchasePage> {
                           ),
                         ),
                         onPressed: () async {
-                          if ((buyBalance ?? 0) < widget.operation.numberOfUnits) {
+                          // For retail items, compare with selectedItems, otherwise compare with numberOfUnits
+                          final requiredAmount = widget.operation.retail == 1
+                              ? selectedItems
+                              : widget.operation.numberOfUnits;
+
+                          if ((buyBalance ?? 0) < requiredAmount) {
                             _showNotEnoughResourcesDialog(context);
                             return;
                           }
