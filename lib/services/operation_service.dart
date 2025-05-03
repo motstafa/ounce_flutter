@@ -50,29 +50,43 @@ class OperationService {
     }
   }
 
-  Future Buy(int operationId, int itemsCount) async {
-    var url = '$baseUrl/buy';
-    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+  Future<Map<String, dynamic>> Buy(int id, int selectedItems) async {
+    try {
+      var url = '$baseUrl/buy';
+      String? token = await Constants().getTokenFromSecureStorage();
 
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
-    var body = jsonEncode({
-      'operation_id': operationId,
-      'amount': itemsCount,
-    });
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var body = jsonEncode({
+        'operation_id': id,
+        'amount': selectedItems,
+      });
 
-    var response = await http.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body,
-    );
-    print('$operationId $itemsCount $url $body');
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception('operation buying failed');
+      var response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        return {'success': true, 'message': 'Operation successful'};
+      } else {
+        // Parse the error response
+        Map<String, dynamic> errorData = jsonDecode(response.body);
+        String errorCode = errorData['error_code'] ?? 'UNKNOWN_ERROR';
+
+        // Return structured error information
+        return {
+          'success': false,
+          'error_code': errorCode,
+          'message': errorData['message'] ?? 'An error occurred',
+          'data': errorData
+        };
+      }
+    } catch (e) {
+      return {'success': false, 'error_code': 'NETWORK_ERROR', 'message': e.toString()};
     }
   }
 

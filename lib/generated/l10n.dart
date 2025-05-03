@@ -1599,6 +1599,41 @@ class S {
       args: [],
     );
   }
+
+  /// `This item has just been purchased by someone else and is no longer available.`
+  String get itemNoLongerAvailable {
+    return Intl.message(
+      'This item has just been purchased by someone else and is no longer available.',
+      name: 'itemNoLongerAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only available`
+  String get onlyAvailable {
+    return Intl.message(
+      'Only available',
+      name: 'onlyAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `items`
+  String get items {
+    return Intl.message('items', name: 'items', desc: '', args: []);
+  }
+
+  /// `Refreshing...`
+  String get refreshing {
+    return Intl.message(
+      'Refreshing...',
+      name: 'refreshing',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

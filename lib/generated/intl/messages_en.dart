@@ -171,6 +171,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidTimeValue": MessageLookupByLibrary.simpleMessage(
       "Invalid time value",
     ),
+    "itemNoLongerAvailable": MessageLookupByLibrary.simpleMessage(
+      "This item has just been purchased by someone else and is no longer available.",
+    ),
+    "items": MessageLookupByLibrary.simpleMessage("items"),
     "languageSwitchLabel": MessageLookupByLibrary.simpleMessage(
       "Change Language",
     ),
@@ -213,6 +217,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "numberReq": MessageLookupByLibrary.simpleMessage("At least one number"),
     "okButtonLabel": MessageLookupByLibrary.simpleMessage("OK"),
+    "onlyAvailable": MessageLookupByLibrary.simpleMessage("Only available"),
     "operationCanceled": MessageLookupByLibrary.simpleMessage("Canceled"),
     "operationDone": MessageLookupByLibrary.simpleMessage("Done"),
     "operationFailed": MessageLookupByLibrary.simpleMessage("Failed"),
@@ -289,6 +294,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "purchaseFailedText": MessageLookupByLibrary.simpleMessage(
       "You do not have enough balance to complete the purchase.",
     ),
+    "refreshing": MessageLookupByLibrary.simpleMessage("Refreshing..."),
     "rememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
     "requiredField": MessageLookupByLibrary.simpleMessage(
       "This field is required",

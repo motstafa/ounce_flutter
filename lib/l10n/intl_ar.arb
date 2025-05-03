@@ -181,5 +181,9 @@
   "invalidPasswordSpecial": "يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل",
   "governmentIdSizeWarning": "يجب أن يكون حجم الصورة أقل من 2 ميجابايت",
   "welcomeToOunce": "أهلاً بك في أونس",
-  "welcomePlatformDesc": "منصتك المتخصصة للتداول الآمن والسريع"
+  "welcomePlatformDesc": "منصتك المتخصصة للتداول الآمن والسريع",
+  "itemNoLongerAvailable": "تم شراء هذا المنتج من قبل شخص آخر ولم يعد متاحًا.",
+  "onlyAvailable": "المتوفر فقط",
+  "items": "قطع",
+  "refreshing": "جاري التحديث..."
 }

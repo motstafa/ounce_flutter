@@ -1,27 +1,72 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:ounce/constants/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:ounce/models/operation_model.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/theme/theme.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ounce/providers/balance_provider.dart';
 import 'package:ounce/providers/notification_provider.dart';
 import '../../generated/l10n.dart';
+import '../../widgets/unavailable_item_dialog.dart';
 
-class BuyPage extends StatelessWidget {
+class BuyPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
+  _BuyPageState createState() => _BuyPageState();
+}
+
+class _BuyPageState extends State<BuyPage> {
+  Timer? _refreshTimer;
+  bool _isRefreshing = false;
+
+  @override
+  void initState() {
+    super.initState();
     final operationProvider = Provider.of<OperationProvider>(context, listen: false);
     final balanceProvider = Provider.of<BalanceProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      operationProvider.startPollingUpdatedOperations();
-      if (operationProvider.operations.isEmpty) {
-        operationProvider.loadOperations();
-      }
+      operationProvider.loadOperations();
       balanceProvider.callToGetBalance();
+
+      // Start a timer to refresh data every 10 seconds
+      _refreshTimer = Timer.periodic(Duration(seconds: 10), (_) {
+        if (!_isRefreshing) {
+          _refreshData();
+        }
+      });
     });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _refreshData() async {
+    if (mounted) {
+      setState(() {
+        _isRefreshing = true;
+      });
+
+      try {
+        final operationProvider = Provider.of<OperationProvider>(context, listen: false);
+        await operationProvider.refreshPage();
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isRefreshing = false;
+          });
+        }
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final operationProvider = Provider.of<OperationProvider>(context, listen: false);
+    final balanceProvider = Provider.of<BalanceProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -29,27 +74,57 @@ class BuyPage extends StatelessWidget {
         pageName: S.of(context).buyPageTitle,
         balanceType: 'buy',
       ),
-      body: Consumer2<OperationProvider, BalanceProvider>(
-        builder: (context, operationProvider, balanceProvider, child) {
-          return FutureBuilder(
-            future: operationProvider.loadOperations(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('${S.of(context).error}: ${snapshot.error}'));
-              } else {
-                return ListView.builder(
-                  itemCount: operationProvider.operations.length,
-                  itemBuilder: (context, index) {
-                    final operation = operationProvider.operations[index];
-                    return OperationItem(operation);
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        color: buttonAccentColor,
+        backgroundColor: Colors.black45,
+        child: Consumer2<OperationProvider, BalanceProvider>(
+          builder: (context, operationProvider, balanceProvider, child) {
+            return Stack(
+              children: [
+                FutureBuilder(
+                  future: operationProvider.loadOperations(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('${S.of(context).error}: ${snapshot.error}'));
+                    } else {
+                      return ListView.builder(
+                        itemCount: operationProvider.operations.length,
+                        itemBuilder: (context, index) {
+                          final operation = operationProvider.operations[index];
+                          return OperationItem(operation);
+                        },
+                      );
+                    }
                   },
-                );
-              }
-            },
-          );
-        },
+                ),
+
+                // Show a subtle refreshing indicator at the top
+                if (_isRefreshing)
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6),
+                      color: Colors.black54,
+                      child: Center(
+                        child: Text(
+                          S.of(context).refreshing,
+                          style: TextStyle(
+                            color: buttonAccentColor,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -459,17 +534,88 @@ class _PurchasePageState extends State<PurchasePage> {
                                           listen: false,
                                         );
 
-                                        bool result = await operationProvider.Buy(
+                                        // Show a loading indicator
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (BuildContext context) {
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                valueColor: AlwaysStoppedAnimation<Color>(buttonAccentColor),
+                                              ),
+                                            );
+                                          },
+                                        );
+
+                                        Map<String, dynamic> result = await operationProvider.Buy(
                                           widget.operation.id,
                                           widget.operation.retail == 0
                                               ? widget.operation.numberOfUnits
                                               : selectedItems,
                                         );
 
-                                        if (result) {
+                                        // Always dismiss the loading dialog
+                                        Navigator.of(context).pop();
+
+                                        if (result['success']) {
                                           await operationProvider.refreshPage();
                                           await balanceProvider.callToGetBalance();
-                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop(); // Close the purchase page
+                                        } else {
+                                          // Handle different error codes
+                                          String errorMessage = result['message'];
+
+                                          if (result['error_code'] == 'ITEM_UNAVAILABLE') {
+                                            // Show item unavailable dialog
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder: (BuildContext context) {
+                                                return UnavailableItemDialog(
+                                                  message: S.of(context).itemNoLongerAvailable,
+                                                  onDismiss: () {
+                                                    // Close both dialogs - first the error dialog, then the purchase page
+                                                    Navigator.of(context).pop();
+                                                    Navigator.of(context).pop();
+                                                    // Force refresh the product list
+                                                    operationProvider.refreshPage();
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          } else if (result['error_code'] == 'INSUFFICIENT_QUANTITY') {
+                                            // Show insufficient quantity dialog with available amount
+                                            int availableQuantity = result['data']['available_quantity'] ?? 0;
+
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text(S.of(context).error),
+                                                  content: Text(
+                                                    '${S.of(context).onlyAvailable}: $availableQuantity ${S.of(context).items}',
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop();
+                                                        // Update the selected items to the available quantity
+                                                        setState(() {
+                                                          selectedItems = availableQuantity;
+                                                        });
+                                                      },
+                                                      child: Text(S.of(context).okButtonLabel),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          } else {
+                                            // Show generic error
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(content: Text(errorMessage)),
+                                            );
+                                          }
                                         }
                                       },
                                     ),

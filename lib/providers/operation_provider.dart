@@ -80,15 +80,18 @@ class OperationProvider with ChangeNotifier {
     });
   }
 
-  Future<bool> Buy(int id, int selectedItems) async {
+  Future<Map<String, dynamic>> Buy(int id, int selectedItems) async {
     try {
-      if (await operationservice.Buy(id, selectedItems)) {
-        return true;
-      }
+      var result = await operationservice.Buy(id, selectedItems);
+      // Now handling the Map<String, dynamic> response from the service
+      return result;
     } catch (e) {
-      // print('Error fetching operations: $e');
+      return {
+        'success': false,
+        'error_code': 'PROVIDER_ERROR',
+        'message': e.toString()
+      };
     }
-    return false;
   }
 
   Future<bool> checkDeliveries(int id) async {

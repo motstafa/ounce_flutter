@@ -164,6 +164,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidTimeValue": MessageLookupByLibrary.simpleMessage(
       "قيمة الوقت غير صالحة",
     ),
+    "itemNoLongerAvailable": MessageLookupByLibrary.simpleMessage(
+      "تم شراء هذا المنتج من قبل شخص آخر ولم يعد متاحًا.",
+    ),
+    "items": MessageLookupByLibrary.simpleMessage("قطع"),
     "languageSwitchLabel": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
     "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
     "locationInformation": MessageLookupByLibrary.simpleMessage(
@@ -198,6 +202,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "numberOfUnitsLabel": MessageLookupByLibrary.simpleMessage("عدد الوحدات"),
     "numberReq": MessageLookupByLibrary.simpleMessage("رقم واحد على الأقل"),
     "okButtonLabel": MessageLookupByLibrary.simpleMessage("موافق"),
+    "onlyAvailable": MessageLookupByLibrary.simpleMessage("المتوفر فقط"),
     "operationCanceled": MessageLookupByLibrary.simpleMessage("ملغي"),
     "operationDone": MessageLookupByLibrary.simpleMessage("تم"),
     "operationFailed": MessageLookupByLibrary.simpleMessage("فشل"),
@@ -270,6 +275,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "purchaseFailedText": MessageLookupByLibrary.simpleMessage(
       "ليس لديك الرصيد الكافي للإجراء هذه العملية",
     ),
+    "refreshing": MessageLookupByLibrary.simpleMessage("جاري التحديث..."),
     "rememberMe": MessageLookupByLibrary.simpleMessage("تذكرني"),
     "requiredField": MessageLookupByLibrary.simpleMessage("هذا الحقل مطلوب"),
     "retailLabel": MessageLookupByLibrary.simpleMessage("شراء بالتجزئة"),
