@@ -26,25 +26,34 @@ class OperationService {
     }
   }
 
-  Future <Operation?>  loadSelledOperations() async {
-    String? token = await Constants().getTokenFromSecureStorage(); // Retrieve token from shared preferences
+  // In operation_service.dart
+  Future<List<Operation>> loadSelledOperations() async {
+    String? token = await Constants().getTokenFromSecureStorage();
 
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token', // Add the token to the headers
+      'Authorization': 'Bearer $token',
     };
 
-    final response =
-    await http.get(Uri.parse('$baseUrl/loadSelledOperation'), headers: headers);
+    final response = await http.get(Uri.parse('$baseUrl/loadSelledOperation'), headers: headers);
+
     if (response.statusCode == 200) {
-      print('hello it is me');
       if (response.body.isEmpty || response.body == "null") {
-        return null; // Ensure returning null explicitly
+        return [];
       }
-      final data = jsonDecode(response.body) as Map<String, dynamic>;
-      final operation = Operation.fromJson(data);
-      operation.total = operation.numberOfUnits * operation.unitPrice;
-      return operation;
+
+      final List<dynamic> data = jsonDecode(response.body);
+
+      // Convert each item in the array to an Operation object
+      List<Operation> operations = data.map((item) {
+        final operation = Operation.fromJson(item);
+        // Calculate total if not provided
+        if (operation.total == null) {
+          operation.total = operation.numberOfUnits * operation.unitPrice;
+        }
+        return operation;
+      }).toList();
+      return operations;
     } else {
       throw Exception('Failed to load operations');
     }

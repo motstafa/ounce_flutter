@@ -170,6 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "items": MessageLookupByLibrary.simpleMessage("قطع"),
     "languageSwitchLabel": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
     "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
+    "lastOperation": MessageLookupByLibrary.simpleMessage("آخر عملية"),
     "locationInformation": MessageLookupByLibrary.simpleMessage(
       "تخزين معلومات الموقع",
     ),

@@ -1634,6 +1634,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Last Operation`
+  String get lastOperation {
+    return Intl.message(
+      'Last Operation',
+      name: 'lastOperation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

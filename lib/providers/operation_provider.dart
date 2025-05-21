@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:ounce/constants/constants.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ounce/main.dart';
 import 'package:ounce/services/operation_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ounce/models/operation_model.dart';
@@ -9,7 +7,9 @@ import 'package:ounce/models/operation_model.dart';
 class OperationProvider with ChangeNotifier {
   final OperationService operationservice = OperationService();
   List<Operation> _operations = [];
-  Operation? sellerOperation;
+  List<Operation> _sellerOperations = [];
+
+  List<Operation> get sellerOperations => _sellerOperations;
 
   List<Operation> get operations => _operations;
 
@@ -38,13 +38,14 @@ class OperationProvider with ChangeNotifier {
     try {
       var response = await operationservice.loadSelledOperations();
       if (response != null) {
-        sellerOperation = response;
+        _sellerOperations = response;
       } else {
-        sellerOperation = null;
+        _sellerOperations = [];
       }
       notifyListeners();
     } catch (e) {
-      // print('Error fetching operations: $e');
+      _sellerOperations = [];
+      notifyListeners();
     }
   }
 

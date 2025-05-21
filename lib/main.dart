@@ -5,6 +5,7 @@ import 'package:ounce/providers/balance_provider.dart';
 import 'package:ounce/providers/local_provider.dart';
 import 'package:ounce/providers/operation_provider.dart';
 import 'package:ounce/providers/operation_tracks_provider.dart';
+import 'package:ounce/providers/zone_provider.dart';
 import 'package:ounce/screens/home/initial_loading_screen.dart';
 import 'package:ounce/screens/welcome_screen.dart';
 import 'package:ounce/theme/theme.dart';
@@ -67,6 +68,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => NotificationProvider()),
       ChangeNotifierProvider(create: (context) => OperationProvider()),
       ChangeNotifierProvider(create: (context) => LocaleProvider()),
+      ChangeNotifierProvider(create: (context) => ZoneProvider()),
       ChangeNotifierProvider(create: (context) => OperationTracksProvider()),
       ChangeNotifierProvider(create: (context) => NotificationProvider()..getNotifications())
     ],

@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:ounce/providers/auth_provider.dart';
 import 'package:ounce/screens/signin_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:ounce/providers/zone_provider.dart';
+import 'package:ounce/main.dart';
 import '../generated/l10n.dart';
 import '/theme/theme.dart';
 import '/widgets/custom_scaffold.dart';
@@ -109,12 +111,119 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Define a list of zones
-    final zones = {
-      0: '',
-      1: S.of(context).zone1,
-      2: S.of(context).zone2,
-    };
+
+    Widget _buildZoneDropdown() {
+      final zoneProvider = Provider.of<ZoneProvider>(context);
+
+      // Fetch zones if not already loaded
+      if (!zoneProvider.isLoading && zoneProvider.zones.isEmpty && zoneProvider.error == null) {
+        Future.microtask(() => zoneProvider.fetchZones());
+      }
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            S.of(context).zone,
+            style: TextStyle(
+              color: buttonAccentColor,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: buttonAccentColor),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: zoneProvider.isLoading
+                ? Padding(
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(buttonAccentColor),
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Text(
+                    "Loading zones...",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            )
+                : zoneProvider.error != null
+                ? Padding(
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              child: Row(
+                children: [
+                  Icon(Icons.error_outline, color: Colors.red, size: 20),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      "Error loading zones. Using defaults.",
+                      style: TextStyle(color: Colors.red[300]),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.refresh, color: buttonAccentColor),
+                    onPressed: () => zoneProvider.fetchZones(),
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(),
+                  ),
+                ],
+              ),
+            )
+                : DropdownButtonFormField<int>(
+              value: zoneId,
+              isExpanded: true,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                border: InputBorder.none,
+                hintText: S.of(context).selectZone,
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
+              dropdownColor: Colors.black,
+              style: TextStyle(color: Colors.white),
+              icon: Icon(Icons.arrow_drop_down, color: buttonAccentColor),
+              items: [
+                DropdownMenuItem<int>(
+                  value: null,
+                  child: Text(
+                    S.of(context).selectZone,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                ...zoneProvider.zones.map((zone) => DropdownMenuItem<int>(
+                  value: zone.id,
+                  child: Text(
+                    isArabic() ? zone.nameAr : zone.name,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )).toList(),
+              ],
+              onChanged: (int? newValue) {
+                setState(() {
+                  zoneId = newValue;
+                });
+              },
+              validator: (value) {
+                if (value == null || value == 0) {
+                  return S.of(context).selectZone;
+                }
+                return null;
+              },
+            ),
+          ),
+        ],
+      );
+    }
+
 
     return CustomScaffold(
       child: SingleChildScrollView(
@@ -537,39 +646,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const SizedBox(height: 25.0),
 
                             // Zone selector
-                            DropdownButtonFormField<int>(
-                              value: zoneId,
-                              validator: (value) {
-                                if (value == null || value == 0) {
-                                  return S.of(context).zoneRequired;
-                                }
-                                return null;
-                              },
-                              onChanged: (int? newValue) {
-                                setState(() {
-                                  zoneId = newValue;
-                                });
-                              },
-                              items: zones.entries.map((entry) {
-                                return DropdownMenuItem<int>(
-                                  value: entry.key,
-                                  child: Text(entry.value ?? ''),
-                                );
-                              }).toList(),
-                              decoration: InputDecoration(
-                                labelText: S.of(context).zone,
-                                hintText: S.of(context).selectZone,
-                                hintStyle: TextStyle(color: buttonAccentColor),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: buttonAccentColor),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: buttonAccentColor),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
+                            _buildZoneDropdown(),
                           ],
                         ),
                       ),

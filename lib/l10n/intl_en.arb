@@ -185,6 +185,7 @@
   "itemNoLongerAvailable": "This item has just been purchased by someone else and is no longer available.",
   "onlyAvailable": "Only available",
   "items": "items",
-  "refreshing": "Refreshing..."
+  "refreshing": "Refreshing...",
+  "lastOperation": "Last Operation"
 }
     

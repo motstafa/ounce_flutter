@@ -179,6 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Change Language",
     ),
     "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
+    "lastOperation": MessageLookupByLibrary.simpleMessage("Last Operation"),
     "locationInformation": MessageLookupByLibrary.simpleMessage(
       "Store location information",
     ),

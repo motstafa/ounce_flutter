@@ -185,5 +185,6 @@
   "itemNoLongerAvailable": "تم شراء هذا المنتج من قبل شخص آخر ولم يعد متاحًا.",
   "onlyAvailable": "المتوفر فقط",
   "items": "قطع",
-  "refreshing": "جاري التحديث..."
+  "refreshing": "جاري التحديث...",
+  "lastOperation": "آخر عملية"
 }
