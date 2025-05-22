@@ -610,10 +610,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             // Phone Number
                             InternationalPhoneNumberInput(
                               onInputChanged: (PhoneNumber number) {
-                                phoneNumber.text = number.phoneNumber ?? '';
+                                // Store the complete phone number for later use
+                                // Don't update the text controller here to avoid formatting issues
+                                print('Phone number changed: ${number.phoneNumber}');
                               },
                               onInputValidated: (bool isValid) {
                                 // Handle phone number validation
+                                print('Phone number is valid: $isValid');
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -623,12 +626,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               },
                               selectorConfig: const SelectorConfig(
                                 selectorType: PhoneInputSelectorType.DIALOG,
+                                useEmoji: true,
+                                setSelectorButtonAsPrefixIcon: true,
                               ),
                               ignoreBlank: false,
                               autoValidateMode: AutovalidateMode.disabled,
                               selectorTextStyle: TextStyle(color: buttonAccentColor),
                               initialValue: PhoneNumber(isoCode: 'LB'),
                               textFieldController: phoneNumber,
+                              formatInput: true, // Enable proper formatting
+                              keyboardType: TextInputType.number,
                               inputDecoration: InputDecoration(
                                 labelText: S.of(context).phone,
                                 hintText: S.of(context).enterPhone,
@@ -639,6 +646,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: buttonAccentColor),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: buttonAccentColor, width: 2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Colors.red),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Colors.red, width: 2),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
